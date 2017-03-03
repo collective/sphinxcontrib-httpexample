@@ -50,6 +50,7 @@ in pythonPackages.buildPythonPackage rec {
     buildout
     rst2pdf
     pkgs.git
+    pythonPackages.coverage
     pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
   ];
@@ -58,6 +59,6 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinxcontrib_httpdomain
   ];
   shellHook = ''
-    buildout -Nc qa.cfg install code-analysis
+    buildout -Nc qa.cfg
   '';
 }

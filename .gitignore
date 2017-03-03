@@ -3,6 +3,7 @@
 *.pyc
 .installed.cfg
 .cache
+.coverage
 .eggs/
 .idea/
 bin/
