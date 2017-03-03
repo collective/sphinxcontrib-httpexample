@@ -1,0 +1,9 @@
+*.egg-info
+*.mo
+*.pyc
+.eggs/
+.idea/
+docs/_build/
+html/
+result
+
