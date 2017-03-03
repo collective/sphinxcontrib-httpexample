@@ -1,3 +1,6 @@
 language: nix
-script: make test
+script: make test docs
 cache: eggs
+env:
+- PYTHON=python2
+- PYTHON=python3

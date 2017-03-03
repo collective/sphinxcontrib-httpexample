@@ -11,3 +11,11 @@ def ordered(dict_):
         else:
             results[k] = v
     return results
+
+
+def capitalize(s):
+    return '-'.join(map(str.capitalize, s.split('-')))
+
+
+def capitalize_keys(d):
+    return dict([(capitalize(k), v) for k, v in d.items()])

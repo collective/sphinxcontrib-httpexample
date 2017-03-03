@@ -4,13 +4,11 @@ from sphinxcontrib.httpexample.builders import build_curl_command
 # from sphinxcontrib.httpexample.builders import build_httpie_command
 # from sphinxcontrib.httpexample.builders import build_requests_command
 
-from .test_parser import fixture
-
-assert fixture
+from .test_fixtures import FIXTURE_001_REQUEST
 
 
-def test_curl_001(fixture):
-    request = parse_request(fixture['001']['request'])
+def test_curl_fixture_001():
+    request = parse_request(FIXTURE_001_REQUEST)
     command = build_curl_command(request)
     assert command == (
         'curl '

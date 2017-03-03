@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
 
+from sphinxcontrib.httpexample.utils import capitalize_keys
+
 EXCLUDE_HEADERS = ['Host', 'Authorization']
 
 
 def build_curl_command(request):
     parts = ['curl', '-i']
-    headers = dict(request.headers.items())
+    headers = capitalize_keys(dict(request.headers.items()))
 
     # Method
     if request.command != 'GET':

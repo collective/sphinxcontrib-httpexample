@@ -1,9 +1,0 @@
-HTTP/1.1 201 Created
-Content-Type: application/json
-Location: http://localhost:8080/folder/my-document
-
-{
-    '@type': 'Document',
-    'id': 'my-document',
-    'title': 'My Document',
-}

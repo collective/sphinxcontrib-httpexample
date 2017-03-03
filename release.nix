@@ -7,18 +7,27 @@
 
 let
 
-  pkgFor = system: import ./default.nix {
+  pkgFor = system: pythonPackages: import ./default.nix {
     pkgs = import pkgs.path { inherit system; };
+    inherit pythonPackages;
   };
 
 in rec {
 
-  build = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    pkgFor system
+  build = build_python3;
+
+  build_python3 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    pkgFor system pkgs.python3Packages
   ));
 
-  python = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    let package = pkgFor system;
+  build_python2 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    pkgFor system pkgs.python2Packages
+  ));
+
+  python = python3;
+
+  python3 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    let package = pkgFor system pkgs.python3Packages;
         syspkgs = import pkgs.path { inherit system; };
     in syspkgs.python3.buildEnv.override {
       extraLibs = package.nativeBuildInputs
@@ -40,20 +49,11 @@ in rec {
     '';
   }));
 
-  docspython = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    let package = pkgFor system;
-        syspkgs = import pkgs.path { inherit system; };
-    in syspkgs.python2.buildEnv.override {
-      extraLibs = [ package ];
-      ignoreCollisions = true;
-    }
-  ));
-
-  docs = pkgs.lib.hydraJob((pkgFor "x86_64-linux")
+  docs = pkgs.lib.hydraJob((pkgFor "x86_64-linux" pkgs.python2Packages)
                  .overrideDerivation(args: {
     phases = [ "unpackPhase" "buildPhase" ];
     buildPhase = ''
-      ${docspython."x86_64-linux"}/bin/sphinx-build -b pdf docs dist
+      ${docs_python."x86_64-linux"}/bin/sphinx-build -b pdf docs dist
       mkdir -p $out/nix-support
       mv dist/*.pdf $out
       echo "file source-dist" $out/*.pdf > \
@@ -61,4 +61,14 @@ in rec {
       echo ${args.name} > $out/nix-support/hydra-release-name
     '';
   }));
+
+  docs_python = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    let package = pkgFor system pkgs.python2Packages;
+        syspkgs = import pkgs.path { inherit system; };
+    in syspkgs.python2.buildEnv.override {
+      extraLibs = [ package ];
+      ignoreCollisions = true;
+    }
+  ));
+
 }
