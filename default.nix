@@ -8,6 +8,10 @@
 let self = rec {
   version = builtins.replaceStrings ["\n"] [""] (builtins.readFile ./VERSION);
 
+  buildout = pythonPackages.zc_buildout_nix.overrideDerivation(old: {
+    postInstall = "";
+  });
+
   pdfrw = pythonPackages.buildPythonPackage {
     name = "pdfrw-0.3";
     src = pkgs.fetchurl {
@@ -43,7 +47,9 @@ in pythonPackages.buildPythonPackage rec {
               && baseNameOf path != "result")
     ./.;
   buildInputs = with self; [
+    buildout
     rst2pdf
+    pkgs.git
     pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
   ];
@@ -51,4 +57,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinx
     pythonPackages.sphinxcontrib_httpdomain
   ];
+  shellHook = ''
+    buildout -Nc qa.cfg install code-analysis
+  '';
 }

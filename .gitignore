@@ -1,9 +1,10 @@
 *.egg-info
 *.mo
 *.pyc
+.installed.cfg
 .eggs/
 .idea/
+bin/
 docs/_build/
 html/
 result
-
