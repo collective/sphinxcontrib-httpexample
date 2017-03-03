@@ -1,6 +1,7 @@
 language: nix
-script: make test docs
+script: make $TARGET
 cache: eggs
 env:
-- PYTHON=python2
-- PYTHON=python3
+- PYTHON=python2 TARGET=test
+- PYTHON=python3 TARGET=test
+- PYTHON=python2 TARGET=docs
