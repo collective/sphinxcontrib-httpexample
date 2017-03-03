@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-build
 #! nix-build --arg "pkgs" "import <nixpkgs> {}" -A python
 { supportedSystems ? [ "x86_64-linux" ]
-, supportedPythons ? [ "python2"  "python3" ]
+, supportedPythons ? [ "python2" "python3" ]
 , pkgs ? import (builtins.fetchTarball
   "https://github.com/nixos/nixpkgs-channels/archive/nixos-16.09.tar.gz") {}
 }:
