@@ -16,12 +16,12 @@ in rec {
 
   build = build_python3;
 
-  build_python3 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    pkgFor system pkgs.python3Packages
-  ));
-
   build_python2 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
     pkgFor system pkgs.python2Packages
+  ));
+
+  build_python3 = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    pkgFor system pkgs.python3Packages
   ));
 
   python = python3;
@@ -53,7 +53,7 @@ in rec {
                  .overrideDerivation(args: {
     phases = [ "unpackPhase" "buildPhase" ];
     buildPhase = ''
-      ${docs_python."x86_64-linux"}/bin/sphinx-build -b pdf docs dist
+      ${docs_python}/bin/sphinx-build -b pdf docs dist
       mkdir -p $out/nix-support
       mv dist/*.pdf $out
       echo "file source-dist" $out/*.pdf > \
@@ -62,13 +62,14 @@ in rec {
     '';
   }));
 
-  docs_python = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    let package = pkgFor system pkgs.python2Packages;
+  docs_python = pkgs.lib.hydraJob (
+    let system = "x86_64-linux";
+        package = pkgFor system pkgs.python2Packages;
         syspkgs = import pkgs.path { inherit system; };
     in syspkgs.python2.buildEnv.override {
       extraLibs = [ package ];
       ignoreCollisions = true;
     }
-  ));
+  );
 
 }
