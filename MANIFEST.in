@@ -1,0 +1,5 @@
+graft src
+graft tests
+include VERSION *.py *.rst *.nix
+exclude .*
+global-exclude *.pyc
