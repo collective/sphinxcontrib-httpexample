@@ -1,4 +1,5 @@
 graft src
+graft docs
 graft tests
 include VERSION *.py *.rst *.nix
 exclude .*
