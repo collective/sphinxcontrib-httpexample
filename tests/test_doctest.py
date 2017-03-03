@@ -9,6 +9,3 @@ def rest_mock(request):
 
 def test_dummy(rest_mock):
     assert True
-
-
-# 
