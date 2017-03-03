@@ -36,7 +36,7 @@ def test_parse_request_auth():
     assert request.auth() == ('Basic', 'admin:admin')
 
 
-def test_parse_request_payload():
+def test_parse_request_raw():
     request = parsers.parse_request(FIXTURE_001_REQUEST)
 
     data = request.rfile.read()
@@ -46,7 +46,7 @@ def test_parse_request_payload():
     assert data == {'@type': 'Document', 'title': 'My Document'}
 
 
-def test_parse_request_json():
+def test_parse_request_data():
     request = parsers.parse_request(FIXTURE_001_REQUEST)
 
     data = request.data()
