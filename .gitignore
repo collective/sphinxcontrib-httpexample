@@ -2,6 +2,7 @@
 *.mo
 *.pyc
 .installed.cfg
+.cache
 .eggs/
 .idea/
 bin/
