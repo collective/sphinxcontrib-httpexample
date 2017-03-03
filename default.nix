@@ -43,11 +43,12 @@ in pythonPackages.buildPythonPackage rec {
               && baseNameOf path != "result")
     ./.;
   buildInputs = with self; [
+    rst2pdf
+    pythonPackages.check-manifest
+    pythonPackages.sphinx_rtd_theme
   ];
   propagatedBuildInputs = with self; [
-    rst2pdf
     pythonPackages.sphinx
-    pythonPackages.sphinx_rtd_theme
     pythonPackages.sphinxcontrib_httpdomain
   ];
 }

@@ -1,4 +1,2 @@
 language: nix
-script:
-- nix-build release.nix -A tarball
-- nix-build release.nix -A docs
+script: make test docs
