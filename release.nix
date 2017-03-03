@@ -20,18 +20,9 @@ in rec {
   python = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
     let package = pkgFor system;
         syspkgs = import pkgs.path { inherit system; };
-    in syspkgs.python2.buildEnv.override {
+    in syspkgs.python3.buildEnv.override {
       extraLibs = package.nativeBuildInputs
                   ++ package.propagatedNativeBuildInputs;
-      ignoreCollisions = true;
-    }
-  ));
-
-  env = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
-    let package = pkgFor system;
-        syspkgs = import pkgs.path { inherit system; };
-    in syspkgs.python2.buildEnv.override {
-      extraLibs = [ package ];
       ignoreCollisions = true;
     }
   ));
@@ -49,11 +40,20 @@ in rec {
     '';
   }));
 
+  docspython = pkgs.lib.genAttrs supportedSystems (system: pkgs.lib.hydraJob (
+    let package = pkgFor system;
+        syspkgs = import pkgs.path { inherit system; };
+    in syspkgs.python2.buildEnv.override {
+      extraLibs = [ package ];
+      ignoreCollisions = true;
+    }
+  ));
+
   docs = pkgs.lib.hydraJob((pkgFor "x86_64-linux")
                  .overrideDerivation(args: {
     phases = [ "unpackPhase" "buildPhase" ];
     buildPhase = ''
-      ${env."x86_64-linux"}/bin/sphinx-build -b pdf docs dist
+      ${docspython."x86_64-linux"}/bin/sphinx-build -b pdf docs dist
       mkdir -p $out/nix-support
       mv dist/*.pdf $out
       echo "file source-dist" $out/*.pdf > \

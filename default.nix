@@ -2,7 +2,7 @@
 #! nix-shell --arg "pkgs" "import <nixpkgs> {}"
 { pkgs ? import (builtins.fetchTarball
   "https://github.com/nixos/nixpkgs-channels/archive/nixos-16.09.tar.gz") {}
-, pythonPackages ? pkgs.python2Packages
+, pythonPackages ? pkgs.python3Packages
 }:
 
 let self = rec {

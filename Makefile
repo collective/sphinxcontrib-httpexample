@@ -1,10 +1,8 @@
 all: test
 
-env: result/bin/python
-	nix-build release.nix -A python
+python: result/bin/python3
 
 docs: result/sphinxcontrib-httpexample.pdf
-	nix-build release.nix -A docs
 
 dist:
 	nix-build release.nix -A tarball
@@ -17,7 +15,7 @@ test:
 
 ###
 
-result/bin/python:
+result/bin/python3:
 	nix-build release.nix -A python
 
 result/sphinxcontrib-httpexample.pdf:
