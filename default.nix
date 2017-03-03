@@ -49,7 +49,6 @@ in pythonPackages.buildPythonPackage rec {
   buildInputs = with self; [
     buildout
     rst2pdf
-    pkgs.git
     pythonPackages.coverage
     pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
