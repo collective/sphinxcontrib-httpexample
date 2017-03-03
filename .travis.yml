@@ -1,6 +1,8 @@
 language: nix
 script: make $TARGET
-cache: eggs
+cache:
+- eggs
+- /nix
 env:
 - PYTHON=python2 TARGET="test coverage"
 - PYTHON=python3 TARGET="test coverage"
