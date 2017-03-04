@@ -70,7 +70,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinx
     pythonPackages.sphinxcontrib_httpdomain
   ];
-  shellHook = ''
+  postShellHook = ''
     buildout -Nc qa.cfg
   '';
 }

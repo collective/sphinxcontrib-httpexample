@@ -8,10 +8,22 @@ Welcome to sphinxcontrib-httpexample's documentation!
 
 Contents:
 
-.. toctree::
-   :maxdepth: 2
+..  toctree::
+    :maxdepth: 2
 
 
+..  http:example:: curl httpie requests
+
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Accept: application/json
+    Content-Type: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "@type": "Document",
+        "title": "My Document"
+    }
 
 Indices and tables
 ==================

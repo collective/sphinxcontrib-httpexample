@@ -8,19 +8,23 @@ all: test
 
 buildEnv: result/bin/$(PYTHON)
 
-docs: result/sphinxcontrib-httpexample.pdf
-
-dist:
-	nix-build release.nix -A tarball $(NIX_ARGS)
-
-test:
-	nix-build release.nix -A build.$(SYSTEM).$(PYTHON)
-	nix-shell --run "bin/code-analysis" $(NIX_ARGS)
-
 coverage: .coverage
 	nix-shell --run "coverage report --fail-under=80"
 
-.PHONY: all env docs dist test
+dist:
+	nix-build release.nix -A tarball
+
+docs: result/sphinxcontrib-httpexample.pdf
+
+shell:
+	nix-shell --arg "pkgs" "import <nixpkgs> {}" \
+	          --arg "pythonPackages" "(import <nixpkgs> {}).$(PYTHON)Packages"
+
+test:
+	nix-build release.nix -A build.$(SYSTEM).$(PYTHON)
+	nix-shell --run "bin/code-analysis"
+
+.PHONY: all buildEnv coverage dist docs shell test
 
 ###
 
