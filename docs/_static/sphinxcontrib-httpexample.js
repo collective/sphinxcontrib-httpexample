@@ -5,7 +5,7 @@
     $('.http-example.container').each(function() {
       var $container = $(this),
           $blocks = $(this).children(),
-          $captions = $(this).find('.code-block-caption');
+          $captions = $(this).find('.caption');
       $captions.each(function() {
         var $block = $(this).parent();
         $(this).on('click', function() {
@@ -22,3 +22,4 @@
   });
 
 })();
+

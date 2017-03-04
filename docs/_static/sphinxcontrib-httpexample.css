@@ -1,20 +1,23 @@
-.http-example.container .code-block-caption {
+.http-example .caption {
     display: inline-block;
     cursor: pointer;
     padding: 0.5em 1em;
+    margin: 0;
 }
-.http-example.container .code-block-caption.selected {
+.http-example .caption.selected {
     font-weight: bold;
     background-color: #fff;
     border: 1px solid #e1e4e5;
     border-bottom: 1px solid white;
 }
-.http-example.container div[class^='highlight'] {
+.http-example div[class^='highlight'] {
     margin-top: -1px;
 }
-.http-example.container .code-block-caption .headerlink {
-    display: none;
-}
-.http-example.container .container + .container pre {
+.http-example div[class^='highlight'] pre {
     white-space: normal;
 }
+.http-example-http div[class^='highlight'] pre,
+.http-example-response div[class^='highlight'] pre {
+    white-space: pre;
+}
+
