@@ -1,0 +1,1 @@
+curl -i -X POST http://localhost:8080/Plone/folder -H "Accept: application/json" -H "Content-Type: application/json" --data-raw '{"@type": "Document", "title": "My Document"}' --user admin:admin
