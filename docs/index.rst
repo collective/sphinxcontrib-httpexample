@@ -1,35 +1,14 @@
-.. sphinxcontrib-httpexample documentation master file, created by
-   sphinx-quickstart on Fri Mar  3 12:29:43 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+sphinxcontrib-httpexample
+=========================
 
-Welcome to sphinxcontrib-httpexample's documentation!
-=====================================================
+The contrib extension, `sphinxcontrib-httpdomain`_, provides a Sphinx domain
+for describing RESTful HTTP APIs in detail. This contrib extension,
+**sphinxcontrib-httpexample**, enhances that domain with an additional directive
+for call examples.
 
-Contents:
+.. _sphinxcontrib-httpdomain: https://pythonhosted.org/sphinxcontrib-httpdomain/
 
 ..  toctree::
     :maxdepth: 2
 
-    examples
-
-..  http:example:: curl httpie requests
-
-    POST /Plone/folder HTTP/1.1
-    Host: localhost:8080
-    Accept: application/json
-    Content-Type: application/json
-    Authorization: Basic YWRtaW46YWRtaW4=
-
-    {
-        "@type": "Document",
-        "title": "My Document"
-    }
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+    usage
