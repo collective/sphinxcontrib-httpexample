@@ -6,12 +6,6 @@
 Welcome to sphinxcontrib-httpexample's documentation!
 =====================================================
 
-Contents:
-
-..  toctree::
-    :maxdepth: 2
-
-
 ..  http:example:: curl httpie requests
 
     POST /Plone/folder HTTP/1.1
