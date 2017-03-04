@@ -2,7 +2,7 @@
 from sphinxcontrib.httpexample.parsers import parse_request
 from sphinxcontrib.httpexample.builders import build_curl_command
 from sphinxcontrib.httpexample.builders import build_httpie_command
-# from sphinxcontrib.httpexample.builders import build_requests_command
+from sphinxcontrib.httpexample.builders import build_requests_command
 
 from .test_fixtures import FIXTURE_001_REQUEST
 
@@ -31,16 +31,16 @@ def test_httpie_fixture_001():
         '\\\\@type=Document title=My Document '
         '-a admin:admin '
     ).strip()
-#
-#
-# def test_requests_001(fixture):
-#     request = parse_request(fixture['001']['request'])
-#     command = build_requests_command(request)
-#     assert command == (
-#         "requests.post("
-#         "'http://localhost:8080/Plone/folder', "
-#         "auth=('admin', 'admin'), "
-#         "headers={'Accept': 'application/json'}, "
-#         "json={'@type': 'Document', 'title': 'My Document'}"
-#         ")"
-#     )
+
+
+def test_requests_fixture_001():
+    request = parse_request(FIXTURE_001_REQUEST)
+    command = build_requests_command(request)
+    assert command == (
+        'requests.post('
+        "'http://localhost:8080/Plone/folder', "
+        "headers={'Accept': 'application/json'}, "
+        "json={'@type': 'Document', 'title': 'My Document'}, "
+        "auth=('admin', 'admin')"
+        ')'
+    ).strip()

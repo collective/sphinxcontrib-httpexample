@@ -16,6 +16,7 @@ setup(
     ],
     install_requires=[
         'setuptools',
+        'astunparse',
         'docutils',
         'sphinx',
         'sphinxcontrib-httpdomain',

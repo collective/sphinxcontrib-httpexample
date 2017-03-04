@@ -12,6 +12,18 @@ let self = rec {
     postInstall = "";
   });
 
+  astunparse = pythonPackages.buildPythonPackage {
+    name = "astunparse-1.5.0";
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/1a/b7/3ba7ce33cbc8847e20ed1a4fbec2303a71b2512dec0194824e8dcaadc8de/astunparse-1.5.0.tar.gz";
+      sha256 = "55df3c2a659d6cb6a9a9041c750a8232a9925523405a8dfeb891b92d45a589cd";
+    };
+    propagatedBuildInputs = [
+      pythonPackages.six
+    ];
+    doCheck = false;  # tests excluded from source distribution
+  };
+
   pdfrw = pythonPackages.buildPythonPackage {
     name = "pdfrw-0.3";
     src = pkgs.fetchurl {
@@ -54,6 +66,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinx_rtd_theme
   ];
   propagatedBuildInputs = with self; [
+    astunparse
     pythonPackages.sphinx
     pythonPackages.sphinxcontrib_httpdomain
   ];

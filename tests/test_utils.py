@@ -4,6 +4,13 @@ import json
 from sphinxcontrib.httpexample import utils
 
 
+def test_maybe_str():
+    assert isinstance(utils.maybe_str(b''), str)
+    assert isinstance(utils.maybe_str(b''.decode('utf-8')), str)
+    assert isinstance(utils.maybe_str(''), str)
+    assert not isinstance(utils.maybe_str(1), str)
+
+
 def test_capitalize():
     assert utils.capitalize('authorization') == 'Authorization'
     assert utils.capitalize('content-type') == 'Content-Type'
