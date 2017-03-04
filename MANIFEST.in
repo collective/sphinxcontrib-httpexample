@@ -1,6 +1,6 @@
 graft src
 graft docs
 graft tests
-include VERSION *.py *.rst *.nix
-exclude .*
+include VERSION *.py *.rst *.nix *.txt *.ini
+exclude .* *.cfg Makefile
 global-exclude *.pyc
