@@ -3,6 +3,7 @@ import json
 import base64
 from io import BytesIO
 
+from sphinxcontrib.httpexample.utils import capitalize_keys
 from sphinxcontrib.httpexample.utils import ordered
 
 try:
@@ -24,6 +25,9 @@ class HTTPRequest(BaseHTTPRequestHandler):
         self.raw_requestline = self.rfile.readline()
         self.error_code = self.error_message = None
         self.parse_request()
+
+        # Replace headers with simple dict to coup differences in Py2 and Py3
+        self.headers = capitalize_keys(dict(self.headers.items()))
 
     def send_error(self, code, message=None, explain=None):
         self.error_code = code
