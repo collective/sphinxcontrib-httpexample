@@ -86,5 +86,6 @@ def build_httpie_command(request):
 
     return ' '.join(parts)
 
+
 def build_requests_command(request):
     return ''
