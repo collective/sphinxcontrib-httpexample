@@ -1,0 +1,20 @@
+.http-example.container .code-block-caption {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5em 1em;
+}
+.http-example.container .code-block-caption.selected {
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid #e1e4e5;
+    border-bottom: 1px solid white;
+}
+.http-example.container div[class^='highlight'] {
+    margin-top: -1px;
+}
+.http-example.container .code-block-caption .headerlink {
+    display: none;
+}
+.http-example.container .container + .container pre {
+    white-space: normal;
+}
