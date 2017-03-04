@@ -29,8 +29,10 @@ import os
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinxcontrib.httpdomain',
-              'sphinxcontrib.httpexample',
-              'rst2pdf.pdfbuilder']
+              'sphinxcontrib.httpexample']
+
+if sys.version_info < (3, 0):
+    extensions.append('rst2pdf.pdfbuilder')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

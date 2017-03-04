@@ -47,7 +47,7 @@ class HTTPExample(CodeBlock):
             request = utils.resolve_path(self.options['request'], cwd)
             with open(request) as fp:
                 self.content = StringList(
-                    map(str.rstrip, fp.readlines()), request)
+                    list(map(str.rstrip, fp.readlines())), request)
 
         # Wrap and render main directive as 'http-example-http'
         klass = 'http-example-http'
@@ -96,7 +96,7 @@ class HTTPExample(CodeBlock):
             response = utils.resolve_path(self.options['response'], cwd)
             with open(response) as fp:
                 content = StringList(
-                    map(str.rstrip, fp.readlines()), response)
+                    list(map(str.rstrip, fp.readlines())), response)
 
             options = self.options.copy()
             options.pop('name', None)

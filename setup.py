@@ -22,6 +22,7 @@ setup(
         'sphinxcontrib-httpdomain',
     ],
     tests_require=[
-        'pytest'
+        'pytest',
+        'sphinx-testing'
     ]
 )

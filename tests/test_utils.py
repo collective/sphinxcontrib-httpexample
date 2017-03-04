@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
 import json
+import os
 
 from sphinxcontrib.httpexample import utils
+
+
+def test_merge_dicts():
+    assert utils.merge_dicts({'a': 'b'}, {'c': 'd'}) == {'a': 'b', 'c': 'd'}
+    assert utils.merge_dicts({'a': 'b'}, {'a': 'c'}) == {'a': 'c'}
+
+
+def test_resolve_path():
+    cwd = os.path.dirname(__file__)
+    base = os.path.basename(__file__)
+    assert utils.resolve_path(base, cwd) == __file__
+    assert utils.resolve_path('sphinxcontrib.httpexample:utils.py') == utils.__file__  # noqa
+    assert utils.resolve_path('bar', 'non-existing') == 'bar'
 
 
 def test_maybe_str():

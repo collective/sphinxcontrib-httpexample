@@ -11,7 +11,7 @@ def merge_dicts(a, b):
     return c
 
 
-def resolve_path(spec, cwd):
+def resolve_path(spec, cwd=''):
     if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
         return os.path.normpath(os.path.join(cwd, spec))
     elif (spec.count(':') and

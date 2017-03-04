@@ -64,6 +64,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.coverage
     pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
+    pythonPackages.sphinx-testing
   ];
   propagatedBuildInputs = with self; [
     astunparse
