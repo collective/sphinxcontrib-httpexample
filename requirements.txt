@@ -1,0 +1,7 @@
+astunparse
+docutils
+rst2pdf
+setuptools
+sphinx
+sphinxcontrib-httpdomain
+sphinx_rtd_theme
