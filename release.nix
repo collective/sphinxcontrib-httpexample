@@ -22,8 +22,8 @@ in rec {
     pkgFor system python
   )));
 
-  env = pkgs.lib.genAttrs supportedSystems (system:
-        pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (
+  buildEnv = pkgs.lib.genAttrs supportedSystems (system:
+             pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (
     let package = pkgFor system python;
         syspkgs = import pkgs.path { inherit system; };
     in (builtins.getAttr python syspkgs).buildEnv.override {
@@ -37,7 +37,7 @@ in rec {
             (pkgFor "x86_64-linux" "python3").overrideDerivation(args: {
     phases = [ "unpackPhase" "buildPhase" ];
     buildPhase = ''
-      ${env."x86_64-linux".python3}/bin/python3 setup.py sdist --formats=gztar
+      ${buildEnv."x86_64-linux".python3}/bin/python3 setup.py sdist --formats=gztar
       mkdir -p $out/dist $out/nix-support
       mv dist/${args.name}.tar.gz $out/dist
       echo "file source-dist $out/dist/${args.name}.tar.gz" > \

@@ -64,7 +64,7 @@ def build_httpie_command(request):
     data = request.data() or {}
     for k, v in data.items():
         k = k.replace('@', '\\' * 2 + '@')
-        if isinstance(v, str):
+        if isinstance(v, str) or str(type(v)) == "<type 'unicode'>":
             # String values
             parts.append('{}={}'.format(k, v))
         elif any([
