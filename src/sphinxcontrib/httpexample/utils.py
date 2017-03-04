@@ -1,6 +1,25 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
+import pkg_resources
+import os
+
+
+def merge_dicts(a, b):
+    c = a.copy()
+    c.update(b)
+    return c
+
+
+def resolve_path(spec, cwd):
+    if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
+        return os.path.normpath(os.path.join(cwd, spec))
+    elif (spec.count(':') and
+          pkg_resources.resource_exists(*spec.split(':', 1))):
+        return pkg_resources.resource_filename(*spec.split(':', 1))
+    else:
+        return spec
+
 
 def maybe_str(v):
     """Convert any strings to local 'str' instances"""

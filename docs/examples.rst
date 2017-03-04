@@ -2,14 +2,5 @@ Examples
 ========
 
 ..  http:example:: curl httpie requests
-
-    POST /Plone/folder HTTP/1.1
-    Host: localhost:8080
-    Accept: application/json
-    Content-Type: application/json
-    Authorization: Basic YWRtaW46YWRtaW4=
-
-    {
-        "@type": "Document",
-        "title": "My Document"
-    }
+    :request: ../tests/fixtures/001.request.txt
+    :response: ../tests/fixtures/001.response.txt
