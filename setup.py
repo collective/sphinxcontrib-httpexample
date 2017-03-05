@@ -9,7 +9,7 @@ setup(
     long_description=(open('README.rst').read() + '\n' +
                       open('CHANGELOG.rst').read()),
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Environment :: Web Environment',
         'Framework :: Sphinx :: Extension',
