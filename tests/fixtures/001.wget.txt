@@ -1,0 +1,1 @@
+wget -S http://localhost:8080/Plone/front-page --header="Accept: application/json" --user=admin --password=admin

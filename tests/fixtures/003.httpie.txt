@@ -1,1 +1,1 @@
-http PATCH http://localhost:8080/Plone/folder/my-document title='My New Document Title' -a admin:admin
+http PATCH http://localhost:8080/Plone/folder/my-document title="My New Document Title" -a admin:admin
