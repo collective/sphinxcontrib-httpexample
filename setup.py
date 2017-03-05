@@ -24,7 +24,7 @@ setup(
     keywords=['sphinx', 'extension', 'http', 'rest', 'documentation'],
     author='Asko Soukka',
     author_email='asko.soukka@iki.fi',
-    url='https://github.com/datakurre/sphinxcontrib-httpexample',
+    url='https://github.com/collective/sphinxcontrib-httpexample',
     license='GPL version 2',
     zip_safe=False,
     packages=find_packages('src'),
