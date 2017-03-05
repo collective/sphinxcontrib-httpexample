@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.1 (unreleased)
+0.4.1 (2017-03-05)
 ------------------
 
 - Fix issue where generate httpie-commands did not always set Accept and Content-Type -headers
