@@ -155,7 +155,7 @@ Result
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
 
-Example 2
+Example 3
 ---------
 
 Code
