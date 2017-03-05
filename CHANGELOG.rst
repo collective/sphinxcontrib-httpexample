@@ -4,7 +4,8 @@ Changelog
 0.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update README and documentation
+  [datakurre]
 
 
 0.5.0 (2017-03-05)
