@@ -103,7 +103,7 @@ Result
     }
 
 
-Examples with included sources
+Examples with external sources
 ------------------------------
 
 Example 1
