@@ -13,8 +13,8 @@ The audience for this extension are developers and technical writes documenting 
   ..  code:: rst
 
       .. http:example:: space separated list of tools
-         :request: ../optional/path/to/plaintext/request
-         :response: ../optional/path/to/plaintext/response
+         :request: ../optional/rel/path/to/plaintext/request
+         :response: ../optional/rel/path/to/plaintext/response
 
          Raw plaintext HTTP request data, which is
          required only when :request: is not specified.
