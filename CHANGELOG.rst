@@ -4,6 +4,8 @@ Changelog
 0.2.1 (unreleased)
 ------------------
 
+- Fix issue where Authorization-header was always requires
+  [datakurre]
 - Fix raise proper exception when parsing bad requests
   [datakurre]
 - Fix issue where httpie-builder did not quote values with spaces
