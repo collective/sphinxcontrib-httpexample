@@ -53,7 +53,7 @@ def build_curl_command(request):
 
 
 def build_wget_command(request):
-    parts = ['wget', '-S']
+    parts = ['wget', '-S', '-O-']
 
     # Method
     if request.command not in ['GET', 'POST']:
@@ -84,6 +84,7 @@ def build_wget_command(request):
     # Authorization
     if method == 'Basic':
         user, password = token.split(':')
+        parts.append('--auth-no-challenge')
         parts.append('--user={}'.format(user))
         parts.append('--password={}'.format(password))
 
