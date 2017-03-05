@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.2 (unreleased)
+0.4.2 (2017-03-05)
 ------------------
 
 - Fix issue where wget basic auth required challenge from backend, which is not
