@@ -22,7 +22,7 @@ Example 1
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
 
@@ -47,7 +47,7 @@ Example 2
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
 
@@ -84,7 +84,7 @@ Example 3
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
 
@@ -123,7 +123,7 @@ Example 1
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
         :request: ../tests/fixtures/001.request.txt
@@ -142,7 +142,7 @@ Example 2
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
         :request: ../tests/fixtures/002.request.txt
@@ -161,7 +161,7 @@ Example 3
 Code
 ....
 
-..  code:: rest
+..  code:: restructuredtext
 
     ..  http:example:: curl httpie python-requests
         :request: ../tests/fixtures/003.request.txt
