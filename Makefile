@@ -11,6 +11,9 @@ buildEnv: result/bin/$(PYTHON)
 coverage: .coverage
 	nix-shell --run "coverage report --fail-under=80"
 
+coveralls: .coverage
+	nix-shell --run coveralls
+
 dist:
 	nix-build release.nix -A tarball
 
@@ -24,7 +27,7 @@ test:
 	nix-build release.nix -A build.$(SYSTEM).$(PYTHON)
 	nix-shell --run "bin/code-analysis"
 
-.PHONY: all buildEnv coverage dist docs shell test
+.PHONY: all buildEnv coverage coveralls dist docs shell test
 
 ###
 

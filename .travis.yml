@@ -5,3 +5,4 @@ env:
 - PYTHON=python2 TARGET="test coverage"
 - PYTHON=python3 TARGET="test coverage"
 - PYTHON=python2 TARGET="docs"
+after_success: make coveralls

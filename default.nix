@@ -49,6 +49,21 @@ let self = rec {
     ];
     doCheck = false;  # tests excluded from source distribution
   };
+
+  coveralls = pythonPackages.buildPythonPackage {
+    name = "coveralls-1.1";
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/12/50/5c1034eb92e5bc3d824a3745ca9162f2e4846c6ab5f96dccb5f84f77e98f/coveralls-1.1.tar.gz";
+      sha256 = "34160385c13b0c43691ab11c080d4b10dabe3280fc0b2173c731efc5db836808";
+    };
+    propagatedBuildInputs = [
+      pythonPackages.docopt
+      pythonPackages.coverage
+      pythonPackages.requests2
+      pythonPackages.pyyaml
+    ];
+    doCheck = false;
+  };
 };
 
 in pythonPackages.buildPythonPackage rec {
@@ -61,6 +76,7 @@ in pythonPackages.buildPythonPackage rec {
   buildInputs = with self; [
     buildout
     rst2pdf
+    coveralls
     pythonPackages.coverage
     pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
