@@ -11,7 +11,7 @@ Example 1
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
 
@@ -36,7 +36,7 @@ Example 2
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
 
@@ -73,7 +73,7 @@ Example 3
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
 
@@ -112,7 +112,7 @@ Example 1
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/001.request.txt
@@ -131,7 +131,7 @@ Example 2
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/002.request.txt
@@ -150,7 +150,7 @@ Example 3
 Code
 ````
 
-..  code:: rst
+..  code-block:: rst
 
     ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/003.request.txt

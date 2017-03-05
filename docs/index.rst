@@ -10,7 +10,7 @@ The audience for this extension are developers and technical writes documenting 
 
 * Syntax:
 
-  ..  code:: rst
+  ..  code-block:: rst
 
       .. http:example:: space separated list of tools
          :request: ../optional/rel/path/to/plaintext/request
@@ -21,7 +21,7 @@ The audience for this extension are developers and technical writes documenting 
 
 * Example:
 
-  ..  code:: rst
+  ..  code-block:: rst
 
       ..  http:example:: curl wget httpie python-requests
 
