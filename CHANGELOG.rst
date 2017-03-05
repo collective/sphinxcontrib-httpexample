@@ -4,13 +4,16 @@ Changelog
 0.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where wget basic auth required challenge from backend, which is not
+  always available
+  [datakurre]
 
 
 0.4.1 (2017-03-05)
 ------------------
 
-- Fix issue where generate httpie-commands did not always set Accept and Content-Type -headers
+- Fix issue where generate httpie-commands did not always set Accept and
+  Content-Type -headers
   [datakurre]
 
 
