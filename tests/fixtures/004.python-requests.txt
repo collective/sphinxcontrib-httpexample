@@ -1,0 +1,1 @@
+requests.get('http://localhost:8080/Plone/front-page', headers={'Accept': 'application/json'})

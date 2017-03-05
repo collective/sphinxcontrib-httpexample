@@ -25,6 +25,12 @@ FIXTURE_003_HTTPIE = read_fixture('003.httpie.txt')
 FIXTURE_003_PYTHON_REQUESTS = read_fixture('003.python-requests.txt')
 FIXTURE_003_RESPONSE = read_fixture('003.response.txt')
 
+FIXTURE_004_REQUEST = read_fixture('004.request.txt')
+FIXTURE_004_CURL = read_fixture('004.curl.txt')
+FIXTURE_004_HTTPIE = read_fixture('004.httpie.txt')
+FIXTURE_004_PYTHON_REQUESTS = read_fixture('004.python-requests.txt')
+FIXTURE_004_RESPONSE = read_fixture('004.response.txt')
+
 
 def test_fixtures():
     assert isinstance(FIXTURE_001_REQUEST, bytes)
