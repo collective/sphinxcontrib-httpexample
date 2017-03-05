@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3.0 (unreleased)
+0.3.0 (2017-03-05)
 ------------------
 
 - Add generic 'Authorization'-header support
