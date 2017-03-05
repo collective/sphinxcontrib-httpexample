@@ -11,6 +11,7 @@ import os
 
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
+    'wget': (builders.build_wget_command, 'bash'),
     'httpie': (builders.build_httpie_command, 'bash'),
     'requests': (builders.build_requests_command, 'python'),
     'python-requests': (builders.build_requests_command, 'python')

@@ -1,0 +1,1 @@
+wget -S --method=PATCH http://localhost:8080/Plone/folder/my-document --header="Accept: application/json" --header="Content-Type: application/json" --body-data='{"title": "My New Document Title"}' --user=admin --password=admin

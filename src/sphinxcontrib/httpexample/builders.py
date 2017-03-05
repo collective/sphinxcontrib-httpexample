@@ -52,6 +52,44 @@ def build_curl_command(request):
     return ' '.join(parts)
 
 
+def build_wget_command(request):
+    parts = ['wget', '-S']
+
+    # Method
+    if request.command not in ['GET', 'POST']:
+        parts.append('--method={}'.format(request.command))
+
+    # URL
+    parts.append(request.url())
+
+    # Authorization (prepare)
+    method, token = request.auth()
+
+    # Headers
+    for header in sorted(request.headers):
+        if header in EXCLUDE_HEADERS:
+            continue
+        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+    if method != 'Basic' and 'Authorization' in request.headers:
+        header = 'Authorization'
+        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+
+    # JSON
+    data = request.data()
+    if data and request.command == 'POST':
+        parts.append('--post-data=\'{}\''.format(json.dumps(data)))
+    elif data and request.command != 'POST':
+        parts.append('--body-data=\'{}\''.format(json.dumps(data)))
+
+    # Authorization
+    if method == 'Basic':
+        user, password = token.split(':')
+        parts.append('--user={}'.format(user))
+        parts.append('--password={}'.format(password))
+
+    return ' '.join(parts)
+
+
 def build_httpie_command(request):
     parts = ['http']
 

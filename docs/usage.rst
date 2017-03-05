@@ -5,10 +5,12 @@ Basic usage
 Supported examples:
 
 * curl_
+* wget_
 * httpie_
 * python-requests_
 
 .. _curl: https://curl.haxx.se/
+.. _wget: https://www.gnu.org/software/wget/
 .. _httpie: https://httpie.org/
 .. _python-requests: http://docs.python-requests.org/
 
@@ -24,7 +26,7 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -34,7 +36,7 @@ Code
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -49,7 +51,7 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
 
         POST /Plone/folder HTTP/1.1
         Host: localhost:8080
@@ -65,7 +67,7 @@ Code
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
 
     POST /Plone/folder HTTP/1.1
     Host: localhost:8080
@@ -86,7 +88,7 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
 
         PATCH /Plone/folder/my-document HTTP/1.1
         Host: localhost:8080
@@ -101,7 +103,7 @@ Code
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
 
     PATCH /Plone/folder/my-document HTTP/1.1
     Host: localhost:8080
@@ -125,14 +127,14 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/001.request.txt
         :response: ../tests/fixtures/001.response.txt
 
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/001.request.txt
     :response: ../tests/fixtures/001.response.txt
 
@@ -144,14 +146,14 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/002.request.txt
         :response: ../tests/fixtures/002.response.txt
 
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
 
@@ -163,13 +165,13 @@ Code
 
 ..  code:: rst
 
-    ..  http:example:: curl httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
         :request: ../tests/fixtures/003.request.txt
         :response: ../tests/fixtures/003.response.txt
 
 Result
 ......
 
-..  http:example:: curl httpie python-requests
+..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/003.request.txt
     :response: ../tests/fixtures/003.response.txt
