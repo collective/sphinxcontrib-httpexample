@@ -3,11 +3,11 @@ import base64
 import json
 
 from sphinxcontrib.httpexample import parsers
-from .test_fixtures import FIXTURE_001_REQUEST
+from .test_fixtures import FIXTURE_002_REQUEST
 
 
 def test_parse_request_headers():
-    request = parsers.parse_request(FIXTURE_001_REQUEST)
+    request = parsers.parse_request(FIXTURE_002_REQUEST)
     assert request.command == 'POST'
     assert request.path == '/Plone/folder'
     assert request.request_version == 'HTTP/1.1'
@@ -27,17 +27,17 @@ def test_parse_request_headers():
 
 
 def test_parse_request_url():
-    request = parsers.parse_request(FIXTURE_001_REQUEST)
+    request = parsers.parse_request(FIXTURE_002_REQUEST)
     assert request.url() == 'http://localhost:8080/Plone/folder'
 
 
 def test_parse_request_auth():
-    request = parsers.parse_request(FIXTURE_001_REQUEST)
+    request = parsers.parse_request(FIXTURE_002_REQUEST)
     assert request.auth() == ('Basic', 'admin:admin')
 
 
 def test_parse_request_raw():
-    request = parsers.parse_request(FIXTURE_001_REQUEST)
+    request = parsers.parse_request(FIXTURE_002_REQUEST)
 
     data = request.rfile.read()
     assert isinstance(data, bytes)
@@ -47,7 +47,7 @@ def test_parse_request_raw():
 
 
 def test_parse_request_data():
-    request = parsers.parse_request(FIXTURE_001_REQUEST)
+    request = parsers.parse_request(FIXTURE_002_REQUEST)
 
     data = request.data()
     assert data == {'@type': 'Document', 'title': 'My Document'}

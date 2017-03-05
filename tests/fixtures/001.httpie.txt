@@ -1,1 +1,1 @@
-http POST http://localhost:8080/Plone/folder \\@type=Document title=My Document -a admin:admin
+http http://localhost:8080/Plone/front-page -a admin:admin

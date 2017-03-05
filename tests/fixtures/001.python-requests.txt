@@ -1,1 +1,1 @@
-requests.post('http://localhost:8080/Plone/folder', headers={'Accept': 'application/json'}, json={'@type': 'Document', 'title': 'My Document'}, auth=('admin', 'admin'))
+requests.get('http://localhost:8080/Plone/front-page', headers={'Accept': 'application/json'}, auth=('admin', 'admin'))
