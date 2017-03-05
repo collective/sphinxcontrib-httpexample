@@ -91,7 +91,7 @@ def build_wget_command(request):
 
 
 def build_httpie_command(request):
-    parts = ['http']
+    parts = ['http', '-j']
 
     # Method
     if request.command != 'GET':
