@@ -1,5 +1,5 @@
-More examples of use
-====================
+Examples of use:
+================
 
 
 Examples with inline sources
