@@ -10,7 +10,7 @@ Supported examples:
 
 .. _curl: https://curl.haxx.se/
 .. _httpie: https://httpie.org/
-.. _python-requests: http://docs.python-python-requests.org/
+.. _python-requests: http://docs.python-requests.org/
 
 
 With inline examples
