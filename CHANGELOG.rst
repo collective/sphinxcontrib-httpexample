@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.0 (unreleased)
+0.5.0 (2017-03-05)
 ------------------
 
 - Change development status to beta
