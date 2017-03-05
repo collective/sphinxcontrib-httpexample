@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.4.3 (unreleased)
+0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change development status to beta
+  [datakurre]
 
 
 0.4.2 (2017-03-05)
