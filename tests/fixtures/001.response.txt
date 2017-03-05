@@ -1,5 +1,5 @@
 HTTP 200 OK
-content-type: application/json
+Content-Type: application/json
 
 {
   "@id": "http://localhost:8080/Plone/front-page",
