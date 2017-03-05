@@ -53,11 +53,14 @@ class HTTPRequest(BaseHTTPRequestHandler):
         )
 
     def data(self):
-        assert self.headers.get('Content-Type') == 'application/json'
         payload_bytes = self.rfile.read()
-        assert isinstance(payload_bytes, bytes)
-        payload_str = payload_bytes.decode('utf-8')
-        return ordered(json.loads(payload_str))
+        if payload_bytes:
+            assert self.headers.get('Content-Type') == 'application/json'
+            assert isinstance(payload_bytes, bytes)
+            payload_str = payload_bytes.decode('utf-8')
+            return ordered(json.loads(payload_str))
+        else:
+            return None
 
 
 def parse_request(request_bytes):

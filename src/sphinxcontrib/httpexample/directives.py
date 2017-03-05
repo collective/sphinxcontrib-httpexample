@@ -12,7 +12,8 @@ import os
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
     'httpie': (builders.build_httpie_command, 'bash'),
-    'requests': (builders.build_requests_command, 'python')
+    'requests': (builders.build_requests_command, 'python'),
+    'python-requests': (builders.build_requests_command, 'python')
 }
 
 
