@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2.1 (unreleased)
+0.2.1 (2017-03-05)
 ------------------
 
 - Fix issue where Authorization-header was always requires
