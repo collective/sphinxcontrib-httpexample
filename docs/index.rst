@@ -16,7 +16,7 @@ The audience for this extension are developers and technical writes documenting 
          :request: ../optional/rel/path/to/plaintext/request
          :response: ../optional/rel/path/to/plaintext/response
 
-         Raw plaintext HTTP request data, which is
+         Raw plaintext HTTP request example, which is
          required only when :request: is not specified.
 
 * Example:
