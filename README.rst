@@ -46,13 +46,13 @@ Examples
 This extension has been used at least in the following documentations:
 
 * http://plonerestapi.readthedocs.org/
-* http://collective-httpexample.readthedocs.org/
+* http://sphinxcontrib-httpexample.readthedocs.org/
 
 
 Documentation
 -------------
 
-Full documentation for end users can be found in the "docs" folder. It is also available online at http://collective-httpexample.readthedocs.org/
+Full documentation for end users can be found in the "docs" folder. It is also available online at http://sphinxcontrib-httpexample.readthedocs.org/
 
 
 Installation
