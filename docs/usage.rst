@@ -1,28 +1,15 @@
-===========
-Basic usage
-===========
-
-Supported examples:
-
-* curl_
-* wget_
-* httpie_
-* python-requests_
-
-.. _curl: https://curl.haxx.se/
-.. _wget: https://www.gnu.org/software/wget/
-.. _httpie: https://httpie.org/
-.. _python-requests: http://docs.python-requests.org/
-
-
-With inline examples
+More examples of use
 ====================
 
+
+Examples with inline sources
+----------------------------
+
 Example 1
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -34,7 +21,7 @@ Code
         Authorization: Basic YWRtaW46YWRtaW4=
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
 
@@ -44,10 +31,10 @@ Result
     Authorization: Basic YWRtaW46YWRtaW4=
 
 Example 2
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -65,7 +52,7 @@ Code
         }
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
 
@@ -81,10 +68,10 @@ Result
     }
 
 Example 3
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -101,7 +88,7 @@ Code
         }
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
 
@@ -116,14 +103,14 @@ Result
     }
 
 
-With included examples
-======================
+Examples with included sources
+------------------------------
 
 Example 1
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -132,17 +119,17 @@ Code
         :response: ../tests/fixtures/001.response.txt
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/001.request.txt
     :response: ../tests/fixtures/001.response.txt
 
 Example 2
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -151,17 +138,17 @@ Code
         :response: ../tests/fixtures/002.response.txt
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
 
 Example 3
----------
+^^^^^^^^^
 
 Code
-....
+````
 
 ..  code:: rst
 
@@ -170,7 +157,7 @@ Code
         :response: ../tests/fixtures/003.response.txt
 
 Result
-......
+``````
 
 ..  http:example:: curl wget httpie python-requests
     :request: ../tests/fixtures/003.request.txt

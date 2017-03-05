@@ -18,14 +18,13 @@ sphinxcontrib-httpexample enhances `sphinxcontrib-httpdomain`_, a Sphinx domain 
 The audience for this extension are developers and technical writes documenting their RESTful HTTP APIs. This extension has originally been developed for documenting `plone.restapi`_.
 
 .. _sphinxcontrib-httpdomain: https://pythonhosted.org/sphinxcontrib-httpdomain/
-
 .. _plone.restapi: http://plonerestapi.readthedocs.org/
 
 
 Features
 --------
 
-* directive for generating various RESTful HTTP API call examples from single HTTP request.
+* Directive for generating various RESTful HTTP API call examples from single HTTP request.
 
 * Supported tools:
 
