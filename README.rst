@@ -13,7 +13,7 @@ sphinxcontrib-httpexample
 .. image:: https://readthedocs.org/projects/sphinxcontrib-httpexample/badge/?version=latest
    :target: http://sphinxcontrib-httpexample.readthedocs.io/en/latest
 
-sphinxcontrib-httpexample enhances `sphinxcontrib-httpdomain`_, a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive ``.. http:example::``, provided by this extension, generates RESTful HTTP API call examples for different tools from a single HTTP request example.
+sphinxcontrib-httpexample enhances `sphinxcontrib-httpdomain`_, a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive **http:example**, provided by this extension, generates RESTful HTTP API call examples for different tools from a single HTTP request example.
 
 The audience for this extension are developers and technical writes documenting their RESTful HTTP APIs. This extension has originally been developed for documenting `plone.restapi`_.
 
@@ -25,7 +25,7 @@ The audience for this extension are developers and technical writes documenting 
 Features
 --------
 
-* ``.. http:example::``-directive for generating various RESTful HTTP API call examples from single HTTP request.
+* **http:example**-directive for generating various RESTful HTTP API call examples from single HTTP request.
 
 * Supported tools:
 
