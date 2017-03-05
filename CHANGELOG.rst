@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.1 (unreleased)
+0.5.1 (2017-03-05)
 ------------------
 
 - Update README and documentation
