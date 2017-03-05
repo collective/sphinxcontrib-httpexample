@@ -26,6 +26,9 @@ class HTTPRequest(BaseHTTPRequestHandler):
         self.error_code = self.error_message = None
         self.parse_request()
 
+        if self.error_message:
+            raise Exception(self.error_message)
+
         # Replace headers with simple dict to coup differences in Py2 and Py3
         self.headers = capitalize_keys(dict(self.headers.items()))
 

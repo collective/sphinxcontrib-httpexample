@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import base64
 import json
+import pytest
 
 from sphinxcontrib.httpexample import parsers
 from .test_fixtures import FIXTURE_002_REQUEST
@@ -51,3 +52,11 @@ def test_parse_request_data():
 
     data = request.data()
     assert data == {'@type': 'Document', 'title': 'My Document'}
+
+
+def test_parse_bad_request():
+    with pytest.raises(Exception):
+        parsers.parse_request(b"""\
+POST /Plone/folder
+Host: localhost:8080
+""")
