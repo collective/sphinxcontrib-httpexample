@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2.0 (unreleased)
+0.2.0 (2017-03-05)
 ------------------
 
 - Add support for GET requests
