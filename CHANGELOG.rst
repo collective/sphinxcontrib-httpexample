@@ -4,7 +4,8 @@ Changelog
 0.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where generate httpie-commands did not always set Accept and Content-Type -headers
+  [datakurre]
 
 
 0.4.0 (2017-03-05)
