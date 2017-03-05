@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.2.2 (unreleased)
+0.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add generic 'Authorization'-header support
+  [datakurre]
 
 
 0.2.1 (2017-03-05)
