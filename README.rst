@@ -57,12 +57,11 @@ Full documentation for end users can be found in the "docs" folder. It is also a
 Installation
 ------------
 
-Add sphinxcontrib-httpexample into requirements of your product documentation and into the configuration file of your Sphinx documentation with sphincontrib-httpdomain as follow:
+Add sphinxcontrib-httpexample into requirements of your product documentation and into the configuration file of your Sphinx documentation next to sphincontrib-httpdomain as follows:
 
 ..  code:: python
 
-    extensions = ['sphinxcontrib.httpdomain',
-                  'sphinxcontrib.httpexample']
+    extensions = ['sphinxcontrib.httpdomain', 'sphinxcontrib.httpexample']
 
 
 License
