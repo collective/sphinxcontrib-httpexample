@@ -36,7 +36,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
     def auth(self):
         try:
             method, token = self.headers.get('Authorization').split()
-        except ValueError:
+        except (AttributeError, KeyError, ValueError):
             return None, None
         if not isinstance(token, bytes):
             token = token.encode('utf-8')

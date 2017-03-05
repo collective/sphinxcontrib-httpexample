@@ -73,7 +73,10 @@ def build_httpie_command(request):
         k = k.replace('@', '\\' * 2 + '@')
         v = maybe_str(v)
         if isinstance(v, str):
-            parts.append('{}={}'.format(k, v))
+            if ' ' in v:
+                parts.append("{}='{}'".format(k, v))
+            else:
+                parts.append('{}={}'.format(k, v))
         elif any([
             v is None,
             isinstance(v, int),

@@ -78,6 +78,41 @@ Result
         "title": "My Document"
     }
 
+Example 3
+---------
+
+Code
+....
+
+..  code:: rest
+
+    ..  http:example:: curl httpie python-requests
+
+        PATCH /Plone/folder/my-document HTTP/1.1
+        Host: localhost:8080
+        Content-Type: application/json
+        Accept: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
+
+        {
+            "title": "My New Document Title"
+        }
+
+Result
+......
+
+..  http:example:: curl httpie python-requests
+
+    PATCH /Plone/folder/my-document HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "title": "My New Document Title"
+    }
+
 
 With included examples
 ======================
@@ -119,3 +154,22 @@ Result
 ..  http:example:: curl httpie python-requests
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
+
+Example 2
+---------
+
+Code
+....
+
+..  code:: rest
+
+    ..  http:example:: curl httpie python-requests
+        :request: ../tests/fixtures/003.request.txt
+        :response: ../tests/fixtures/003.response.txt
+
+Result
+......
+
+..  http:example:: curl httpie python-requests
+    :request: ../tests/fixtures/003.request.txt
+    :response: ../tests/fixtures/003.response.txt

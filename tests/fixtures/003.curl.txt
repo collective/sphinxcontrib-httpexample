@@ -1,0 +1,1 @@
+curl -i -X PATCH http://localhost:8080/Plone/folder/my-document -H "Accept: application/json" -H "Content-Type: application/json" --data-raw '{"title": "My New Document Title"}' --user admin:admin
