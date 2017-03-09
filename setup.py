@@ -30,6 +30,7 @@ setup(
     packages=find_packages('src'),
     namespace_packages=['sphinxcontrib'],
     package_dir={'': 'src'},
+    package_data={'': ['static/*']},
     setup_requires=[
         'pytest-runner',
     ],
