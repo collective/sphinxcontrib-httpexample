@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.2 (unreleased)
+0.5.2 (2017-03-09)
 ------------------
 
 - Fix packaging to include the files in static #3
