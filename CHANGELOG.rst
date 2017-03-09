@@ -4,7 +4,8 @@ Changelog
 0.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix packaging to include the files in static #3
+  [csenger]
 
 
 0.5.1 (2017-03-05)
