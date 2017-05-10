@@ -1,0 +1,1 @@
+wget -S -O- --method=PATCH http://nohost/plone/folder/@upload/032803b64ad746b3ab46d9223ea3d90f --header="Accept: application/json" --header="Content-Type: application/offset+octet-stream" --header="Tus-Resumable: 1.0.0" --header="Upload-Offset: 3" --body-data='defgh' --auth-no-challenge --user=admin --password=secret

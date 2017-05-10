@@ -43,7 +43,9 @@ def build_curl_command(request):
     # JSON
     data = request.data()
     if data:
-        parts.append('--data-raw \'{}\''.format(json.dumps(data)))
+        if request.headers.get('Content-Type') == 'application/json':
+            data = json.dumps(data)
+        parts.append('--data-raw \'{}\''.format(data))
 
     # Authorization
     if method == 'Basic':
@@ -74,12 +76,15 @@ def build_wget_command(request):
         header = 'Authorization'
         parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
 
-    # JSON
+    # JSON or raw data
     data = request.data()
-    if data and request.command == 'POST':
-        parts.append('--post-data=\'{}\''.format(json.dumps(data)))
-    elif data and request.command != 'POST':
-        parts.append('--body-data=\'{}\''.format(json.dumps(data)))
+    if data:
+        if request.headers.get('Content-Type') == 'application/json':
+            data = json.dumps(data)
+        if request.command == 'POST':
+            parts.append('--post-data=\'{}\''.format(data))
+        elif request.command != 'POST':
+            parts.append('--body-data=\'{}\''.format(data))
 
     # Authorization
     if method == 'Basic':
@@ -117,27 +122,31 @@ def build_httpie_command(request):
         header = 'Authorization'
         parts.append('{}:"{}"'.format(header, request.headers[header]))
 
-    # JSON
-    data = request.data() or {}
-    for k, v in data.items():
-        k = k.replace('@', '\\' * 2 + '@')
-        v = maybe_str(v)
-        if isinstance(v, str):
-            if ' ' in v:
-                parts.append('{}="{}"'.format(k, v))
-            else:
-                parts.append('{}={}'.format(k, v))
-        elif any([
-            v is None,
-            isinstance(v, int),
-            isinstance(v, float),
-            isinstance(v, bool),
-        ]):
-            # JSON values
-            parts.append('{}:={}'.format(k, json.dumps(v)))
+    # JSON or raw data
+    data = request.data()
+    if data:
+        if request.headers.get('Content-Type') == 'application/json':
+            for k, v in data.items():
+                k = k.replace('@', '\\' * 2 + '@')
+                v = maybe_str(v)
+                if isinstance(v, str):
+                    if ' ' in v:
+                        parts.append('{}="{}"'.format(k, v))
+                    else:
+                        parts.append('{}={}'.format(k, v))
+                elif any([
+                    v is None,
+                    isinstance(v, int),
+                    isinstance(v, float),
+                    isinstance(v, bool),
+                ]):
+                    # JSON values
+                    parts.append('{}:={}'.format(k, json.dumps(v)))
+                else:
+                    # JSON structures
+                    parts.append("{}:='{}'".format(k, json.dumps(v)))
         else:
-            # JSON structures
-            parts.append("{}:='{}'".format(k, json.dumps(v)))
+            parts.append(data)
 
     # Authorization
     if method == 'Basic':
@@ -173,20 +182,24 @@ def build_requests_command(request):
         call.keywords.append(
             ast.keyword('headers', ast.Dict(header_keys, header_values)))
 
-    # JSON
-    json_keys = []
-    json_values = []
-    data = request.data() or {}
-    for k, v in data.items():
-        json_keys.append(ast.Str(maybe_str(k)))
-        v = maybe_str(v)
-        if isinstance(v, str):
-            json_values.append(ast.Str(v))
+    # JSON or raw data
+    data = request.data()
+    if data:
+        if request.headers.get('Content-Type') == 'application/json':
+            json_keys = []
+            json_values = []
+            for k, v in data.items():
+                json_keys.append(ast.Str(maybe_str(k)))
+                v = maybe_str(v)
+                if isinstance(v, str):
+                    json_values.append(ast.Str(v))
+                else:
+                    json_values.append(ast.parse(str(v)).body[0].value)
+            if json_keys and json_values:
+                call.keywords.append(
+                    ast.keyword('json', ast.Dict(json_keys, json_values)))
         else:
-            json_values.append(ast.parse(str(v)).body[0].value)
-    if json_keys and json_values:
-        call.keywords.append(
-            ast.keyword('json', ast.Dict(json_keys, json_values)))
+            call.keywords.append(ast.keyword('data', ast.Str(data)))
 
     # Authorization
     if method == 'Basic':
