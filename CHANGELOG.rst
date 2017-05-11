@@ -4,7 +4,8 @@ Changelog
 0.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support on-json requests also. Refs https://github.com/collective/sphinxcontrib-httpexample/issues/11
+  [jaroel]
 
 
 0.5.2 (2017-03-09)

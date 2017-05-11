@@ -1,0 +1,1 @@
+curl -i -X PATCH http://nohost/plone/folder/@upload/032803b64ad746b3ab46d9223ea3d90f -H "Accept: application/json" -H "Content-Type: application/offset+octet-stream" -H "Tus-Resumable: 1.0.0" -H "Upload-Offset: 3" --data-raw 'defgh' --user admin:secret

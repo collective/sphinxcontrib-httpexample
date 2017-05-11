@@ -1,0 +1,1 @@
+http -j PATCH http://nohost/plone/folder/@upload/032803b64ad746b3ab46d9223ea3d90f Tus-Resumable:1.0.0 Upload-Offset:3 defgh -a admin:secret
