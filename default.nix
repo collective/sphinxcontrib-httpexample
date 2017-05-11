@@ -1,6 +1,7 @@
 #!/usr/bin/env nix-shell
 { pkgs ? (import ./release.nix {}).pkgs
-, pythonPackages ? pkgs.python3Packages
+, python ? "python3"
+, pythonPackages ? builtins.getAttr (python + "Packages") pkgs
 }:
 
 let dependencies = rec {
