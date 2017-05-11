@@ -1,9 +1,13 @@
-#!/usr/bin/env nix-build
-#! nix-build --arg "pkgs" "import <nixpkgs> {}" -A python
 { supportedSystems ? [ "x86_64-linux" ]
 , supportedPythons ? [ "python2" "python3" ]
-, pkgs ? import (builtins.fetchTarball
-  "https://github.com/nixos/nixpkgs-channels/archive/nixos-16.09.tar.gz") {}
+, rev ? "28dc5c7d221ac0e13b8f5761459829fdf43a223c"  # 16.09
+, sha256 ? "1yshwmbn7dk7hl9f3i8miz4928s1bvazmcxmm5x6q3q8q4y8i039"
+, pkgs ? import ((import <nixpkgs> {}).pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    inherit rev;
+    inherit sha256;
+  }) {}
 }:
 
 let
@@ -16,6 +20,8 @@ let
     };
 
 in rec {
+
+  inherit pkgs;
 
   build = pkgs.lib.genAttrs supportedSystems (system:
           pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (

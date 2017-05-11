@@ -1,12 +1,9 @@
 #!/usr/bin/env nix-shell
-#! nix-shell --arg "pkgs" "import <nixpkgs> {}"
-{ pkgs ? import (builtins.fetchTarball
-  "https://github.com/nixos/nixpkgs-channels/archive/nixos-16.09.tar.gz") {}
+{ pkgs ? (import ./release.nix {}).pkgs
 , pythonPackages ? pkgs.python3Packages
 }:
 
-let self = rec {
-  version = builtins.replaceStrings ["\n"] [""] (builtins.readFile ./VERSION);
+let dependencies = rec {
 
   buildout = pythonPackages.zc_buildout_nix.overrideDerivation(old: {
     postInstall = "";
@@ -67,13 +64,13 @@ let self = rec {
 };
 
 in pythonPackages.buildPythonPackage rec {
-  namePrefix = "";
-  name = "sphinxcontrib-httpexample-${self.version}";
+  version = builtins.replaceStrings ["\n"] [""] (builtins.readFile ./VERSION);
+  name = "sphinxcontrib-httpexample-${version}";
   src = builtins.filterSource
     (path: type: baseNameOf path != ".git"
               && baseNameOf path != "result")
     ./.;
-  buildInputs = with self; [
+  buildInputs = with dependencies; [
     buildout
     rst2pdf
     coveralls
@@ -82,7 +79,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinx_rtd_theme
     pythonPackages.sphinx-testing
   ];
-  propagatedBuildInputs = with self; [
+  propagatedBuildInputs = with dependencies; [
     astunparse
     pythonPackages.sphinx
     pythonPackages.sphinxcontrib_httpdomain
