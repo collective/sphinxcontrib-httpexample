@@ -4,8 +4,11 @@ Changelog
 0.5.3 (unreleased)
 ------------------
 
-- Support on-json requests also. Refs https://github.com/collective/sphinxcontrib-httpexample/issues/11
+- Support non-json requests
   [jaroel]
+
+- Support application/json; charset=utf-8
+  [skyzyx]
 
 
 0.5.2 (2017-03-09)
