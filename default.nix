@@ -82,6 +82,7 @@ in pythonPackages.buildPythonPackage rec {
     (path: type: baseNameOf path != ".git"
               && baseNameOf path != "result")
     ./.;
+  SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   buildInputs = with dependencies; [
     buildout
     rst2pdf
@@ -97,6 +98,7 @@ in pythonPackages.buildPythonPackage rec {
     pythonPackages.sphinxcontrib_httpdomain
   ];
   postShellHook = ''
+    export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
     buildout -Nc qa.cfg
   '';
 }

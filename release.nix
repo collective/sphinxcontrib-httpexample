@@ -1,4 +1,4 @@
-{ supportedSystems ? [ "x86_64-linux" ]
+{ supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
 , supportedPythons ? [ "python2" "python3" ]
 , rev ? "28dc5c7d221ac0e13b8f5761459829fdf43a223c"  # 16.09
 , sha256 ? "1yshwmbn7dk7hl9f3i8miz4928s1bvazmcxmm5x6q3q8q4y8i039"
