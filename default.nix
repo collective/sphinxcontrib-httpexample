@@ -62,6 +62,17 @@ let dependencies = rec {
     ];
     doCheck = false;
   };
+
+  check-manifest = pythonPackages.buildPythonPackage rec {
+    name = "check-manifest-0.30";
+
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/c/check-manifest/check-manifest-0.30.tar.gz";
+      sha256 = "b19fd0d8b9286532ba3dc0282484fd76d11200cf24b340dc3d08f293c7dd0500";
+    };
+
+    doCheck = false;
+  };
 };
 
 in pythonPackages.buildPythonPackage rec {
@@ -74,9 +85,9 @@ in pythonPackages.buildPythonPackage rec {
   buildInputs = with dependencies; [
     buildout
     rst2pdf
+    check-manifest
     coveralls
     pythonPackages.coverage
-    pythonPackages.check-manifest
     pythonPackages.sphinx_rtd_theme
     pythonPackages.sphinx-testing
   ];
