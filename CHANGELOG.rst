@@ -4,7 +4,8 @@ Changelog
 0.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Release as universal wheel
+  [datakurre]
 
 
 0.6.0 (2017-05-11)
