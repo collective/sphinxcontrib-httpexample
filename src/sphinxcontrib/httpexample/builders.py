@@ -41,7 +41,7 @@ def build_curl_command(request):
         parts.append('-H "{}: {}"'.format(header, request.headers[header]))
 
     # JSON
-    data = request.data()
+    data = maybe_str(request.data())
     if data:
         if request.headers.get('Content-Type') == 'application/json':
             data = json.dumps(data)
@@ -77,7 +77,7 @@ def build_wget_command(request):
         parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
 
     # JSON or raw data
-    data = request.data()
+    data = maybe_str(request.data())
     if data:
         if request.headers.get('Content-Type') == 'application/json':
             data = json.dumps(data)
@@ -123,7 +123,7 @@ def build_httpie_command(request):
         parts.append('{}:"{}"'.format(header, request.headers[header]))
 
     # JSON or raw data
-    data = request.data()
+    data = maybe_str(request.data())
     if data:
         if request.headers.get('Content-Type') == 'application/json':
             for k, v in data.items():
@@ -183,7 +183,7 @@ def build_requests_command(request):
             ast.keyword('headers', ast.Dict(header_keys, header_values)))
 
     # JSON or raw data
-    data = request.data()
+    data = maybe_str(request.data())
     if data:
         if request.headers.get('Content-Type') == 'application/json':
             json_keys = []
