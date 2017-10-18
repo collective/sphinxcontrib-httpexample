@@ -41,6 +41,12 @@ from .test_fixtures import FIXTURE_006_WGET
 from .test_fixtures import FIXTURE_006_HTTPIE
 from .test_fixtures import FIXTURE_006_PYTHON_REQUESTS
 
+from .test_fixtures import FIXTURE_007_REQUEST
+from .test_fixtures import FIXTURE_007_CURL
+from .test_fixtures import FIXTURE_007_WGET
+from .test_fixtures import FIXTURE_007_HTTPIE
+from .test_fixtures import FIXTURE_007_PYTHON_REQUESTS
+
 
 def test_curl_fixture_001():
     request = parse_request(FIXTURE_001_REQUEST)
@@ -184,3 +190,27 @@ def test_requests_fixture_006():
     request = parse_request(FIXTURE_006_REQUEST)
     command = build_requests_command(request)
     assert command == FIXTURE_006_PYTHON_REQUESTS.decode('utf-8')
+
+
+def test_curl_fixture_007():
+    request = parse_request(FIXTURE_007_REQUEST)
+    command = build_curl_command(request)
+    assert command == FIXTURE_007_CURL.decode('utf-8')
+
+
+def test_wget_fixture_007():
+    request = parse_request(FIXTURE_007_REQUEST)
+    command = build_wget_command(request)
+    assert command == FIXTURE_007_WGET.decode('utf-8')
+
+
+def test_httpie_fixture_007():
+    request = parse_request(FIXTURE_007_REQUEST)
+    command = build_httpie_command(request)
+    assert command == FIXTURE_007_HTTPIE.decode('utf-8')
+
+
+def test_requests_fixture_007():
+    request = parse_request(FIXTURE_007_REQUEST)
+    command = build_requests_command(request)
+    assert command == FIXTURE_007_PYTHON_REQUESTS.decode('utf-8')
