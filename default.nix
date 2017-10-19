@@ -88,6 +88,8 @@ in pythonPackages.buildPythonPackage rec {
     rst2pdf
     check-manifest
     coveralls
+    pythonPackages.pytest
+    pythonPackages.pytestrunner
     pythonPackages.coverage
     pythonPackages.sphinx_rtd_theme
     pythonPackages.sphinx-testing

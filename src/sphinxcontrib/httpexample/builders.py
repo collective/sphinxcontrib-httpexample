@@ -2,9 +2,13 @@
 import ast
 import astunparse
 import json
-import shlex
 
 from sphinxcontrib.httpexample.utils import maybe_str
+
+try:
+    from shlex import quote as shlex_quote
+except ImportError:
+    from pipes import quote as shlex_quote
 
 EXCLUDE_HEADERS = [
     'Authorization',
@@ -27,7 +31,7 @@ def build_curl_command(request):
         parts.append('-X {}'.format(request.command))
 
     # URL
-    parts.append(shlex.quote(request.url()))
+    parts.append(shlex_quote(request.url()))
 
     # Authorization (prepare)
     method, token = request.auth()
@@ -63,7 +67,7 @@ def build_wget_command(request):
         parts.append('--method={}'.format(request.command))
 
     # URL
-    parts.append(shlex.quote(request.url()))
+    parts.append(shlex_quote(request.url()))
 
     # Authorization (prepare)
     method, token = request.auth()
@@ -105,7 +109,7 @@ def build_httpie_command(request):
         parts.append(request.command)
 
     # URL
-    parts.append(shlex.quote(request.url()))
+    parts.append(shlex_quote(request.url()))
 
     # Authorization (prepare)
     method, token = request.auth()
