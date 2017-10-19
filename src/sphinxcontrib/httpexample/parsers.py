@@ -18,9 +18,10 @@ class HTTPRequest(BaseHTTPRequestHandler):
     scheme = 'http'
 
     # noinspection PyMissingConstructor
-    def __init__(self, request_bytes):
+    def __init__(self, request_bytes, scheme):
         assert isinstance(request_bytes, bytes)
 
+        self.scheme = scheme
         self.rfile = BytesIO(request_bytes)
         self.raw_requestline = self.rfile.readline()
         self.error_code = self.error_message = None
@@ -66,5 +67,5 @@ class HTTPRequest(BaseHTTPRequestHandler):
                 return payload_bytes
 
 
-def parse_request(request_bytes):
-    return HTTPRequest(request_bytes)
+def parse_request(request_bytes, scheme='http'):
+    return HTTPRequest(request_bytes, scheme)

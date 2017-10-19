@@ -29,5 +29,6 @@ def setup(app):
     app.add_directive_to_domain('http', 'example', HTTPExample)
     app.add_javascript(JS_FILE)
     app.add_stylesheet(CSS_FILE)
+    app.add_config_value('httpexample_scheme', 'http', 'html')
     dist = pkg_resources.get_distribution('sphinxcontrib-httpexample')
     return {'version': dist.version}

@@ -32,6 +32,11 @@ def test_parse_request_url():
     assert request.url() == 'http://localhost:8080/Plone/folder'
 
 
+def test_parse_request_url_https():
+    request = parsers.parse_request(FIXTURE_002_REQUEST, 'https')
+    assert request.url() == 'https://localhost:8080/Plone/folder'
+
+
 def test_parse_request_auth():
     request = parsers.parse_request(FIXTURE_002_REQUEST)
     assert request.auth() == ('Basic', 'admin:admin')
