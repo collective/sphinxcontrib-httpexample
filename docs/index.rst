@@ -8,6 +8,17 @@ The audience for this extension are developers and technical writes documenting 
 .. _sphinxcontrib-httpdomain: https://pythonhosted.org/sphinxcontrib-httpdomain/
 .. _plone.restapi: http://plonerestapi.readthedocs.org/
 
+* Configuration:
+
+  The URL scheme, either ``http`` or ``https``, used in the generated examples
+  can be configured with the ``httpexample_scheme`` configuration variable. It
+  defaults to ``http``.
+
+  ..  code-block:: python
+
+      # conf.py
+      httpexample_scheme = 'https'
+
 * Syntax:
 
   ..  code-block:: rst

@@ -34,6 +34,8 @@ class HTTPExample(CodeBlock):
     })
 
     def run(self):
+        config = self.state.document.settings.env.config
+
         # Read enabled builders; Defaults to None
         if self.arguments:
             chosen_builders = choose_builders(self.arguments)
@@ -63,7 +65,7 @@ class HTTPExample(CodeBlock):
         # Append builder responses
         for name in chosen_builders:
             raw = ('\r\n'.join(self.content)).encode('utf-8')
-            request = parsers.parse_request(raw)
+            request = parsers.parse_request(raw, config.httpexample_scheme)
             builder_, language = AVAILABLE_BUILDERS[name]
             command = builder_(request)
 
