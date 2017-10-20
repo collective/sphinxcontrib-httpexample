@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.2 (unreleased)
+0.7.0 (2017-10-21)
 ------------------
 
 - Allow the URL scheme (http or https) to be configured.
