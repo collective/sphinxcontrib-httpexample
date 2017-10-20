@@ -4,7 +4,10 @@ Changelog
 0.6.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow the URL scheme (http or https) to be configured.
+  [dokai]
+- Quote the URL if it contains `&` characters in curl/httpie/wget examples.
+  [dokai]
 
 
 0.6.1 (2017-05-11)
