@@ -102,7 +102,11 @@ def build_wget_command(request):
 
 
 def build_httpie_command(request):
-    parts = ['http', '-j']
+    parts = ['http']
+    data = maybe_str(request.data())
+
+    if data:
+        parts.append('-j')
 
     # Method
     if request.command != 'GET':
@@ -128,7 +132,6 @@ def build_httpie_command(request):
         parts.append('{}:"{}"'.format(header, request.headers[header]))
 
     # JSON or raw data
-    data = maybe_str(request.data())
     if data:
         if request.headers.get('Content-Type') == 'application/json':
             for k, v in data.items():
