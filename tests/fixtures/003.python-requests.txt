@@ -1,1 +1,0 @@
-requests.patch('http://localhost:8080/Plone/folder/my-document', headers={'Accept': 'application/json'}, json={'title': 'My New Document Title'}, auth=('admin', 'admin'))

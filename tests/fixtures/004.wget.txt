@@ -1,1 +1,0 @@
-wget -S -O- http://localhost:8080/Plone/front-page --header="Accept: application/json"

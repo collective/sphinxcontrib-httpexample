@@ -43,6 +43,7 @@ setup(
     ],
     tests_require=[
         'pytest',
+        'snapshottest',
         'sphinx-testing'
     ]
 )
