@@ -28,6 +28,8 @@ FIXTURE_006_RESPONSE = read_fixture('006.response.txt')
 FIXTURE_007_REQUEST = read_fixture('007.request.txt')
 FIXTURE_007_RESPONSE = read_fixture('007.response.txt')
 
+FIXTURE_008_REQUEST = read_fixture('008.request.txt')
+
 
 def test_fixtures():
     assert isinstance(FIXTURE_001_REQUEST, bytes)

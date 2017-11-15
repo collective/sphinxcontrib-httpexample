@@ -40,10 +40,13 @@ def build_curl_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        parts.append('-H "{}: {}"'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        parts.append('-H {}'.format(header_line))
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('-H "{}: {}"'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        parts.append('-H {}'.format(header_line))
 
     # JSON
     data = maybe_str(request.data())
@@ -76,10 +79,13 @@ def build_wget_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        parts.append('--header={}'.format(header_line))
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        parts.append('--header={}'.format(header_line))
 
     # JSON or raw data
     data = maybe_str(request.data())
@@ -118,14 +124,11 @@ def build_httpie_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS_HTTP:
             continue
-        part = '{}:{}'.format(header, request.headers[header])
-        if header == 'Cookie':
-            parts.append("'{}'".format(part))
-        else:
-            parts.append(part)
+        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('{}:"{}"'.format(header, request.headers[header]))
+        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
 
     # JSON or raw data
     data = maybe_str(request.data())
