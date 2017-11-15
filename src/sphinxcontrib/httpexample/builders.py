@@ -108,7 +108,8 @@ def build_wget_command(request):
 
 
 def build_httpie_command(request):
-    parts = ['http', '-j']
+    parts = ['http']
+    redir_input = ''
 
     # Method
     if request.command != 'GET':
@@ -133,34 +134,23 @@ def build_httpie_command(request):
     # JSON or raw data
     data = maybe_str(request.data())
     if data:
+
         if request.headers.get('Content-Type') == 'application/json':
-            for k, v in data.items():
-                k = k.replace('@', '\\' * 2 + '@')
-                v = maybe_str(v)
-                if isinstance(v, str):
-                    if ' ' in v:
-                        parts.append('{}="{}"'.format(k, v))
-                    else:
-                        parts.append('{}={}'.format(k, v))
-                elif any([
-                    v is None,
-                    isinstance(v, int),
-                    isinstance(v, float),
-                    isinstance(v, bool),
-                ]):
-                    # JSON values
-                    parts.append('{}:={}'.format(k, json.dumps(v)))
-                else:
-                    # JSON structures
-                    parts.append("{}:='{}'".format(k, json.dumps(v)))
+            redir_input = shlex_quote(json.dumps(data, indent=2, sort_keys=True))
         else:
-            parts.append(data)
+            redir_input = shlex_quote(data)
 
     # Authorization
     if method == 'Basic':
         parts.append('-a {}'.format(token))
 
-    return ' '.join(parts)
+    cmd = ' '.join(parts)
+
+    if not redir_input:
+        return cmd
+
+    else:
+        return 'echo {} | {}'.format(redir_input, cmd)
 
 
 def build_requests_command(request):
