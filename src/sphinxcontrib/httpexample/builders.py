@@ -16,11 +16,8 @@ EXCLUDE_HEADERS = [
     'Host',
 ]
 EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + [
-    'Accept',
-    'Content-Type'
 ]
 EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + [
-    'Content-Type'
 ]
 
 
