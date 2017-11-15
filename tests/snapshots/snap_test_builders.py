@@ -75,3 +75,43 @@ snapshots['test_fixture[build_curl_command-fixture_008] 1'] = 'curl -i \'http://
 snapshots['test_fixture[build_wget_command-fixture_008] 1'] = 'wget -S -O- \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' --header=\'Accept: application/json\' --header=\'Accept-Encoding: gzip, deflate\' --header=\'Cookie: zyx 123\' --header=\'If-None-Match: "abc123"\' --header=\'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\''
 
 snapshots['test_fixture[build_requests_command-fixture_008] 1'] = 'requests.get(\'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\', headers={\'Accept\': \'application/json\', \'Accept-Encoding\': \'gzip, deflate\', \'Cookie\': \'zyx 123\', \'If-None-Match\': \'"abc123"\', \'Authorization\': \'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\'})'
+
+snapshots['test_fixture[build_httpie_command-fixture_009] 1'] = '''echo '{
+  "/": {
+    "fstype": "btrfs",
+    "readonly": true,
+    "storage": {
+      "device": "/dev/sda1",
+      "type": "disk"
+    }
+  },
+  "/tmp": {
+    "storage": {
+      "sizeInMB": 64,
+      "type": "tmpfs"
+    }
+  },
+  "/var": {
+    "fstype": "ext4",
+    "options": [
+      "nosuid"
+    ],
+    "storage": {
+      "label": "8f3ba6f4-5c70-46ec-83af-0d5434953e5f",
+      "type": "disk"
+    }
+  },
+  "/var/www": {
+    "storage": {
+      "remotePath": "/exports/mypath",
+      "server": "my.nfs.server",
+      "type": "nfs"
+    }
+  }
+}\' | http PATCH http://localhost:8080/etc/fstab Accept-Encoding:\'gzip, deflate\' If-None-Match:\'"abc123"\' Authorization:\'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\''''
+
+snapshots['test_fixture[build_curl_command-fixture_009] 1'] = 'curl -i -X PATCH http://localhost:8080/etc/fstab -H \'Accept: application/vnd.acme+json\' -H \'Accept-Encoding: gzip, deflate\' -H \'Content-Type: application/vnd.acme+json; charset=utf-8\' -H \'If-None-Match: "abc123"\' -H \'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\' --data-raw \'{"/": {"fstype": "btrfs", "readonly": true, "storage": {"device": "/dev/sda1", "type": "disk"}}, "/tmp": {"storage": {"sizeInMB": 64, "type": "tmpfs"}}, "/var": {"fstype": "ext4", "options": ["nosuid"], "storage": {"label": "8f3ba6f4-5c70-46ec-83af-0d5434953e5f", "type": "disk"}}, "/var/www": {"storage": {"remotePath": "/exports/mypath", "server": "my.nfs.server", "type": "nfs"}}}\''
+
+snapshots['test_fixture[build_wget_command-fixture_009] 1'] = 'wget -S -O- --method=PATCH http://localhost:8080/etc/fstab --header=\'Accept: application/vnd.acme+json\' --header=\'Accept-Encoding: gzip, deflate\' --header=\'Content-Type: application/vnd.acme+json; charset=utf-8\' --header=\'If-None-Match: "abc123"\' --header=\'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\' --body-data=\'{"/": {"fstype": "btrfs", "readonly": true, "storage": {"device": "/dev/sda1", "type": "disk"}}, "/tmp": {"storage": {"sizeInMB": 64, "type": "tmpfs"}}, "/var": {"fstype": "ext4", "options": ["nosuid"], "storage": {"label": "8f3ba6f4-5c70-46ec-83af-0d5434953e5f", "type": "disk"}}, "/var/www": {"storage": {"remotePath": "/exports/mypath", "server": "my.nfs.server", "type": "nfs"}}}\''
+
+snapshots['test_fixture[build_requests_command-fixture_009] 1'] = 'requests.patch(\'http://localhost:8080/etc/fstab\', headers={\'Accept\': \'application/vnd.acme+json\', \'Accept-Encoding\': \'gzip, deflate\', \'If-None-Match\': \'"abc123"\', \'Authorization\': \'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\'}, json={\'/\': OrderedDict([(\'fstype\', \'btrfs\'), (\'readonly\', True), (\'storage\', OrderedDict([(\'device\', \'/dev/sda1\'), (\'type\', \'disk\')]))]), \'/tmp\': OrderedDict([(\'storage\', OrderedDict([(\'sizeInMB\', 64), (\'type\', \'tmpfs\')]))]), \'/var\': OrderedDict([(\'fstype\', \'ext4\'), (\'options\', [\'nosuid\']), (\'storage\', OrderedDict([(\'label\', \'8f3ba6f4-5c70-46ec-83af-0d5434953e5f\'), (\'type\', \'disk\')]))]), \'/var/www\': OrderedDict([(\'storage\', OrderedDict([(\'remotePath\', \'/exports/mypath\'), (\'server\', \'my.nfs.server\'), (\'type\', \'nfs\')]))])})'

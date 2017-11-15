@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import pytest
 
 from sphinxcontrib.httpexample import utils
 
@@ -50,3 +51,15 @@ def test_ordered():
     }
     assert json.dumps(utils.ordered(data)) == \
         '{"a": {"b": {}, "c": {}}, "d": {"e": {}, "f": {}}}'
+
+
+@pytest.mark.parametrize('ctype,expected', (
+ ('application/json', True),
+ ('application/json; charset=utf-8', True),
+ ('application/vnd.acme+json', True),
+ ('application/vnd.acme+json; charset=utf-8; profile="/foo.schema"', True),
+ ('application/octet-stream', False),
+ ('', False),
+))
+def test_is_json(ctype, expected):
+    assert utils.is_json(ctype) is expected

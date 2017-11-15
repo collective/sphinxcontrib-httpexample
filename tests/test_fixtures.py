@@ -29,6 +29,7 @@ FIXTURE_007_REQUEST = read_fixture('007.request.txt')
 FIXTURE_007_RESPONSE = read_fixture('007.response.txt')
 
 FIXTURE_008_REQUEST = read_fixture('008.request.txt')
+FIXTURE_009_REQUEST = read_fixture('009.request.txt')
 
 
 def test_fixtures():

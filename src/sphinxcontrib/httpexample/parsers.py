@@ -5,6 +5,7 @@ from io import BytesIO
 
 from sphinxcontrib.httpexample.utils import capitalize_keys
 from sphinxcontrib.httpexample.utils import ordered
+from sphinxcontrib.httpexample.utils import is_json
 
 try:
     from http.server import BaseHTTPRequestHandler
@@ -59,7 +60,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
     def data(self):
         payload_bytes = self.rfile.read()
         if payload_bytes:
-            if self.headers.get('Content-Type').startswith('application/json'):
+            if is_json(self.headers.get('Content-Type', '')):
                 assert isinstance(payload_bytes, bytes)
                 payload_str = payload_bytes.decode('utf-8')
                 return ordered(json.loads(payload_str))

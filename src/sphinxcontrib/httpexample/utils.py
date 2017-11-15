@@ -52,3 +52,22 @@ def capitalize(s):
 
 def capitalize_keys(d):
     return dict([(capitalize(k), v) for k, v in d.items()])
+
+
+def is_json(content_type):
+    """Checks if the given content type should be treated as JSON.
+
+    The primary use cases to be recognized as JSON are
+
+    - `application/json` mimetype
+    - `+json` structured syntax suffix
+    """
+    parts = {part.strip() for part in content_type.lower().strip().split(';')}
+    if 'application/json' in parts:
+        return True
+
+    for p in parts:
+        if p.endswith('+json'):
+            return True
+
+    return False

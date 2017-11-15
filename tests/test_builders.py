@@ -4,6 +4,7 @@ from sphinxcontrib.httpexample.builders import build_curl_command
 from sphinxcontrib.httpexample.builders import build_wget_command
 from sphinxcontrib.httpexample.builders import build_httpie_command
 from sphinxcontrib.httpexample.builders import build_requests_command
+from sphinxcontrib.httpexample.builders import is_json
 
 from .test_fixtures import FIXTURE_001_REQUEST
 from .test_fixtures import FIXTURE_002_REQUEST
@@ -13,6 +14,7 @@ from .test_fixtures import FIXTURE_005_REQUEST
 from .test_fixtures import FIXTURE_006_REQUEST
 from .test_fixtures import FIXTURE_007_REQUEST
 from .test_fixtures import FIXTURE_008_REQUEST
+from .test_fixtures import FIXTURE_009_REQUEST
 
 import pytest
 
@@ -25,6 +27,7 @@ request_fixtures = (
     {'name': 'fixture_006', 'data': FIXTURE_006_REQUEST},
     {'name': 'fixture_007', 'data': FIXTURE_007_REQUEST},
     {'name': 'fixture_008', 'data': FIXTURE_008_REQUEST},
+    {'name': 'fixture_009', 'data': FIXTURE_009_REQUEST},
 )
 
 

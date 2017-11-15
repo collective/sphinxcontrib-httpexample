@@ -4,6 +4,7 @@ import astunparse
 import json
 
 from sphinxcontrib.httpexample.utils import maybe_str
+from sphinxcontrib.httpexample.utils import is_json
 
 try:
     from shlex import quote as shlex_quote
@@ -51,7 +52,7 @@ def build_curl_command(request):
     # JSON
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
+        if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
         parts.append('--data-raw \'{}\''.format(data))
 
@@ -90,7 +91,7 @@ def build_wget_command(request):
     # JSON or raw data
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
+        if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
         if request.command == 'POST':
             parts.append('--post-data=\'{}\''.format(data))
@@ -135,8 +136,12 @@ def build_httpie_command(request):
     data = maybe_str(request.data())
     if data:
 
-        if request.headers.get('Content-Type') == 'application/json':
-            redir_input = shlex_quote(json.dumps(data, indent=2, sort_keys=True))
+        if is_json(request.headers.get('Content-Type', '')):
+            # We need to explicitly set the separators to get consistent
+            # whitespace handling across Python 2 and 3. See
+            # https://bugs.python.org/issue16333 for details.
+            redir_input = shlex_quote(
+                json.dumps(data, indent=2, sort_keys=True, separators=(',', ': ')))
         else:
             redir_input = shlex_quote(data)
 
@@ -183,7 +188,7 @@ def build_requests_command(request):
     # JSON or raw data
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
+        if is_json(request.headers.get('Content-Type', '')):
             json_keys = []
             json_values = []
             for k, v in data.items():
