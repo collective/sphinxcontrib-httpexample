@@ -1,8 +1,8 @@
 PYTHON ?= python3
-ARGSTR ?= --argstr python $(PYTHON)
+ARGSTR ?= --arg pkgs "import <nixpkgs> {}" --argstr python $(PYTHON)
 
 %: nix-support/requirements.nix
-	nix-shell nix-support -A shell \
+	nix-shell nix-support $(ARGSTR) -A shell \
 	  --run 'nix-shell $(ARGSTR) --run "$(MAKE) $@"'
 
 env: nix-support/requirements.nix

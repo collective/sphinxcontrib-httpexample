@@ -19,7 +19,7 @@ let
     repo = "pip2nix";
     rev = "714b51eb69711474a9a2fbddf144e5e66b36986b";
     sha256 = "0h7hg95p1v392h4a310ng2kri9r59ailpj3r4mkr6x1dhq6l4fic";
-  } + "/release.nix") { inherit system; }).pip2nix.python36;
+  } + "/release.nix") {}).pip2nix.python36;
 
   requirements = import ./requirements.nix {
     inherit pkgs;
