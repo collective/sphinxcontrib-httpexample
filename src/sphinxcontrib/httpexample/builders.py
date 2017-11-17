@@ -184,20 +184,33 @@ def build_requests_command(request):
 
     # JSON or raw data
     data = maybe_str(request.data())
+
+    def astify_json_obj(obj):
+        obj = maybe_str(obj)
+        if isinstance(obj, str):
+            return ast.Str(obj)
+        elif isinstance(obj, bool):
+            return ast.Name(obj, ast.Load())
+        elif isinstance(obj, int):
+            return ast.Name(obj, ast.Load())
+        elif isinstance(obj, list):
+            json_values = []
+            for v in obj:
+                json_values.append(astify_json_obj(v))
+            return ast.List(json_values, ast.Load())
+        elif isinstance(obj, dict):
+            json_values = []
+            json_keys = []
+            for k, v in obj.items():
+                json_keys.append(ast.Str(maybe_str(k)))
+                json_values.append(astify_json_obj(v))
+            return ast.Dict(json_keys, json_values)
+        else:
+            raise Exception('Cannot astify {0:s}'.format(str(obj)))
+
     if data:
         if is_json(request.headers.get('Content-Type', '')):
-            json_keys = []
-            json_values = []
-            for k, v in data.items():
-                json_keys.append(ast.Str(maybe_str(k)))
-                v = maybe_str(v)
-                if isinstance(v, str):
-                    json_values.append(ast.Str(v))
-                else:
-                    json_values.append(ast.parse(str(v)).body[0].value)
-            if json_keys and json_values:
-                call.keywords.append(
-                    ast.keyword('json', ast.Dict(json_keys, json_values)))
+            call.keywords.append(ast.keyword('json', astify_json_obj(data)))
         else:
             call.keywords.append(ast.keyword('data', ast.Str(data)))
 
