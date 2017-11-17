@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from sphinxcontrib.httpexample.utils import is_json
+from sphinxcontrib.httpexample.utils import maybe_str
+
 import ast
 import astunparse
 import json
 
-from sphinxcontrib.httpexample.utils import maybe_str
-from sphinxcontrib.httpexample.utils import is_json
 
 try:
     from shlex import quote as shlex_quote
@@ -38,12 +39,12 @@ def build_curl_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
         parts.append('-H {}'.format(header_line))
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
         parts.append('-H {}'.format(header_line))
 
     # JSON
@@ -77,12 +78,12 @@ def build_wget_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
         parts.append('--header={}'.format(header_line))
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
         parts.append('--header={}'.format(header_line))
 
     # JSON or raw data
@@ -138,7 +139,8 @@ def build_httpie_command(request):
             # whitespace handling across Python 2 and 3. See
             # https://bugs.python.org/issue16333 for details.
             redir_input = shlex_quote(
-                json.dumps(data, indent=2, sort_keys=True, separators=(',', ': ')))
+                json.dumps(data, indent=2, sort_keys=True,
+                           separators=(',', ': ')))
         else:
             redir_input = shlex_quote(data)
 

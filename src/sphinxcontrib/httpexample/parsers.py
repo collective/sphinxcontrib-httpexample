@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import json
-import base64
 from io import BytesIO
-
 from sphinxcontrib.httpexample.utils import capitalize_keys
-from sphinxcontrib.httpexample.utils import ordered
 from sphinxcontrib.httpexample.utils import is_json
+from sphinxcontrib.httpexample.utils import ordered
+
+import base64
+import json
+
 
 try:
     from http.server import BaseHTTPRequestHandler

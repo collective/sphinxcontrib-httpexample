@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
-import pkg_resources
 import os
+import pkg_resources
 
 
 def merge_dicts(a, b):

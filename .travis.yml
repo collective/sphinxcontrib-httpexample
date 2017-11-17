@@ -1,5 +1,5 @@
 language: nix
-script: make $TARGET
+script: make -f Makefile.nix $TARGET
 cache: eggs
 env:
 - PYTHON=python2 TARGET="test coverage"

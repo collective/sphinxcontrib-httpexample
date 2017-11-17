@@ -12,8 +12,9 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
+import configparser
 import os
+import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -31,8 +32,12 @@ import os
 extensions = ['sphinxcontrib.httpdomain',
               'sphinxcontrib.httpexample']
 
-if sys.version_info < (3, 0):
-    extensions.append('rst2pdf.pdfbuilder')
+try:
+    import rst2pdf
+    if sys.version_info < (3, 0):
+        extensions.append('rst2pdf.pdfbuilder')
+except ImportError:
+    pass
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -58,8 +63,9 @@ author = u'Asko Soukka'
 # built documents.
 #
 # The short X.Y version.
-with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION')) as fp:
-    version = fp.read().strip()
+parser = configparser.RawConfigParser()
+parser.read(os.path.join(os.path.dirname(__file__), '..', 'setup.cfg'))
+version = parser.get('metadata', 'version')
 
 # The full version, including alpha/beta/rc tags.
 release = version
