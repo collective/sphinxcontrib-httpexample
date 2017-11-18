@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.1 (unreleased)
+0.8.0 (unreleased)
 ------------------
 
 - Fix to not strip out Accept/Content-Type headers in builders
@@ -15,6 +15,9 @@ Changelog
 
 - Fix quoting of non-trivial HTTP headers in builders
   [dokai]
+
+- Change to use declarative packaging (setup.cfg instead of setup.py)
+  [datakurre]
 
 
 0.7.0 (2017-10-21)
