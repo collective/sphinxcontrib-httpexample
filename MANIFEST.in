@@ -1,5 +1,6 @@
-graft src
 graft docs
+graft nix-support
+graft src
 graft tests
 include *.py *.rst *.nix *.txt *.ini
 exclude .* *.cfg Makefile
