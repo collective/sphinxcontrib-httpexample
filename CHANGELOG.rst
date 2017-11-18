@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8.0 (unreleased)
+0.8.0 (2017-11-18)
 ------------------
 
 - Fix to not strip out Accept/Content-Type headers in builders
