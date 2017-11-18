@@ -1,0 +1,39 @@
+PATCH /etc/fstab HTTP/1.1
+Accept-Encoding: gzip, deflate
+Accept: application/vnd.acme+json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
+Content-Type: application/vnd.acme+json; charset=utf-8
+Host: localhost:8080
+If-None-Match: "abc123"
+
+{
+    "/": {
+        "storage": {
+            "type": "disk",
+            "device": "/dev/sda1"
+        },
+        "fstype": "btrfs",
+        "readonly": true
+    },
+    "/var": {
+        "storage": {
+            "type": "disk",
+            "label": "8f3ba6f4-5c70-46ec-83af-0d5434953e5f"
+        },
+        "fstype": "ext4",
+        "options": [ "nosuid" ]
+    },
+    "/tmp": {
+        "storage": {
+            "type": "tmpfs",
+            "sizeInMB": 64
+        }
+    },
+    "/var/www": {
+        "storage": {
+            "type": "nfs",
+            "server": "my.nfs.server",
+            "remotePath": "/exports/mypath"
+        }
+    }
+}

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from sphinxcontrib.httpexample.utils import is_json
+from sphinxcontrib.httpexample.utils import maybe_str
+
 import ast
 import astunparse
 import json
 
-from sphinxcontrib.httpexample.utils import maybe_str
 
 try:
     from shlex import quote as shlex_quote
@@ -15,11 +17,8 @@ EXCLUDE_HEADERS = [
     'Host',
 ]
 EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + [
-    'Accept',
-    'Content-Type'
 ]
 EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + [
-    'Content-Type'
 ]
 
 
@@ -40,15 +39,18 @@ def build_curl_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        parts.append('-H "{}: {}"'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        parts.append('-H {}'.format(header_line))
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('-H "{}: {}"'.format(header, request.headers[header]))
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        parts.append('-H {}'.format(header_line))
 
     # JSON
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
+        if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
         parts.append('--data-raw \'{}\''.format(data))
 
@@ -76,15 +78,18 @@ def build_wget_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        parts.append('--header={}'.format(header_line))
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('--header="{}: {}"'.format(header, request.headers[header]))  # noqa
+        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        parts.append('--header={}'.format(header_line))
 
     # JSON or raw data
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
+        if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
         if request.command == 'POST':
             parts.append('--post-data=\'{}\''.format(data))
@@ -102,7 +107,8 @@ def build_wget_command(request):
 
 
 def build_httpie_command(request):
-    parts = ['http', '-j']
+    parts = ['http']
+    redir_input = ''
 
     # Method
     if request.command != 'GET':
@@ -118,46 +124,37 @@ def build_httpie_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS_HTTP:
             continue
-        part = '{}:{}'.format(header, request.headers[header])
-        if header == 'Cookie':
-            parts.append("'{}'".format(part))
-        else:
-            parts.append(part)
+        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
+
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('{}:"{}"'.format(header, request.headers[header]))
+        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
 
     # JSON or raw data
     data = maybe_str(request.data())
     if data:
-        if request.headers.get('Content-Type') == 'application/json':
-            for k, v in data.items():
-                k = k.replace('@', '\\' * 2 + '@')
-                v = maybe_str(v)
-                if isinstance(v, str):
-                    if ' ' in v:
-                        parts.append('{}="{}"'.format(k, v))
-                    else:
-                        parts.append('{}={}'.format(k, v))
-                elif any([
-                    v is None,
-                    isinstance(v, int),
-                    isinstance(v, float),
-                    isinstance(v, bool),
-                ]):
-                    # JSON values
-                    parts.append('{}:={}'.format(k, json.dumps(v)))
-                else:
-                    # JSON structures
-                    parts.append("{}:='{}'".format(k, json.dumps(v)))
+
+        if is_json(request.headers.get('Content-Type', '')):
+            # We need to explicitly set the separators to get consistent
+            # whitespace handling across Python 2 and 3. See
+            # https://bugs.python.org/issue16333 for details.
+            redir_input = shlex_quote(
+                json.dumps(data, indent=2, sort_keys=True,
+                           separators=(',', ': ')))
         else:
-            parts.append(data)
+            redir_input = shlex_quote(data)
 
     # Authorization
     if method == 'Basic':
         parts.append('-a {}'.format(token))
 
-    return ' '.join(parts)
+    cmd = ' '.join(parts)
+
+    if not redir_input:
+        return cmd
+
+    else:
+        return 'echo {} | {}'.format(redir_input, cmd)
 
 
 def build_requests_command(request):
@@ -189,20 +186,33 @@ def build_requests_command(request):
 
     # JSON or raw data
     data = maybe_str(request.data())
-    if data:
-        if request.headers.get('Content-Type') == 'application/json':
-            json_keys = []
+
+    def astify_json_obj(obj):
+        obj = maybe_str(obj)
+        if isinstance(obj, str):
+            return ast.Str(obj)
+        elif isinstance(obj, bool):
+            return ast.Name(obj, ast.Load())
+        elif isinstance(obj, int):
+            return ast.Name(obj, ast.Load())
+        elif isinstance(obj, list):
             json_values = []
-            for k, v in data.items():
+            for v in obj:
+                json_values.append(astify_json_obj(v))
+            return ast.List(json_values, ast.Load())
+        elif isinstance(obj, dict):
+            json_values = []
+            json_keys = []
+            for k, v in obj.items():
                 json_keys.append(ast.Str(maybe_str(k)))
-                v = maybe_str(v)
-                if isinstance(v, str):
-                    json_values.append(ast.Str(v))
-                else:
-                    json_values.append(ast.parse(str(v)).body[0].value)
-            if json_keys and json_values:
-                call.keywords.append(
-                    ast.keyword('json', ast.Dict(json_keys, json_values)))
+                json_values.append(astify_json_obj(v))
+            return ast.Dict(json_keys, json_values)
+        else:
+            raise Exception('Cannot astify {0:s}'.format(str(obj)))
+
+    if data:
+        if is_json(request.headers.get('Content-Type', '')):
+            call.keywords.append(ast.keyword('json', astify_json_obj(data)))
         else:
             call.keywords.append(ast.keyword('data', ast.Str(data)))
 

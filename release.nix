@@ -1,79 +1,81 @@
 { supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
 , supportedPythons ? [ "python2" "python3" ]
-, rev ? "28dc5c7d221ac0e13b8f5761459829fdf43a223c"  # 16.09
-, sha256 ? "1yshwmbn7dk7hl9f3i8miz4928s1bvazmcxmm5x6q3q8q4y8i039"
-, pkgs ? import ((import <nixpkgs> {}).pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nixpkgs";
-    inherit rev;
-    inherit sha256;
-  }) {}
 }:
 
 let
 
+  pkgs = (import ./nix-support {}).pkgs;
+
   pkgFor = system: python:
-    let syspkgs = import pkgs.path { inherit system; };
+    let support = import ./nix-support { inherit system; inherit python; };
     in import ./default.nix {
-      pkgs = syspkgs;
-      pythonPackages = builtins.getAttr (python + "Packages") syspkgs;
+      inherit (support) pkgs pythonPackages;
     };
 
-in rec {
+  envFor = system: python: packages:
+    let support = import ./nix-support { inherit system; inherit python; };
+    in support.pythonPackages.python.withPackages (ps: [
+      (pkgFor system python)
+    ] ++ builtins.map
+      (name: builtins.getAttr name support.pythonPackages) packages
+    );
 
-  inherit pkgs;
+in rec {
 
   build = pkgs.lib.genAttrs supportedSystems (system:
           pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (
     pkgFor system python
   )));
 
-  buildEnv = pkgs.lib.genAttrs supportedSystems (system:
-             pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (
-    let package = pkgFor system python;
-        syspkgs = import pkgs.path { inherit system; };
-    in (builtins.getAttr python syspkgs).buildEnv.override {
-      extraLibs = package.nativeBuildInputs
-                  ++ package.propagatedNativeBuildInputs;
-      ignoreCollisions = true;
-    }
-  )));
+  sdist =
+    let package = pkgFor builtins.currentSystem "python3";
+        env = envFor builtins.currentSystem "python3" [];
+    in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      phases = [ "unpackPhase" "buildPhase" ];
+      buildPhase = ''
+        ${env}/bin/python setup.py sdist --formats=gztar
+        mkdir -p $out/dist $out/nix-support
+        mv dist/*.tar.gz $out/dist
+        for file in `ls -1 $out/dist`; do
+          echo "file source-dist $out/dist/$file" >> \
+               $out/nix-support/hydra-build-products
+        done
+        echo ${old.name} > $out/nix-support/hydra-release-name
+      '';
+    }));
 
-  tarball = pkgs.lib.hydraJob(
-            (pkgFor "x86_64-linux" "python3").overrideDerivation(args: {
-    phases = [ "unpackPhase" "buildPhase" ];
-    buildPhase = ''
-      ${buildEnv."x86_64-linux".python3}/bin/python3 setup.py sdist --formats=gztar
-      mkdir -p $out/dist $out/nix-support
-      mv dist/${args.name}.tar.gz $out/dist
-      echo "file source-dist $out/dist/${args.name}.tar.gz" > \
-           $out/nix-support/hydra-build-products
-      echo ${args.name} > $out/nix-support/hydra-release-name
-    '';
-  }));
+  bdist_wheel =
+    let package = pkgFor builtins.currentSystem "python3";
+        env = envFor builtins.currentSystem "python3" [];
+    in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      phases = [ "unpackPhase" "buildPhase" ];
+      buildPhase = ''
+        ${env}/bin/python setup.py bdist_wheel
+        mkdir -p $out/dist $out/nix-support
+        mv dist/*.whl $out/dist
+        for file in `ls -1 $out/dist`; do
+          echo "file binary-dist $out/dist/$file" >> \
+               $out/nix-support/hydra-build-products
+        done
+        echo ${old.name} > $out/nix-support/hydra-release-name
+      '';
+    }));
 
   # docs can only be built on Python 2, because of rst2pdf
 
-  docs = pkgs.lib.hydraJob(
-         (pkgFor "x86_64-linux" "python2").overrideDerivation(args: {
-    phases = [ "unpackPhase" "buildPhase" ];
-    buildPhase = ''
-      ${docs_python}/bin/sphinx-build -b pdf docs dist
-      mkdir -p $out/docs $out/nix-support
-      mv dist/*.pdf $out/docs
-      echo "file source-dist" $out/docs/*.pdf > \
-           $out/nix-support/hydra-build-products
-      echo ${args.name} > $out/nix-support/hydra-release-name
-    '';
-  }));
-
-  docs_python = pkgs.lib.hydraJob (
-    let system = "x86_64-linux";
-        syspkgs = import pkgs.path { inherit system; };
-    in syspkgs.python2.buildEnv.override {
-      extraLibs = [ (pkgFor system "python2") ];
-      ignoreCollisions = true;
-    }
-  );
+  docs =
+    let package = pkgFor builtins.currentSystem "python2";
+        env = envFor builtins.currentSystem "python2" ["rst2pdf"];
+    in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      phases = [ "unpackPhase" "buildPhase" ];
+      buildPhase = ''
+        mkdir -p $out/docs $out/nix-support
+        ${env}/bin/sphinx-build -b html docs $out/docs/html
+        ${env}/bin/sphinx-build -b pdf  docs $out/docs
+        echo "file source-dist" $out/docs/*.pdf > \
+             $out/nix-support/hydra-build-products
+        echo ${old.name} > $out/nix-support/hydra-release-name
+      '';
+    }));
 
 }

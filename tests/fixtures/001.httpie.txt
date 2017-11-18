@@ -1,1 +1,0 @@
-http -j http://localhost:8080/Plone/front-page -a admin:admin

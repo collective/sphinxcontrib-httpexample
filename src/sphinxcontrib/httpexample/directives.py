@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from docutils import nodes
+from docutils.parsers.rst import directives
 from docutils.statemachine import StringList
 from sphinx.directives import CodeBlock
-from docutils.parsers.rst import directives
 from sphinxcontrib.httpexample import builders
 from sphinxcontrib.httpexample import parsers
 from sphinxcontrib.httpexample import utils
 
 import os
+
 
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
