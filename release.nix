@@ -1,26 +1,28 @@
-{ supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
+{ pkgs ? import <nixpkgs> {}
+, supportedSystems ? [ "x86_64-linux" "x86_64-darwin" ]
 , supportedPythons ? [ "python2" "python3" ]
 }:
 
 let
 
-  pkgs = (import ./nix-support {}).pkgs;
-
   pkgFor = system: python:
-    let support = import ./nix-support { inherit system; inherit python; };
+    let syspkgs = import pkgs.path { inherit system; };
+        support = import ./nix-support { pkgs = syspkgs; inherit python; };
     in import ./default.nix {
-      inherit (support) pkgs pythonPackages;
+      pkgs = syspkgs;
+      inherit (support) pythonPackages;
     };
 
   envFor = system: python: packages:
-    let support = import ./nix-support { inherit system; inherit python; };
+    let syspkgs = import pkgs.path { inherit system; };
+        support = import ./nix-support { pkgs = syspkgs; inherit python; };
     in support.pythonPackages.python.withPackages (ps: [
       (pkgFor system python)
     ] ++ builtins.map
       (name: builtins.getAttr name support.pythonPackages) packages
     );
 
-in rec {
+in {
 
   build = pkgs.lib.genAttrs supportedSystems (system:
           pkgs.lib.genAttrs supportedPythons (python: pkgs.lib.hydraJob (
@@ -31,6 +33,7 @@ in rec {
     let package = pkgFor builtins.currentSystem "python3";
         env = envFor builtins.currentSystem "python3" [];
     in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      name = "${old.name}-sdist";
       phases = [ "unpackPhase" "buildPhase" ];
       buildPhase = ''
         ${env}/bin/python setup.py sdist --formats=gztar
@@ -48,6 +51,7 @@ in rec {
     let package = pkgFor builtins.currentSystem "python3";
         env = envFor builtins.currentSystem "python3" [];
     in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      name = "${old.name}-bdist_wheel";
       phases = [ "unpackPhase" "buildPhase" ];
       buildPhase = ''
         ${env}/bin/python setup.py bdist_wheel
@@ -67,6 +71,7 @@ in rec {
     let package = pkgFor builtins.currentSystem "python2";
         env = envFor builtins.currentSystem "python2" ["rst2pdf"];
     in pkgs.lib.hydraJob(package.overrideDerivation(old: {
+      name = "${old.name}-docs";
       phases = [ "unpackPhase" "buildPhase" ];
       buildPhase = ''
         mkdir -p $out/docs $out/nix-support
