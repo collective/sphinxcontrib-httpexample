@@ -11,7 +11,7 @@ env: nix-support/requirements.nix
 docs: nix-support/requirements.nix
 	nix-build release.nix $(ARGSTR) -A docs
 
-shel: nix-support/requirements.nix
+shell: nix-support/requirements.nix
 	nix-shell $(ARGSTR)
 
 .PHONY: env

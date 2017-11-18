@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 { pkgs ? (import ./nix-support {}).pkgs
 , python ? "python3"
-, pythonPackages ? (import ./nix-support { inherit python; }).pythonPackages
+, pythonPackages ? (import ./nix-support { inherit pkgs python; }).pythonPackages
 }:
 
 with builtins;
