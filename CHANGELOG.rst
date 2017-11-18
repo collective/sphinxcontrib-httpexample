@@ -4,15 +4,26 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix to not strip out Accept/Content-Type headers in builders
+  [dokai]
+
+- Improve logic to detect a JSON content type
+  [dokai]
+
+- Use redirected input to pass request payload to httpie
+  [dokai]
+
+- Fix quoting of non-trivial HTTP headers in builders
+  [dokai]
 
 
 0.7.0 (2017-10-21)
 ------------------
 
-- Allow the URL scheme (http or https) to be configured.
+- Allow the URL scheme (http or https) to be configured
   [dokai]
-- Quote the URL if it contains `&` characters in curl/httpie/wget examples.
+
+- Quote the URL if it contains `&` characters in curl/httpie/wget examples
   [dokai]
 
 
