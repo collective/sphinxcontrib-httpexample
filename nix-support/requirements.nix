@@ -84,16 +84,6 @@ self: super: {
       sha256 = "1bpalpia6r5x1kknbk11p1fzph56fmmnp405ds8icksd3knr5aw4";
     };
   };
-  configparser = super.buildPythonPackage {
-    name = "configparser-3.5.0";
-    buildInputs = with self; [];
-    doCheck = false;
-    propagatedBuildInputs = with self; [];
-    src = fetchurl {
-      url = "https://pypi.python.org/packages/7c/69/c2ce7e91c89dc073eb1aa74c0621c3eefbffe8216b3f9af9d3885265c01c/configparser-3.5.0.tar.gz";
-      sha256 = "0fi7vf09vi1588jd8f16a021m5y6ih2hy7rpbjb408xw45qb822k";
-    };
-  };
   coverage = super.buildPythonPackage {
     name = "coverage-4.4.2";
     buildInputs = with self; [];

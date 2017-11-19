@@ -40,7 +40,7 @@ self: super: {
   setuptools = pythonPackages.setuptools;
 
   sphinx = super.sphinx.overrideDerivation(old: {
-    propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.typing ];
+    propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.typing self.configparser];
   });
 
 }

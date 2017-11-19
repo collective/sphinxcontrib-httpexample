@@ -1,5 +1,4 @@
 astunparse
-configparser
 coverage
 docutils
 flake8-blind-except
