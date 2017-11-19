@@ -41,9 +41,7 @@ let
     (extends requirements
              pythonPackages.__unfix__)));
 
-in
-
-{
+in {
 
   setup = setup;
 
