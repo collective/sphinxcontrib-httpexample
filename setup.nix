@@ -1,6 +1,15 @@
-{ pkgs, pythonPackages }:
+{ pkgs ? import <nixpkgs> {}
+, python ? "python3"
+, pythonPackages ? builtins.getAttr (python + "Packages") pkgs
+, setup ? import (pkgs.fetchFromGitHub {
+    owner = "datakurre";
+    repo = "setup.nix";
+    rev = "6654411b3a1438b8a38dcf29237e857d652bd5a1";
+    sha256 = "0dqsbffsddj01rw3cddg5warxfkplkpprhki1d7rw8m6mhcm02qw";
+  })
+}:
 
-self: super: {
+let overrides = self: super: {
 
   flake8 = super.flake8.overrideDerivation (old: {
     buildInputs = old.buildInputs ++ [ self.pytest-runner ];
@@ -43,4 +52,9 @@ self: super: {
     propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.typing self.configparser];
   });
 
+};
+
+in setup {
+  inherit pkgs pythonPackages overrides;
+  src = ./.;
 }

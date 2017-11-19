@@ -1,20 +1,21 @@
 PYTHON ?= python3
 ARGSTR ?= --argstr python $(PYTHON)
 
-%: nix-support/requirements.nix
-	nix-shell nix-support $(ARGSTR) -A shell \
-	  --run 'nix-shell $(ARGSTR) --run "$(MAKE) $@"'
+%:
+test: requirements.nix
+	nix-shell setup.nix $(ARGSTR) -A develop --run "$(MAKE) $@"
 
-docs: nix-support/requirements.nix
+docs: requirements.nix
 	nix-build release.nix $(ARGSTR) -A docs
 
-env: nix-support/requirements.nix
-	nix-build nix-support $(ARGSTR) -A env
+env: requirements.nix
+	nix-build setup.nix $(ARGSTR) -A env
 
-shell: nix-support/requirements.nix
-	nix-shell $(ARGSTR)
+shell: requirements.nix
+	nix-shell setup.nix $(ARGSTR) -A develop
 
-.PHONY: docs env shell
+.PHONY: docs env shell test
 
-nix-support/requirements.nix:
-	make -C nix-support
+requirements.nix: requirements.txt
+	nix-shell setup.nix -A pip2nix \
+	  --run "pip2nix generate -r requirements.txt --output=requirements.nix"

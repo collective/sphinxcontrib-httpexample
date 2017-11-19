@@ -17,4 +17,5 @@ snapshottest
 sphinx
 sphinxcontrib-httpdomain
 sphinx_rtd_theme
+sphinx-testing
 typing

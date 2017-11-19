@@ -434,6 +434,16 @@ self: super: {
       sha256 = "05rlhjzdyapr2w74jjs7mrm8hi69qskcr5vya9f9drpsys7lpxrd";
     };
   };
+  sphinx-testing = super.buildPythonPackage {
+    name = "sphinx-testing-0.7.2";
+    buildInputs = with self; [];
+    doCheck = false;
+    propagatedBuildInputs = with self; [sphinx six];
+    src = fetchurl {
+      url = "https://pypi.python.org/packages/fa/b4/272ae6e8b174b00c84b55b4d330dffde16f66e8c82284a6206c06356bd5a/sphinx-testing-0.7.2.tar.gz";
+      sha256 = "150yh8p39l89xy4fbds66n2snpi2lx99zwgd6dxi63k20wqgjc4x";
+    };
+  };
   sphinxcontrib-httpdomain = super.buildPythonPackage {
     name = "sphinxcontrib-httpdomain-1.5.0";
     buildInputs = with self; [];
