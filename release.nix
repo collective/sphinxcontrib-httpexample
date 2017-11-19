@@ -9,8 +9,7 @@ let
     let syspkgs = import pkgs.path { inherit system; };
         support = import ./nix-support { pkgs = syspkgs; inherit python; };
     in import ./default.nix {
-      pkgs = syspkgs;
-      inherit (support) pythonPackages;
+      pkgs = syspkgs; inherit support;
     };
 
   envFor = system: python: packages:

@@ -1,39 +1,18 @@
 { pkgs ? import <nixpkgs> {}
 , python ? "python3"
-, pythonPackages ? (import ./nix-support { inherit pkgs python; }).pythonPackages
+, support ? (import ./nix-support { inherit pkgs python; })
 }:
 
-with builtins;
 with pkgs.lib;
-
-let
-
-  name = head (
-    match ".*name = ([^\n]+).*" (
-      readFile ./setup.cfg));
-
-  version = head (
-    match ".*version = ([^\n]+).*" (
-      readFile ./setup.cfg));
-
-  parse = from: to: splitString "\n" (
-    replaceStrings [" "] [""] (
-      head (
-        match ".*${from} =\n(.*)\n${to}.*" (
-          readFile ./setup.cfg))));
-
-  setup_requires   = parse "setup_requires"   "install_requires";
-  install_requires = parse "install_requires" "tests_require";
-  tests_require    = parse "tests_require"   "package_dir";
-
-in
+with support;
 
 pythonPackages.buildPythonPackage {
-  name = "${name}-${version}";
+  name = "${setup.metadata.name}-${setup.metadata.version}";
   src = cleanSource ./.;
   buildInputs = map
-    (name: getAttr name pythonPackages) (setup_requires ++ tests_require);
+    (name: getAttr name pythonPackages) (setup.options.setup_requires ++
+                                         setup.options.tests_require);
   propagatedBuildInputs = map
-    (name: getAttr name pythonPackages) install_requires;
+    (name: getAttr name pythonPackages) setup.options.install_requires;
   doCheck = false;
 }
