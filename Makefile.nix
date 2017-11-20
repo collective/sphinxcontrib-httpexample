@@ -2,7 +2,6 @@ PYTHON ?= python3
 ARGSTR ?= --argstr python $(PYTHON)
 
 %:
-test: requirements.nix
 	nix-shell setup.nix $(ARGSTR) -A develop --run "$(MAKE) $@"
 
 docs: requirements.nix
