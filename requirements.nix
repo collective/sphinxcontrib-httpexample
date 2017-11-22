@@ -4,7 +4,7 @@
 { pkgs, fetchurl, fetchgit, fetchhg }:
 
 self: super: {
-  Jinja2 = super.buildPythonPackage {
+  "Jinja2" = super.buildPythonPackage {
     name = "Jinja2-2.10";
     buildInputs = with self; [];
     doCheck = false;
@@ -14,7 +14,7 @@ self: super: {
       sha256 = "190l36hfw3wb2n3n68yacjabxyb1pnxwn7vjx96cmjj002xy2jzq";
     };
   };
-  MarkupSafe = super.buildPythonPackage {
+  "MarkupSafe" = super.buildPythonPackage {
     name = "MarkupSafe-1.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -24,7 +24,7 @@ self: super: {
       sha256 = "0rdn1s8x9ni7ss8rfiacj7x1085lx8mh2zdwqslnw8xc3l4nkgm6";
     };
   };
-  Pygments = super.buildPythonPackage {
+  "Pygments" = super.buildPythonPackage {
     name = "Pygments-2.2.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -34,7 +34,7 @@ self: super: {
       sha256 = "1k78qdvir1yb1c634nkv6rbga8wv4289xarghmsbbvzhvr311bnv";
     };
   };
-  alabaster = super.buildPythonPackage {
+  "alabaster" = super.buildPythonPackage {
     name = "alabaster-0.7.10";
     buildInputs = with self; [];
     doCheck = false;
@@ -44,7 +44,7 @@ self: super: {
       sha256 = "1q3z4lf39qndwcjg3gbscck8q5qjklma275w5s8n1valk6gcpk9p";
     };
   };
-  astunparse = super.buildPythonPackage {
+  "astunparse" = super.buildPythonPackage {
     name = "astunparse-1.5.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -54,7 +54,7 @@ self: super: {
       sha256 = "1kc9lm2jvfcip3z8snj04dar5a9jh857a704m6lvcv4xclm3rpsm";
     };
   };
-  babel = super.buildPythonPackage {
+  "babel" = super.buildPythonPackage {
     name = "babel-2.5.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -64,7 +64,7 @@ self: super: {
       sha256 = "04aqsbb2r3g4869mb2b2ls6yc81w5gaf4dp4pcj5bkfh2kvxl1v0";
     };
   };
-  certifi = super.buildPythonPackage {
+  "certifi" = super.buildPythonPackage {
     name = "certifi-2017.11.5";
     buildInputs = with self; [];
     doCheck = false;
@@ -74,7 +74,7 @@ self: super: {
       sha256 = "1h0k6sy3p4csfdayghg2wjbnb1hfz27i5qbr0c7v8dhira8l5isy";
     };
   };
-  chardet = super.buildPythonPackage {
+  "chardet" = super.buildPythonPackage {
     name = "chardet-3.0.4";
     buildInputs = with self; [];
     doCheck = false;
@@ -84,7 +84,7 @@ self: super: {
       sha256 = "1bpalpia6r5x1kknbk11p1fzph56fmmnp405ds8icksd3knr5aw4";
     };
   };
-  coverage = super.buildPythonPackage {
+  "coverage" = super.buildPythonPackage {
     name = "coverage-4.4.2";
     buildInputs = with self; [];
     doCheck = false;
@@ -94,7 +94,7 @@ self: super: {
       sha256 = "1k1l1xdpzni35xrffwv3nvqb7ylb912mdmz4l33kw1imgayr379h";
     };
   };
-  docutils = super.buildPythonPackage {
+  "docutils" = super.buildPythonPackage {
     name = "docutils-0.14";
     buildInputs = with self; [];
     doCheck = false;
@@ -104,7 +104,7 @@ self: super: {
       sha256 = "0x22fs3pdmr42kvz6c654756wja305qv6cx1zbhwlagvxgr4xrji";
     };
   };
-  flake8 = super.buildPythonPackage {
+  "flake8" = super.buildPythonPackage {
     name = "flake8-3.5.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -114,7 +114,7 @@ self: super: {
       sha256 = "184b33grvvjmiwlv9kyd7yng9qv5ld24154j70z332xxg9gjclvj";
     };
   };
-  flake8-blind-except = super.buildPythonPackage {
+  "flake8-blind-except" = super.buildPythonPackage {
     name = "flake8-blind-except-0.1.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -124,7 +124,7 @@ self: super: {
       sha256 = "16g58mkr3fcn2vlfhp3rlahj93qswc7jd5qrqp748mc26dk3b8xc";
     };
   };
-  flake8-coding = super.buildPythonPackage {
+  "flake8-coding" = super.buildPythonPackage {
     name = "flake8-coding-1.3.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -134,7 +134,7 @@ self: super: {
       sha256 = "1gjhzv85gaviwszp04l3win3h69bhfd4kwvi7mm7cxwkhxpyj0ds";
     };
   };
-  flake8-debugger = super.buildPythonPackage {
+  "flake8-debugger" = super.buildPythonPackage {
     name = "flake8-debugger-3.0.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -144,7 +144,7 @@ self: super: {
       sha256 = "1m6jqgdbpq7plf24kknnxlkw3rig7bjf17xqzgrv57c11ncarj75";
     };
   };
-  flake8-isort = super.buildPythonPackage {
+  "flake8-isort" = super.buildPythonPackage {
     name = "flake8-isort-2.2.2";
     buildInputs = with self; [];
     doCheck = false;
@@ -154,7 +154,7 @@ self: super: {
       sha256 = "0411nhkz0gcmd5wfd6wkhhj0kadnbxipa3w3fssnz0lhyzcy37jb";
     };
   };
-  flake8-polyfill = super.buildPythonPackage {
+  "flake8-polyfill" = super.buildPythonPackage {
     name = "flake8-polyfill-1.0.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -164,7 +164,7 @@ self: super: {
       sha256 = "02gn2wxvh9vnf7m7dld7ca4l60mg5c370hv3swwppkngwaqmcw67";
     };
   };
-  flake8-quotes = super.buildPythonPackage {
+  "flake8-quotes" = super.buildPythonPackage {
     name = "flake8-quotes-0.12.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -174,7 +174,7 @@ self: super: {
       sha256 = "195cxk43d868qw1nmn1nvs7h42s07rk2if701cx1py3p8xazws8l";
     };
   };
-  idna = super.buildPythonPackage {
+  "idna" = super.buildPythonPackage {
     name = "idna-2.6";
     buildInputs = with self; [];
     doCheck = false;
@@ -184,7 +184,7 @@ self: super: {
       sha256 = "13qaab6d0s15gknz8v3zbcfmbj6v86hn9pjxgkdf62ch13imssic";
     };
   };
-  imagesize = super.buildPythonPackage {
+  "imagesize" = super.buildPythonPackage {
     name = "imagesize-0.7.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -194,7 +194,7 @@ self: super: {
       sha256 = "0qk07k0z4241lkzzjji7z4da04pcvg7bfc4xz1934zlqhwmwdcha";
     };
   };
-  isort = super.buildPythonPackage {
+  "isort" = super.buildPythonPackage {
     name = "isort-4.2.15";
     buildInputs = with self; [];
     doCheck = false;
@@ -204,7 +204,7 @@ self: super: {
       sha256 = "10rr1grpsxnjrxgnfdjwabn8nlwbgb667rhnf0zfbqm4sdr63x3r";
     };
   };
-  mccabe = super.buildPythonPackage {
+  "mccabe" = super.buildPythonPackage {
     name = "mccabe-0.6.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -214,7 +214,7 @@ self: super: {
       sha256 = "07w3p1qm44hgxf3vvwz84kswpsx6s7kvaibzrsx5dzm0hli1i3fx";
     };
   };
-  olefile = super.buildPythonPackage {
+  "olefile" = super.buildPythonPackage {
     name = "olefile-0.44";
     buildInputs = with self; [];
     doCheck = false;
@@ -224,7 +224,7 @@ self: super: {
       sha256 = "1bbk1xplmrhymqpk6rkb15sg7v9qfih7zh23p6g2fxxas06cmwk1";
     };
   };
-  pdfrw = super.buildPythonPackage {
+  "pdfrw" = super.buildPythonPackage {
     name = "pdfrw-0.4";
     buildInputs = with self; [];
     doCheck = false;
@@ -234,7 +234,7 @@ self: super: {
       sha256 = "1x1yp63lg3jxpg9igw8lh5rc51q353ifsa1bailb4qb51r54kh0d";
     };
   };
-  pep8-naming = super.buildPythonPackage {
+  "pep8-naming" = super.buildPythonPackage {
     name = "pep8-naming-0.4.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -244,7 +244,7 @@ self: super: {
       sha256 = "0nhf8p37y008shd4f21bkj5pizv8q0l8cpagyyb8gr059d6gvvaf";
     };
   };
-  pillow = super.buildPythonPackage {
+  "pillow" = super.buildPythonPackage {
     name = "pillow-4.3.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -254,7 +254,7 @@ self: super: {
       sha256 = "09xmn7rl6840sli2iz1k3fgxfgmri2nqz6vkinmb9mgg8ifp2z59";
     };
   };
-  pip = super.buildPythonPackage {
+  "pip" = super.buildPythonPackage {
     name = "pip-9.0.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -264,7 +264,7 @@ self: super: {
       sha256 = "03clr9c1dih5n9c00c592zzvf6r1ffimywkaq9agcqdllzhl7wh9";
     };
   };
-  py = super.buildPythonPackage {
+  "py" = super.buildPythonPackage {
     name = "py-1.5.2";
     buildInputs = with self; [];
     doCheck = false;
@@ -274,7 +274,7 @@ self: super: {
       sha256 = "0vd7i2lspzfwj0k68cnm1pk3rclnrnkavgqncdsifm1350z9866a";
     };
   };
-  pycodestyle = super.buildPythonPackage {
+  "pycodestyle" = super.buildPythonPackage {
     name = "pycodestyle-2.3.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -284,7 +284,7 @@ self: super: {
       sha256 = "0rk78b66p57ala26mdldl9lafr48blv5s659sah9q50qnfjmc8k8";
     };
   };
-  pyflakes = super.buildPythonPackage {
+  "pyflakes" = super.buildPythonPackage {
     name = "pyflakes-1.6.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -294,7 +294,7 @@ self: super: {
       sha256 = "01c87qiadz71sbqrclrsr85vx601p20g4hs7nlcvyg945ww6lqcd";
     };
   };
-  pytest = super.buildPythonPackage {
+  "pytest" = super.buildPythonPackage {
     name = "pytest-3.2.5";
     buildInputs = with self; [];
     doCheck = false;
@@ -304,7 +304,7 @@ self: super: {
       sha256 = "10cbsyyyzamhvi1gqqyhccsx906xlcwcgddvldalqi1v27vx8nvd";
     };
   };
-  pytest-cov = super.buildPythonPackage {
+  "pytest-cov" = super.buildPythonPackage {
     name = "pytest-cov-2.5.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -314,7 +314,7 @@ self: super: {
       sha256 = "0bbfpwdh9k3636bxc88vz9fa7vf4akchgn513ql1vd0xy4n7bah3";
     };
   };
-  pytest-runner = super.buildPythonPackage {
+  "pytest-runner" = super.buildPythonPackage {
     name = "pytest-runner-3.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -324,7 +324,7 @@ self: super: {
       sha256 = "00v7pi09q60yx0l1kzyklnmr5bp597mir85a9gsi7bdfyly3lz0g";
     };
   };
-  pytz = super.buildPythonPackage {
+  "pytz" = super.buildPythonPackage {
     name = "pytz-2017.3";
     buildInputs = with self; [];
     doCheck = false;
@@ -334,7 +334,7 @@ self: super: {
       sha256 = "1dw5l527vcafvdqq4wadwl7ikhb2sssz0v0cssibh8890kyczr7s";
     };
   };
-  reportlab = super.buildPythonPackage {
+  "reportlab" = super.buildPythonPackage {
     name = "reportlab-3.4.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -344,7 +344,7 @@ self: super: {
       sha256 = "0hy304pzsz9lblmk7mrbk2682bi911lxgvzx2kcfpmfzb5gg7sjv";
     };
   };
-  requests = super.buildPythonPackage {
+  "requests" = super.buildPythonPackage {
     name = "requests-2.18.4";
     buildInputs = with self; [];
     doCheck = false;
@@ -354,7 +354,7 @@ self: super: {
       sha256 = "0zi3v9nsmv9j27d0c0m1dvqyvaxz53g8m0aa1h3qanxs4irkwi4w";
     };
   };
-  rst2pdf = super.buildPythonPackage {
+  "rst2pdf" = super.buildPythonPackage {
     name = "rst2pdf-0.93.dev0";
     buildInputs = with self; [];
     doCheck = false;
@@ -364,27 +364,17 @@ self: super: {
       sha256 = "1g7w7qv8qrrdyjd5xjabzs7cg9kc21qqv3vf52l3146irs1l5x1s";
     };
   };
-  setuptools = super.buildPythonPackage {
-    name = "setuptools-36.7.2";
+  "setuptools" = super.buildPythonPackage {
+    name = "setuptools-37.0.0";
     buildInputs = with self; [];
     doCheck = false;
     propagatedBuildInputs = with self; [];
     src = fetchurl {
-      url = "https://pypi.python.org/packages/0f/22/7fdcc777ba60e2a8b1ea17f679c2652ffe80bd5a2f35d61c629cb9545d5e/setuptools-36.7.2.zip";
-      sha256 = "03928x49iacgnl58pxxfgxiq666j46y2pf65nhrmqa4ws26zv1md";
+      url = "https://pypi.python.org/packages/7c/cb/bdfbb0b6a56459d5461768de824d4f40ec4c4c778f3a8fb0b84c25f03b68/setuptools-37.0.0.zip";
+      sha256 = "1qwiahab0jlgv6c81bp5hfjsa7nfbwj78xzi2x946kgpmcbdp58b";
     };
   };
-  setuptools-scm = super.buildPythonPackage {
-    name = "setuptools-scm-1.15.6";
-    buildInputs = with self; [];
-    doCheck = false;
-    propagatedBuildInputs = with self; [];
-    src = fetchurl {
-      url = "https://pypi.python.org/packages/03/6d/aafdd01edd227ee879b691455bf19895091872af7e48192bea1758c82032/setuptools_scm-1.15.6.tar.gz";
-      sha256 = "0pzvfmx8s20yrgkgwfbxaspz2x1g38qv61jpm0ns91lrb22ldas9";
-    };
-  };
-  six = super.buildPythonPackage {
+  "six" = super.buildPythonPackage {
     name = "six-1.11.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -394,7 +384,7 @@ self: super: {
       sha256 = "1scqzwc51c875z23phj48gircqjgnn3af8zy2izjwmnlxrxsgs3h";
     };
   };
-  snapshottest = super.buildPythonPackage {
+  "snapshottest" = super.buildPythonPackage {
     name = "snapshottest-0.5.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -404,7 +394,7 @@ self: super: {
       sha256 = "035ljn22x11qgkllvr6h72zik5nkh9xqnz8fbai73lbz77mjhp11";
     };
   };
-  snowballstemmer = super.buildPythonPackage {
+  "snowballstemmer" = super.buildPythonPackage {
     name = "snowballstemmer-1.2.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -414,7 +404,7 @@ self: super: {
       sha256 = "0a0idq4y5frv7qsg2x62jd7rd272749xk4x99misf5rcifk2d7wi";
     };
   };
-  sphinx = super.buildPythonPackage {
+  "sphinx" = super.buildPythonPackage {
     name = "sphinx-1.6.5";
     buildInputs = with self; [];
     doCheck = false;
@@ -424,7 +414,7 @@ self: super: {
       sha256 = "1670rzrgqb51cy4kfwhpkv2b6vlg1v09qf7lawkps3bspfymvpn6";
     };
   };
-  sphinx-rtd-theme = super.buildPythonPackage {
+  "sphinx-rtd-theme" = super.buildPythonPackage {
     name = "sphinx-rtd-theme-0.2.4";
     buildInputs = with self; [];
     doCheck = false;
@@ -434,7 +424,7 @@ self: super: {
       sha256 = "05rlhjzdyapr2w74jjs7mrm8hi69qskcr5vya9f9drpsys7lpxrd";
     };
   };
-  sphinx-testing = super.buildPythonPackage {
+  "sphinx-testing" = super.buildPythonPackage {
     name = "sphinx-testing-0.7.2";
     buildInputs = with self; [];
     doCheck = false;
@@ -444,7 +434,7 @@ self: super: {
       sha256 = "150yh8p39l89xy4fbds66n2snpi2lx99zwgd6dxi63k20wqgjc4x";
     };
   };
-  sphinxcontrib-httpdomain = super.buildPythonPackage {
+  "sphinxcontrib-httpdomain" = super.buildPythonPackage {
     name = "sphinxcontrib-httpdomain-1.5.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -454,7 +444,7 @@ self: super: {
       sha256 = "0srg8lwf4m1hyhz942fcdfxh689xphndngiidb575qmfbi89gc7a";
     };
   };
-  sphinxcontrib-websupport = super.buildPythonPackage {
+  "sphinxcontrib-websupport" = super.buildPythonPackage {
     name = "sphinxcontrib-websupport-1.0.1";
     buildInputs = with self; [];
     doCheck = false;
@@ -464,7 +454,7 @@ self: super: {
       sha256 = "1f9f0wjpi9nhikbyaz6d19s7qvzdf1nq2g5dsh640fma4q9rd1bs";
     };
   };
-  termcolor = super.buildPythonPackage {
+  "termcolor" = super.buildPythonPackage {
     name = "termcolor-1.1.0";
     buildInputs = with self; [];
     doCheck = false;
@@ -474,17 +464,17 @@ self: super: {
       sha256 = "0fv1vq14rpqwgazxg4981904lfyp84mnammw7y046491cv76jv8x";
     };
   };
-  testfixtures = super.buildPythonPackage {
-    name = "testfixtures-5.3.0";
+  "testfixtures" = super.buildPythonPackage {
+    name = "testfixtures-5.3.1";
     buildInputs = with self; [];
     doCheck = false;
     propagatedBuildInputs = with self; [];
     src = fetchurl {
-      url = "https://pypi.python.org/packages/8e/41/f3737ea2bcb357846d931750bc4ac8ad4eaa4cb81b1b5aacb480205db888/testfixtures-5.3.0.tar.gz";
-      sha256 = "1xfar653qmikwb94xj3f0xfp8dh2llxjsxipx1272d8qwl0aknnx";
+      url = "https://pypi.python.org/packages/0b/15/6042f84f278fceab333bf97cc93c3c5bcb01fb3776e4268ec4c97d6dd0c3/testfixtures-5.3.1.tar.gz";
+      sha256 = "0a47b32sjrw3hkmdb92b1h28n2dg7j4jwsly41w244xp22adw2k7";
     };
   };
-  typing = super.buildPythonPackage {
+  "typing" = super.buildPythonPackage {
     name = "typing-3.6.2";
     buildInputs = with self; [];
     doCheck = false;
@@ -494,7 +484,7 @@ self: super: {
       sha256 = "0j8qfyni33c7415crxkia4r7w28za43sq1839y23xpc4na2bs56m";
     };
   };
-  urllib3 = super.buildPythonPackage {
+  "urllib3" = super.buildPythonPackage {
     name = "urllib3-1.22";
     buildInputs = with self; [];
     doCheck = false;
@@ -504,7 +494,7 @@ self: super: {
       sha256 = "0kyvc9zdlxr5r96bng5rhm9a6sfqidrbvvkz64s76qs5267dli6c";
     };
   };
-  wheel = super.buildPythonPackage {
+  "wheel" = super.buildPythonPackage {
     name = "wheel-0.30.0";
     buildInputs = with self; [];
     doCheck = false;

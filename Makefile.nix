@@ -13,7 +13,7 @@ env: requirements.nix
 shell: requirements.nix
 	nix-shell setup.nix $(ARGSTR) -A develop
 
-.PHONY: docs env shell test
+.PHONY: docs env shell
 
 requirements.nix: requirements.txt
 	nix-shell setup.nix -A pip2nix \
