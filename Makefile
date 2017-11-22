@@ -19,4 +19,3 @@ test:
 
 .coverage: $(TEST) $(SRC)
 	coverage run setup.py test
-

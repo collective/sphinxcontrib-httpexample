@@ -12,9 +12,9 @@ pytest
 pytest-cov
 pytest-runner
 rst2pdf
-setuptools-scm
 snapshottest
 sphinx
 sphinxcontrib-httpdomain
 sphinx_rtd_theme
+sphinx-testing
 typing
