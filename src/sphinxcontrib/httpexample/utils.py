@@ -36,13 +36,13 @@ def maybe_str(v):
 
 
 def ordered(dict_):
-    # http://stackoverflow.com/a/22721724
-    results = OrderedDict()
-    for k, v in sorted(dict_.items()):
-        if isinstance(v, dict):
+    if isinstance(dict_, dict):
+        # http://stackoverflow.com/a/22721724
+        results = OrderedDict()
+        for k, v in sorted(dict_.items()):
             results[k] = ordered(v)
-        else:
-            results[k] = v
+    else:
+        results = dict_
     return results
 
 

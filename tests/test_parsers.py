@@ -4,7 +4,7 @@ import json
 import pytest
 
 from sphinxcontrib.httpexample import parsers
-from .test_fixtures import FIXTURE_002_REQUEST
+from .test_fixtures import FIXTURE_002_REQUEST, FIXTURE_010_REQUEST
 
 
 def test_parse_request_headers():
@@ -65,3 +65,10 @@ def test_parse_bad_request():
 POST /Plone/folder
 Host: localhost:8080
 """)
+
+
+def test_parse_json_list():
+    request = parsers.parse_request(FIXTURE_010_REQUEST)
+
+    data = request.data()
+    assert data == [{'@type': 'Document', 'title': 'My Document'}]
