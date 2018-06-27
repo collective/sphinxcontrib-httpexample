@@ -23,7 +23,7 @@ in {
 
   docs =
     let pkg = pkgFor builtins.currentSystem "python2";
-        env = pkg.build.python.withPackages
+        env = pkgs.python2.withPackages
           (ps: [ pkg.build pkg.pythonPackages.rst2pdf ]);
     in pkgs.lib.hydraJob(pkg.build.overrideDerivation(old: {
       name = "${old.name}-docs";

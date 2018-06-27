@@ -1,16 +1,36 @@
 { pkgs ? import <nixpkgs> {}
 , python ? "python3"
 , pythonPackages ? builtins.getAttr (python + "Packages") pkgs
-, setup ? import (pkgs.fetchFromGitHub {
-    owner = "datakurre";
-    repo = "setup.nix";
-    rev = "41016d8b302b6bb2644eff341fbd8a536dce29bb";
-    sha256 = "1s8l69izxzhwcgg5dkbqfq5jgd1847mf9ijzxry68sh8lni6w0q7";
+, setup ? import (builtins.fetchTarball {
+    # update sha256 with value of "nix-prefetch-url --unpack [url]"
+    url = "https://github.com/datakurre/setup.nix/archive/v1.0.tar.gz";
+    sha256 = "1m8hpz2yxdj1j4zmpbxqakhi2gjjb8nlik4r8ijf1hlax76ncj4y";
   })
 }:
 
-let overrides = self: super: {
+with pkgs.lib;
 
+let overrides = self: super: {
+  "coveralls" = super."coveralls".overridePythonAttrs(old: {
+    buildInputs = [ self."pytest-runner" ];
+    propagatedBuildInputs = old.propagatedBuildInputs
+      ++ optionals self.isPy27 [ self."ipaddress" self."pyopenssl" ];
+  });
+  "flake8-isort" = super."flake8-isort".overridePythonAttrs(old: {
+    buildInputs = optionals self.isPy27 [ self."futures" ];
+  });
+  "isort" = super."isort".overridePythonAttrs(old: {
+    buildInputs = optionals self.isPy27 [ self."futures" ];
+  });
+  "pytest" = super."pytest".overridePythonAttrs(old: {
+    buildInputs = old.buildInputs
+      ++ optionals self.isPy27 [ self."funcsigs" ];
+    propagatedBuildInputs = old.propagatedBuildInputs
+      ++ optionals self.isPy27 [ self."funcsigs" ];
+  });
+  "pytest-cov" = super."pytest-cov".overridePythonAttrs(old: {
+    buildInputs = optionals self.isPy27 [ self."funcsigs" ];
+  });
 };
 
 in setup {
