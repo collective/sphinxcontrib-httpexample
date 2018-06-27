@@ -4,8 +4,8 @@ Changelog
 0.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fixed error when parsing top level json lists
+  [AWhetter]
 
 0.8.0 (2017-11-18)
 ------------------
