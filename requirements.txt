@@ -1,5 +1,6 @@
 astunparse
 coverage
+coveralls
 docutils
 flake8-blind-except
 flake8-coding
@@ -18,3 +19,5 @@ sphinxcontrib-httpdomain
 sphinx_rtd_theme
 sphinx-testing
 typing
+pip==9.0.3
+pycodestyle==2.3.1

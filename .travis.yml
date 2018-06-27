@@ -1,7 +1,7 @@
 language: nix
-script: make -f Makefile $TARGET
+script: make $TARGET
 env:
 - PYTHON=python2 TARGET="nix-test nix-coverage"
 - PYTHON=python3 TARGET="nix-test nix-coverage"
 - PYTHON=python2 TARGET="docs"
-after_success: make -f Makefile nix-coveralls
+after_success: make nix-coveralls
