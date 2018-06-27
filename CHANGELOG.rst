@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8.1 (unreleased)
+0.8.1 (2018-06-27)
 ------------------
 
 - Fixed error when parsing top level json lists
