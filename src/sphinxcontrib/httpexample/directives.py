@@ -65,6 +65,7 @@ class HTTPExample(CodeBlock):
                 else:
                     request_content.extend(
                         StringList([''] * emptylines_count, source))
+                    emptylines_count = 0
                     request_content.append(line, source)
 
         # Load optional external request
