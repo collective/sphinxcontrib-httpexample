@@ -9,7 +9,6 @@ from sphinxcontrib.httpexample import utils
 
 import os
 
-
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
     'wget': (builders.build_wget_command, 'bash'),
@@ -46,13 +45,46 @@ class HTTPExample(CodeBlock):
         # Enable 'http' language for http part
         self.arguments = ['http']
 
-        # Optionally, read directive content from 'request' option
+        # split the request and optional response in the content.
+        # The separator is two empty lines followed by a line starting with 'HTTP/'
+        request_content = StringList()
+        response_content = None
+        emptylines_count = 0
+        in_response = False
+        for i, line in enumerate(self.content):
+            source = self.content.source(i)
+            if in_response:
+                response_content.append(line, source)
+            else:
+                if emptylines_count >= 2 and line.startswith('HTTP/'):
+                    in_response = True
+                    response_content = StringList()
+                    response_content.append(line, source)
+                elif line == '':
+                    emptylines_count += 1
+                else:
+                    request_content.extend(
+                        StringList([''] * emptylines_count, source))
+                    emptylines_count = 0
+                    request_content.append(line, source)
+
+        # Load optional external request
         cwd = os.path.dirname(self.state.document.current_source)
         if 'request' in self.options:
             request = utils.resolve_path(self.options['request'], cwd)
             with open(request) as fp:
-                self.content = StringList(
+                request_content = StringList(
                     list(map(str.rstrip, fp.readlines())), request)
+
+        # Load optional external response
+        if 'response' in self.options:
+            response = utils.resolve_path(self.options['response'], cwd)
+            with open(response) as fp:
+                response_content = StringList(
+                    list(map(str.rstrip, fp.readlines())), response)
+
+        # reset the content to just the request
+        self.content = request_content
 
         # Wrap and render main directive as 'http-example-http'
         klass = 'http-example-http'
@@ -65,12 +97,12 @@ class HTTPExample(CodeBlock):
 
         # Append builder responses
         for name in chosen_builders:
-            raw = ('\r\n'.join(self.content)).encode('utf-8')
+            raw = ('\r\n'.join(request_content)).encode('utf-8')
             request = parsers.parse_request(raw, config.httpexample_scheme)
             builder_, language = AVAILABLE_BUILDERS[name]
             command = builder_(request)
 
-            content = StringList([command], self.content.source(0))
+            content = StringList([command], request_content.source(0))
             options = self.options.copy()
             options.pop('name', None)
             options.pop('caption', None)
@@ -97,12 +129,7 @@ class HTTPExample(CodeBlock):
             result.append(container)
 
         # Append optional response
-        if 'response' in self.options:
-            response = utils.resolve_path(self.options['response'], cwd)
-            with open(response) as fp:
-                content = StringList(
-                    list(map(str.rstrip, fp.readlines())), response)
-
+        if response_content:
             options = self.options.copy()
             options.pop('name', None)
             options.pop('caption', None)
@@ -111,7 +138,7 @@ class HTTPExample(CodeBlock):
                 'code-block',
                 ['http'],
                 options,
-                content,
+                response_content,
                 self.lineno,
                 self.content_offset,
                 self.block_text,
