@@ -2,7 +2,7 @@ language: nix
 before_install:
 - sudo mkdir -p /etc/nix
 - echo "substituters = https://cache.nixos.org/ https://datakurre.cachix.org/" | sudo tee -a /etc/nix/nix.conf
-- echo "require-sigs = false" | sudo tee -a /etc/nix/nix.conf
+- echo "trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= datakurre.cachix.org-1:ayZJTy5BDd8K4PW9uc9LHV+WCsdi/fu1ETIYZMooK78=" | sudo tee -a /etc/nix/nix.conf
 script: make $TARGET
 env:
 - PYTHON=python2 TARGET="nix-test nix-coverage"
