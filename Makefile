@@ -4,8 +4,10 @@ ARGSTR ?= --argstr python $(PYTHON)
 TEST = $(wildcard tests/*.py)
 SRC = $(wildcard src/sphinxcontrib/httpexample/*.py)
 
+.PHONY: all
 all: test coverage
 
+.PHONY: nix-%
 nix-%: requirements.nix
 	nix-shell setup.nix $(ARGSTR) -A develop --run "$(MAKE) $*"
 
@@ -15,20 +17,27 @@ nix-env: requirements.nix
 nix-shell: requirements.nix
 	nix-shell setup.nix $(ARGSTR) -A develop
 
+.PHONY: docs
 docs: requirements.nix
 	nix-build release.nix $(ARGSTR) -A docs
 
+.PHONY: coverage
 coverage: .coverage
 	coverage report --fail-under=80
 
+.PHONY: coveralls
 coveralls: .coverage
 	coveralls
 
+.PHONY: test
 test:
 	flake8 src
 	py.test
 
-.PHONY: all coverage coveralls test nix-%
+.PHONY: push-cachix
+push-cachix:
+	nix-build setup.nix --argstr python python3 -A env|cachix push datakurre
+	nix-build setup.nix --argstr python python2 -A env|cachix push datakurre
 
 ###
 
