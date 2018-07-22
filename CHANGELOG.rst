@@ -4,8 +4,8 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add support for inlining responses
+  [cdevienne]
 
 0.8.1 (2018-06-27)
 ------------------
