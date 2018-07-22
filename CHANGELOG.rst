@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8.2 (unreleased)
+0.9.0 (2018-07-22)
 ------------------
 
 - Add support for inlining responses
