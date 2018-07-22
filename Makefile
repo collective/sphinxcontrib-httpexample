@@ -34,6 +34,11 @@ test:
 	flake8 src
 	py.test
 
+.PHONY: push-cachix
+push-cachix:
+	nix-build setup.nix --argstr python python3 -A env|cachix push datakurre
+	nix-build setup.nix --argstr python python2 -A env|cachix push datakurre
+
 ###
 
 .coverage: $(TEST) $(SRC)
