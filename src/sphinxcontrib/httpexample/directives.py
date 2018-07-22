@@ -9,6 +9,7 @@ from sphinxcontrib.httpexample import utils
 
 import os
 
+
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
     'wget': (builders.build_wget_command, 'bash'),
@@ -46,7 +47,8 @@ class HTTPExample(CodeBlock):
         self.arguments = ['http']
 
         # split the request and optional response in the content.
-        # The separator is two empty lines followed by a line starting with 'HTTP/'
+        # The separator is two empty lines followed by a line starting with
+        # 'HTTP/'
         request_content = StringList()
         response_content = None
         emptylines_count = 0
