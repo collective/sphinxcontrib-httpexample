@@ -46,6 +46,7 @@ This extension has been used at least in the following documentations:
 
 * http://plonerestapi.readthedocs.org/
 * http://sphinxcontrib-httpexample.readthedocs.org/
+* https://guillotina.readthedocs.io/en/latest/
 
 
 Documentation
