@@ -2,6 +2,6 @@ graft docs
 graft nix-support
 graft src
 graft tests
-include *.py *.rst *.nix *.txt *.ini
-exclude .* *.cfg Makefile
+include *.py *.cfg *.rst *.nix *.txt *.ini
+exclude .* Makefile
 global-exclude *.pyc
