@@ -25,6 +25,9 @@ AVAILABLE_FIELDS = [
 
 
 def choose_builders(arguments):
+    if not arguments:
+        return []
+
     return [directives.choice(argument, AVAILABLE_BUILDERS)
             for argument in arguments]
 
@@ -43,10 +46,7 @@ class HTTPExample(CodeBlock):
         config = self.state.document.settings.env.config
 
         # Read enabled builders; Defaults to None
-        if self.arguments:
-            chosen_builders = choose_builders(self.arguments)
-        else:
-            chosen_builders = []
+        chosen_builders = choose_builders(self.arguments)
 
         # Enable 'http' language for http part
         self.arguments = ['http']
@@ -124,38 +124,39 @@ class HTTPExample(CodeBlock):
         self.content = request_content
 
         # Append builder responses
-        for name in chosen_builders:
+        if request_content_no_fields:
             raw = ('\r\n'.join(request_content_no_fields)).encode('utf-8')
-            request = parsers.parse_request(raw, config.httpexample_scheme)
-            builder_, language = AVAILABLE_BUILDERS[name]
-            command = builder_(request)
+            for name in chosen_builders:
+                request = parsers.parse_request(raw, config.httpexample_scheme)
+                builder_, language = AVAILABLE_BUILDERS[name]
+                command = builder_(request)
 
-            content = StringList(
-                [command], request_content_no_fields.source(0))
-            options = self.options.copy()
-            options.pop('name', None)
-            options.pop('caption', None)
+                content = StringList(
+                    [command], request_content_no_fields.source(0))
+                options = self.options.copy()
+                options.pop('name', None)
+                options.pop('caption', None)
 
-            block = CodeBlock(
-                'code-block',
-                [language],
-                options,
-                content,
-                self.lineno,
-                self.content_offset,
-                self.block_text,
-                self.state,
-                self.state_machine
-            )
+                block = CodeBlock(
+                    'code-block',
+                    [language],
+                    options,
+                    content,
+                    self.lineno,
+                    self.content_offset,
+                    self.block_text,
+                    self.state,
+                    self.state_machine
+                )
 
-            # Wrap and render main directive as 'http-example-{name}'
-            klass = 'http-example-{}'.format(name)
-            container = nodes.container('', classes=[klass])
-            container.append(nodes.caption('', name))
-            container.extend(block.run())
+                # Wrap and render main directive as 'http-example-{name}'
+                klass = 'http-example-{}'.format(name)
+                container = nodes.container('', classes=[klass])
+                container.append(nodes.caption('', name))
+                container.extend(block.run())
 
-            # Append to result nodes
-            result.append(container)
+                # Append to result nodes
+                result.append(container)
 
         # Append optional response
         if response_content:

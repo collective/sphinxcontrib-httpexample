@@ -40,7 +40,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
             raise Exception(self.error_message)
 
         # Replace headers with simple dict to coup differences in Py2 and Py3
-        self.headers = capitalize_keys(dict(self.headers.items()))
+        self.headers = capitalize_keys(dict(getattr(self, 'headers', {})))
 
     def send_error(self, code, message=None, explain=None):
         self.error_code = code
