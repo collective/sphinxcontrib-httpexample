@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from io import BytesIO
+from sphinxcontrib.httpexample.utils import add_url_params
 from sphinxcontrib.httpexample.utils import capitalize_keys
 from sphinxcontrib.httpexample.utils import is_json
 from sphinxcontrib.httpexample.utils import ordered
@@ -7,13 +8,6 @@ from sphinxcontrib.httpexample.utils import ordered
 import base64
 import json
 import re
-
-try:
-    from urllib import urlencode, unquote
-    from urlparse import urlparse, parse_qsl, ParseResult
-except: # For Python 3
-    from urllib.parse import \
-        urlencode, unquote, urlparse, parse_qsl, ParseResult
 
 try:
     from http.server import BaseHTTPRequestHandler
@@ -59,25 +53,28 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
         if field is None:
             field = '|'.join(AVAILABLE_FIELDS)
-        is_field = r':{} (.+): (.+)'.format(field)
+        is_field = r':({}) (.+): (.+)'.format(field)
 
         fields = []
-        remaining_payload = []
+        remaining_request = []
         cursor = self.rfile.tell()
         for i, line in enumerate(self.rfile.readlines()):
             line = line.decode('utf-8')
-            try:
-                key, val = re.match(is_field, line).groups()
-            except AttributeError:
-                remaining_payload.append(line)
+            if not line:
                 continue
-            fields.append((key.strip(), val.strip()))
+            try:
+                field, key, val = re.match(is_field, line).groups()
+            except AttributeError:
+                remaining_request.append(line)
+                continue
+            fields.append((field.strip(), key.strip(), val.strip()))
 
-        remaining_payload = BytesIO(
-            '\n'.join(remaining_payload).encode('utf-8'))
+        remaining_request = BytesIO(
+            '\n'.join(remaining_request).encode('utf-8'))
+        remaining_request.seek(0)
         self.rfile.seek(cursor)
 
-        return (fields, remaining_payload)
+        return (fields, remaining_request)
 
     def auth(self):
         try:
@@ -99,17 +96,10 @@ class HTTPRequest(BaseHTTPRequestHandler):
         )
 
         params, _ = self.extract_fields('query')
+        params = [(p[1], p[2]) for p in params]
 
         if params:
-            # https://stackoverflow.com/a/25580545/1262843
-            url = unquote(base_url)
-            parsed_url = urlparse(url)
-            new_params = parse_qsl(parsed_url.query) + params
-            new_params_encoded = urlencode(new_params, doseq=True)
-            new_url = ParseResult(
-                parsed_url.scheme, parsed_url.netloc, parsed_url.path,
-                parsed_url.params, new_params_encoded, parsed_url.fragment
-            ).geturl()
+            new_url = add_url_params(base_url, params)
         else:
             new_url = base_url
 
