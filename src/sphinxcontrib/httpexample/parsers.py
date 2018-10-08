@@ -71,7 +71,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
             fields.append((field.strip(), key.strip(), val.strip()))
 
         remaining_request = BytesIO(
-            '\n'.join(remaining_request).encode('utf-8'))
+            '\n'.join(remaining_request).encode('utf-8').strip())
         remaining_request.seek(0)
         self.rfile.seek(cursor)
 
