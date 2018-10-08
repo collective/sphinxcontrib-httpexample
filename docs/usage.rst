@@ -193,6 +193,45 @@ Result
     }
 
 
+Example 4
+^^^^^^^^^
+
+Code
+````
+
+..  code-block:: rst
+
+    ..  http:example:: curl wget httpie python-requests
+
+        GET /items?user_id=12&user_id=13 HTTP/1.1
+        Host: localhost
+        Accept: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
+
+        :query from: 20170101
+        :query to: 20171231
+        :query user_id: 15
+        :query limit: 20
+        :query sort: date-asc
+
+
+Result
+``````
+
+    ..  http:example:: curl wget httpie python-requests
+
+        GET /items?user_id=12&user_id=13 HTTP/1.1
+        Host: localhost
+        Accept: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
+
+        :query from: 20170101
+        :query to: 20171231
+        :query user_id: 15
+        :query limit: 20
+        :query sort: date-asc
+
+
 Examples with external sources
 ------------------------------
 
