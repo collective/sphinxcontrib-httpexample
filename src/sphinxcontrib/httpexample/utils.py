@@ -88,7 +88,7 @@ def add_url_params(url, params):
 
     Args:
         url (str): target URL
-        params (dict or list of tuples): query parameters to be added
+        params (list of tuples): query parameters to be added
 
     Returns:
         new_url (str): updated URL
