@@ -52,13 +52,14 @@ class HTTPExample(CodeBlock):
         self.arguments = ['http']
 
         # process 'query' reST fields
-        raw = ('\r\n'.join(self.content)).encode('utf-8')
-        request = parsers.parse_request(raw)
-        params, _ = request.extract_fields('query')
-        params = [(p[1], p[2]) for p in params]
-        new_path = utils.add_url_params(request.path, params)
-        self.content[0] = ' '.join(
-            [request.command, new_path, request.request_version])
+        if self.content:
+            raw = ('\r\n'.join(self.content)).encode('utf-8')
+            request = parsers.parse_request(raw)
+            params, _ = request.extract_fields('query')
+            params = [(p[1], p[2]) for p in params]
+            new_path = utils.add_url_params(request.path, params)
+            self.content[0] = ' '.join(
+                [request.command, new_path, request.request_version])
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
