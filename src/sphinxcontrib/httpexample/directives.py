@@ -8,7 +8,14 @@ from sphinxcontrib.httpexample import parsers
 from sphinxcontrib.httpexample import utils
 
 import os
+import re
 
+try:
+    from urllib import urlencode, unquote
+    from urlparse import urlparse, parse_qsl, ParseResult
+except:
+    from urllib.parse import \
+        urlencode, unquote, urlparse, parse_qsl, ParseResult
 
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
@@ -17,6 +24,10 @@ AVAILABLE_BUILDERS = {
     'requests': (builders.build_requests_command, 'python'),
     'python-requests': (builders.build_requests_command, 'python')
 }
+
+AVAILABLE_FIELDS = [
+    'query'
+]
 
 
 def choose_builders(arguments):
@@ -46,13 +57,23 @@ class HTTPExample(CodeBlock):
         # Enable 'http' language for http part
         self.arguments = ['http']
 
+        # process 'query' reST fields
+        raw = ('\r\n'.join(self.content)).encode('utf-8')
+        request = parsers.parse_request(raw)
+        params, _ = request.extract_fields('query')
+        params = [(p[1], p[2]) for p in params]
+        new_path = utils.add_url_params(request.path, params)
+        self.content[0] = ' '.join([request.command, new_path, request.request_version])
+
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
         # 'HTTP/'
         request_content = StringList()
+        request_content_no_fields = StringList()
         response_content = None
         emptylines_count = 0
         in_response = False
+        is_field = r':({}) (.+): (.+)'.format('|'.join(AVAILABLE_FIELDS))
         for i, line in enumerate(self.content):
             source = self.content.source(i)
             if in_response:
@@ -67,8 +88,14 @@ class HTTPExample(CodeBlock):
                 else:
                     request_content.extend(
                         StringList([''] * emptylines_count, source))
-                    emptylines_count = 0
                     request_content.append(line, source)
+
+                    if not re.match(is_field, line):
+                        request_content_no_fields.extend(
+                            StringList([''] * emptylines_count, source))
+                        request_content_no_fields.append(line, source)
+
+                    emptylines_count = 0
 
         # Load optional external request
         cwd = os.path.dirname(self.state.document.current_source)
@@ -85,8 +112,8 @@ class HTTPExample(CodeBlock):
                 response_content = StringList(
                     list(map(str.rstrip, fp.readlines())), response)
 
-        # reset the content to just the request
-        self.content = request_content
+        # reset the content to the request, stripped of the reST fields
+        self.content = request_content_no_fields
 
         # Wrap and render main directive as 'http-example-http'
         klass = 'http-example-http'
@@ -96,6 +123,9 @@ class HTTPExample(CodeBlock):
 
         # Init result node list
         result = [container]
+
+        # reset the content to just the request
+        self.content = request_content
 
         # Append builder responses
         for name in chosen_builders:

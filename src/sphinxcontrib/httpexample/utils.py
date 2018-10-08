@@ -7,7 +7,7 @@ import pkg_resources
 try:
     from urllib import urlencode, unquote
     from urlparse import urlparse, parse_qsl, ParseResult
-except: # For Python 3
+except:
     from urllib.parse import \
         urlencode, unquote, urlparse, parse_qsl, ParseResult
 
