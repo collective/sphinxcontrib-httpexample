@@ -46,14 +46,17 @@ class HTTPRequest(BaseHTTPRequestHandler):
         self.error_code = code
         self.error_message = message
 
-    def extract_fields(self, field=None):
-        if (field is not None) and field not in AVAILABLE_FIELDS:
+    def extract_fields(self, field=None, available_fields=None):
+        if available_fields is None:
+            available_fields = AVAILABLE_FIELDS
+
+        if (field is not None) and field not in available_fields:
             msg = "Unexpected field '{}'. Expected one of {}."
-            msg = msg.format(field, ', '.join(AVAILABLE_FIELDS))
+            msg = msg.format(field, ', '.join(available_fields))
             raise ValueError(msg)
 
         if field is None:
-            field = '|'.join(AVAILABLE_FIELDS)
+            field = '|'.join(available_fields)
         is_field = r':({}) (.+): (.+)'.format(field)
 
         fields = []
@@ -61,8 +64,6 @@ class HTTPRequest(BaseHTTPRequestHandler):
         cursor = self.rfile.tell()
         for i, line in enumerate(self.rfile.readlines()):
             line = line.decode('utf-8')
-            if not line:
-                continue
             try:
                 field, key, val = re.match(is_field, line).groups()
             except AttributeError:
