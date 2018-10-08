@@ -125,12 +125,13 @@ class HTTPExample(CodeBlock):
 
         # Append builder responses
         for name in chosen_builders:
-            raw = ('\r\n'.join(request_content)).encode('utf-8')
+            raw = ('\r\n'.join(request_content_no_fields)).encode('utf-8')
             request = parsers.parse_request(raw, config.httpexample_scheme)
             builder_, language = AVAILABLE_BUILDERS[name]
             command = builder_(request)
 
-            content = StringList([command], request_content.source(0))
+            content = StringList(
+                [command], request_content_no_fields.source(0))
             options = self.options.copy()
             options.pop('name', None)
             options.pop('caption', None)
