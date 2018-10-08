@@ -9,6 +9,7 @@ import base64
 import json
 import re
 
+
 try:
     from http.server import BaseHTTPRequestHandler
 except ImportError:
@@ -89,7 +90,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
             return method, token
 
     def url(self):
-        base_url =  '{}://{}{}'.format(
+        base_url = '{}://{}{}'.format(
             self.scheme,
             self.headers.get('Host', 'nohost'),
             self.path

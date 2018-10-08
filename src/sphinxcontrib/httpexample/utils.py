@@ -4,10 +4,11 @@ from collections import OrderedDict
 import os
 import pkg_resources
 
+
 try:
     from urllib import urlencode, unquote
     from urlparse import urlparse, parse_qsl, ParseResult
-except:
+except ImportError:
     from urllib.parse import \
         urlencode, unquote, urlparse, parse_qsl, ParseResult
 

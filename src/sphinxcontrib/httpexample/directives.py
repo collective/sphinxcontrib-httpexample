@@ -10,12 +10,6 @@ from sphinxcontrib.httpexample import utils
 import os
 import re
 
-try:
-    from urllib import urlencode, unquote
-    from urlparse import urlparse, parse_qsl, ParseResult
-except:
-    from urllib.parse import \
-        urlencode, unquote, urlparse, parse_qsl, ParseResult
 
 AVAILABLE_BUILDERS = {
     'curl': (builders.build_curl_command, 'bash'),
@@ -63,7 +57,8 @@ class HTTPExample(CodeBlock):
         params, _ = request.extract_fields('query')
         params = [(p[1], p[2]) for p in params]
         new_path = utils.add_url_params(request.path, params)
-        self.content[0] = ' '.join([request.command, new_path, request.request_version])
+        self.content[0] = ' '.join(
+            [request.command, new_path, request.request_version])
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
