@@ -4,7 +4,8 @@ import json
 import pytest
 
 from sphinxcontrib.httpexample import parsers
-from .test_fixtures import FIXTURE_002_REQUEST, FIXTURE_010_REQUEST
+from .test_fixtures import \
+    FIXTURE_002_REQUEST, FIXTURE_010_REQUEST, FIXTURE_011_REQUEST
 
 
 def test_parse_request_headers():
@@ -72,3 +73,51 @@ def test_parse_json_list():
 
     data = request.data()
     assert data == [{'@type': 'Document', 'title': 'My Document'}]
+
+
+def test_parse_extract_fields():
+    # known valid request
+    request = parsers.parse_request(FIXTURE_011_REQUEST)
+    fields, remainder = request.extract_fields('query')
+
+    expected = [('query', 'from', '20170101'),
+                ('query', 'to', '20171231'),
+                ('query', 'user_id', '15'),
+                ('query', 'limit', '20'),
+                ('query', 'sort', 'date-asc'), ]
+    actual = fields
+    assert expected == actual
+
+    expected = b''
+    actual = remainder.read()
+    assert expected == actual
+
+    # potential future request
+    add = b'\n:some-future-field foo: bar\n\nfoo-bar'
+    request_future_proof = FIXTURE_011_REQUEST + add
+    request = parsers.parse_request(request_future_proof)
+    fields, remainder = request.extract_fields(
+        field=None, available_fields=['query', 'some-future-field'])
+
+    expected = [('query', 'from', '20170101'),
+                ('query', 'to', '20171231'),
+                ('query', 'user_id', '15'),
+                ('query', 'limit', '20'),
+                ('query', 'sort', 'date-asc'),
+                ('some-future-field', 'foo', 'bar'), ]
+    actual = fields
+    assert expected == actual
+
+    expected = b'foo-bar'
+    actual = remainder.read()
+    assert expected == actual
+
+    # invalid request
+    add = b'\n:invalid-field foo: bar\n\nfoo-bar'
+    request_invalid_field = FIXTURE_011_REQUEST + add
+    request = parsers.parse_request(request_invalid_field)
+
+    with pytest.raises(ValueError):
+        fields, remainder = request.extract_fields(
+            field='invalid-field',
+            available_fields=['query', 'some-future-field'])

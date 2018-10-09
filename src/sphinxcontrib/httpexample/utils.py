@@ -5,6 +5,14 @@ import os
 import pkg_resources
 
 
+try:
+    from urllib import urlencode, unquote
+    from urlparse import urlparse, parse_qsl, ParseResult
+except ImportError:
+    from urllib.parse import \
+        urlencode, unquote, urlparse, parse_qsl, ParseResult
+
+
 def merge_dicts(a, b):
     c = a.copy()
     c.update(b)
@@ -71,3 +79,27 @@ def is_json(content_type):
             return True
 
     return False
+
+
+def add_url_params(url, params):
+    """Add GET query parameters to provided URL.
+
+    https://stackoverflow.com/a/25580545/1262843
+
+    Args:
+        url (str): target URL
+        params (list of tuples): query parameters to be added
+
+    Returns:
+        new_url (str): updated URL
+    """
+    url = unquote(url)
+    parsed_url = urlparse(url)
+    new_params = parse_qsl(parsed_url.query) + params
+    new_params_encoded = urlencode(new_params, doseq=True)
+    new_url = ParseResult(
+        parsed_url.scheme, parsed_url.netloc, parsed_url.path,
+        parsed_url.params, new_params_encoded, parsed_url.fragment
+    ).geturl()
+
+    return new_url

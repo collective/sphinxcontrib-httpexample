@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 from io import BytesIO
+from sphinxcontrib.httpexample.utils import add_url_params
 from sphinxcontrib.httpexample.utils import capitalize_keys
 from sphinxcontrib.httpexample.utils import is_json
 from sphinxcontrib.httpexample.utils import ordered
 
 import base64
 import json
+import re
 
 
 try:
     from http.server import BaseHTTPRequestHandler
 except ImportError:
     from BaseHTTPServer import BaseHTTPRequestHandler
+
+
+AVAILABLE_FIELDS = [
+    'query'
+]
 
 
 class HTTPRequest(BaseHTTPRequestHandler):
@@ -33,11 +40,43 @@ class HTTPRequest(BaseHTTPRequestHandler):
             raise Exception(self.error_message)
 
         # Replace headers with simple dict to coup differences in Py2 and Py3
-        self.headers = capitalize_keys(dict(self.headers.items()))
+        self.headers = capitalize_keys(dict(getattr(self, 'headers', {})))
 
     def send_error(self, code, message=None, explain=None):
         self.error_code = code
         self.error_message = message
+
+    def extract_fields(self, field=None, available_fields=None):
+        if available_fields is None:
+            available_fields = AVAILABLE_FIELDS
+
+        if (field is not None) and field not in available_fields:
+            msg = "Unexpected field '{}'. Expected one of {}."
+            msg = msg.format(field, ', '.join(available_fields))
+            raise ValueError(msg)
+
+        if field is None:
+            field = '|'.join(available_fields)
+        is_field = r':({}) (.+): (.+)'.format(field)
+
+        fields = []
+        remaining_request = []
+        cursor = self.rfile.tell()
+        for i, line in enumerate(self.rfile.readlines()):
+            line = line.decode('utf-8')
+            try:
+                field, key, val = re.match(is_field, line).groups()
+            except AttributeError:
+                remaining_request.append(line)
+                continue
+            fields.append((field.strip(), key.strip(), val.strip()))
+
+        remaining_request = BytesIO(
+            '\n'.join(remaining_request).encode('utf-8').strip())
+        remaining_request.seek(0)
+        self.rfile.seek(cursor)
+
+        return (fields, remaining_request)
 
     def auth(self):
         try:
@@ -52,14 +91,25 @@ class HTTPRequest(BaseHTTPRequestHandler):
             return method, token
 
     def url(self):
-        return '{}://{}{}'.format(
+        base_url = '{}://{}{}'.format(
             self.scheme,
             self.headers.get('Host', 'nohost'),
             self.path
         )
 
+        params, _ = self.extract_fields('query')
+        params = [(p[1], p[2]) for p in params]
+
+        if params:
+            new_url = add_url_params(base_url, params)
+        else:
+            new_url = base_url
+
+        return new_url
+
     def data(self):
-        payload_bytes = self.rfile.read()
+        _, payload_bytes = self.extract_fields(None)
+        payload_bytes = payload_bytes.read()
         if payload_bytes:
             if is_json(self.headers.get('Content-Type', '')):
                 assert isinstance(payload_bytes, bytes)

@@ -15,6 +15,7 @@ from .test_fixtures import FIXTURE_006_REQUEST
 from .test_fixtures import FIXTURE_007_REQUEST
 from .test_fixtures import FIXTURE_008_REQUEST
 from .test_fixtures import FIXTURE_009_REQUEST
+from .test_fixtures import FIXTURE_011_REQUEST
 
 import pytest
 
@@ -28,6 +29,7 @@ request_fixtures = (
     {'name': 'fixture_007', 'data': FIXTURE_007_REQUEST},
     {'name': 'fixture_008', 'data': FIXTURE_008_REQUEST},
     {'name': 'fixture_009', 'data': FIXTURE_009_REQUEST},
+    {'name': 'fixture_011', 'data': FIXTURE_011_REQUEST},
 )
 
 

@@ -53,6 +53,27 @@ def test_ordered():
         '{"a": {"b": {}, "c": {}}, "d": {"e": {}, "f": {}}}'
 
 
+def test_add_url_params():
+    url = 'www.api.com/items'
+    params = [('from', '20180101'), ('to', '20180131')]
+
+    expected = 'www.api.com/items?from=20180101&to=20180131'
+    actual = utils.add_url_params(url, params)
+    assert expected == actual
+
+    url = url + '?user_id=2'
+    params += [('user_id', 3)]
+    expected = ('www.api.com/items?user_id=2&from=20180101'
+                '&to=20180131&user_id=3')
+    actual = utils.add_url_params(url, params)
+    assert expected == actual
+
+    params += [('user_id', 4)]
+    expected = expected + '&user_id=4'
+    actual = utils.add_url_params(url, params)
+    assert expected == actual
+
+
 @pytest.mark.parametrize('ctype,expected', (
  ('application/json', True),
  ('application/json; charset=utf-8', True),
