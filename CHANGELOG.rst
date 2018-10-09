@@ -1,11 +1,27 @@
 Changelog
 =========
 
-0.9.2 (unreleased)
-------------------
+0.10.0 (unreleased)
+-------------------
 
-- Nothing changed yet.
+- Add support of the URL query parameters, using the `query` field.
+  Given a line `:query param_name: param_value` in an http example
+  directive, the key value pair `param_name`, `param_value` will be
+  added to the request URL (and excluded from further processing).
+  [ludaavics]
 
+  Example::
+
+      GET /items HTTP/1.1
+      Host: localhost
+      Accept: application/json
+      Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+      :query from: 20170101
+      :query to: 20171231
+      :query user_id: 12
+      :query limit: 20
+      :query sort: date(asc)
 
 0.9.1 (2018-10-06)
 ------------------
