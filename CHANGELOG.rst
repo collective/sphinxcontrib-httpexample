@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.0 (unreleased)
+0.10.0 (2018-10-09)
 -------------------
 
 - Add support of the URL query parameters, using the `query` field.
