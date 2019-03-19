@@ -4,8 +4,9 @@ Changelog
 0.10.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Fix issue where it was not possible to request exmples with
+  float values in payload JSON [fixes #42]
+  [datakurre]
 
 0.10.0 (2018-10-09)
 -------------------
