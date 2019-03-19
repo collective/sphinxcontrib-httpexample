@@ -195,6 +195,8 @@ def build_requests_command(request):
             return ast.Name(obj, ast.Load())
         elif isinstance(obj, int):
             return ast.Name(obj, ast.Load())
+        elif isinstance(obj, float):
+            return ast.Name(obj, ast.Load())
         elif isinstance(obj, list):
             json_values = []
             for v in obj:
