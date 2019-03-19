@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.1 (unreleased)
+0.10.1 (2019-03-19)
 -------------------
 
 - Fix issue where it was not possible to request exmples with
