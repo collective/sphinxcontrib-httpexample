@@ -1,0 +1,10 @@
+POST /metrics HTTP/1.1
+Host: localhost:8080
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+    "min": 0.1,
+    "max": 0.2
+}

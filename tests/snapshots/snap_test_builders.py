@@ -123,3 +123,14 @@ snapshots['test_fixture[build_curl_command-fixture_011] 1'] = "curl -i 'http://l
 snapshots['test_fixture[build_requests_command-fixture_011] 1'] = "requests.get('http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc', headers={'Accept': 'application/json'}, auth=('admin', 'admin'))"
 
 snapshots['test_fixture[build_wget_command-fixture_011] 1'] = "wget -S -O- 'http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc' --header='Accept: application/json' --auth-no-challenge --user=admin --password=admin"
+
+snapshots['test_fixture[build_httpie_command-fixture_012] 1'] = '''echo '{
+  "max": 0.2,
+  "min": 0.1
+}' | http POST http://localhost:8080/metrics Accept:application/json Content-Type:application/json -a admin:admin'''
+
+snapshots['test_fixture[build_curl_command-fixture_012] 1'] = 'curl -i -X POST http://localhost:8080/metrics -H \'Accept: application/json\' -H \'Content-Type: application/json\' --data-raw \'{"max": 0.2, "min": 0.1}\' --user admin:admin'
+
+snapshots['test_fixture[build_wget_command-fixture_012] 1'] = 'wget -S -O- http://localhost:8080/metrics --header=\'Accept: application/json\' --header=\'Content-Type: application/json\' --post-data=\'{"max": 0.2, "min": 0.1}\' --auth-no-challenge --user=admin --password=admin'
+
+snapshots['test_fixture[build_requests_command-fixture_012] 1'] = "requests.post('http://localhost:8080/metrics', headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, json={'max': 0.2, 'min': 0.1}, auth=('admin', 'admin'))"
