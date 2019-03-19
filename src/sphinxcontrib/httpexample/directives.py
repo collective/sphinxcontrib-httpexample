@@ -25,11 +25,8 @@ AVAILABLE_FIELDS = [
 
 
 def choose_builders(arguments):
-    if not arguments:
-        return []
-
     return [directives.choice(argument, AVAILABLE_BUILDERS)
-            for argument in arguments]
+            for argument in (arguments or [])]
 
 
 class HTTPExample(CodeBlock):
