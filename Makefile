@@ -39,6 +39,10 @@ push-cachix:
 	nix-build setup.nix --argstr python python3 -A env|cachix push datakurre
 	nix-build setup.nix --argstr python python2 -A env|cachix push datakurre
 
+.PHONY: freeze
+freeze:
+	grep "name" requirements.nix |grep -Eo "\"(.*)\""|grep -Eo "[^\"]+"|sed -r "s|-([0-9\.]+)|==\1|g"
+
 ###
 
 .coverage: $(TEST) $(SRC)
