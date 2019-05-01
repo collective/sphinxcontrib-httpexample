@@ -119,7 +119,7 @@ Result
       "title": "Welcome to Plone"
     }
 
-or
+or with inline response starting with just "HTTP " without the HTTP version:
 
 ..  http:example:: curl wget httpie python-requests
 
