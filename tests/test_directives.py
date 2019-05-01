@@ -63,7 +63,7 @@ def test_loading_request_from_file():
             with open(os.path.join(app.outdir, 'usage.html')) as fp:
                 result = fp.read()
             result = result.split('Examples with external sources')[-1]
-            assert result.count('http-example-http') == 3
+            assert result.count('http-example-http') == 6
             assert result.count('http-example-response') == 3
             assert result.count('http-example-curl') == 3
         finally:

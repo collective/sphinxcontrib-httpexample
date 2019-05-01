@@ -60,7 +60,7 @@ class HTTPExample(CodeBlock):
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
-        # 'HTTP/'
+        # 'HTTP/' or 'HTTP '
         request_content = StringList()
         request_content_no_fields = StringList()
         response_content = None
@@ -96,7 +96,7 @@ class HTTPExample(CodeBlock):
         if 'request' in self.options:
             request = utils.resolve_path(self.options['request'], cwd)
             with open(request) as fp:
-                request_content = StringList(
+                request_content = request_content_no_fields = StringList(
                     list(map(str.rstrip, fp.readlines())), request)
 
         # Load optional external response
