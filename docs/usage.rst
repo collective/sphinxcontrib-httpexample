@@ -65,7 +65,7 @@ Code
 .. note::
 
    Request and response must be separated with two or more blank lines and
-   the first response line must start with string "HTTP/".
+   the first response line must start with string "HTTP/" or "HTTP ".
 
 Result
 ``````
@@ -79,6 +79,57 @@ Result
 
 
     HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+      "@id": "http://localhost:8080/Plone/front-page",
+      "@type": "Document",
+      "UID": "1f699ffa110e45afb1ba502f75f7ec33",
+      "allow_discussion": null,
+      "changeNote": "",
+      "contributors": [],
+      "created": "2016-01-21T01:14:48+00:00",
+      "creators": [
+        "test_user_1_",
+        "admin"
+      ],
+      "description": "Congratulations! You have successfully installed Plone.",
+      "effective": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "front-page",
+      "language": "",
+      "modified": "2016-01-21T01:24:11+00:00",
+      "parent": {
+        "@id": "http://localhost:8080/Plone",
+        "@type": "Plone Site",
+        "description": "",
+        "title": "Plone site"
+      },
+      "relatedItems": [],
+      "review_state": "private",
+      "rights": "",
+      "subjects": [],
+      "table_of_contents": null,
+      "text": {
+        "content-type": "text/plain",
+        "data": "If you're seeing this instead of the web site you were expecting, the owner of this web site has just installed Plone. Do not contact the Plone Team or the Plone mailing lists about this.",
+        "encoding": "utf-8"
+      },
+      "title": "Welcome to Plone"
+    }
+
+or
+
+..  http:example:: curl wget httpie python-requests
+
+    GET /Plone/front-page HTTP/1.1
+    Host: localhost:8080
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+
+    HTTP 200 OK
     Content-Type: application/json
 
     {

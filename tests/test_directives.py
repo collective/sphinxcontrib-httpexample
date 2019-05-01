@@ -40,3 +40,15 @@ def test_build():
             assert 'index.html' in os.listdir(app.outdir)
         finally:
             app.cleanup()
+
+
+def test_response_parser():
+    docs = os.path.join(os.path.dirname(__file__), '..', 'docs')
+    with tempdir() as output:
+        app = util.TestApp(srcdir=docs, outdir=output)
+        try:
+            app.build()
+            with open(os.path.join(app.outdir, 'usage.html')) as fp:
+                assert fp.read().count('http-example-response') == 5
+        finally:
+            app.cleanup()
