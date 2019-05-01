@@ -42,7 +42,7 @@ def test_build():
             app.cleanup()
 
 
-def test_response_parser():
+def test_inline_response_parser():
     docs = os.path.join(os.path.dirname(__file__), '..', 'docs')
     with tempdir() as output:
         app = util.TestApp(srcdir=docs, outdir=output)
@@ -50,5 +50,21 @@ def test_response_parser():
             app.build()
             with open(os.path.join(app.outdir, 'usage.html')) as fp:
                 assert fp.read().count('http-example-response') == 5
+        finally:
+            app.cleanup()
+
+
+def test_loading_request_from_file():
+    docs = os.path.join(os.path.dirname(__file__), '..', 'docs')
+    with tempdir() as output:
+        app = util.TestApp(srcdir=docs, outdir=output)
+        try:
+            app.build()
+            with open(os.path.join(app.outdir, 'usage.html')) as fp:
+                result = fp.read()
+            result = result.split('Examples with external sources')[-1]
+            assert result.count('http-example-http') == 6
+            assert result.count('http-example-response') == 3
+            assert result.count('http-example-curl') == 3
         finally:
             app.cleanup()
