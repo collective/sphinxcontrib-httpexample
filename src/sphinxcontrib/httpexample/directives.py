@@ -72,7 +72,8 @@ class HTTPExample(CodeBlock):
             if in_response:
                 response_content.append(line, source)
             else:
-                if emptylines_count >= 2 and line.startswith('HTTP/'):
+                if emptylines_count >= 2 and \
+                        (line.startswith('HTTP/') or line.startswith('HTTP ')):
                     in_response = True
                     response_content = StringList()
                     response_content.append(line, source)
