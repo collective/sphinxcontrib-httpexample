@@ -1,4 +1,3 @@
-grep "name" requirements.nix |grep -Eo "\"(.*)\""|grep -Eo "[^\"]+"|sed -r "s|-([0-9\.]+)|==\1|g"
 Jinja2==2.10
 MarkupSafe==1.0
 Pygments==2.2.0
