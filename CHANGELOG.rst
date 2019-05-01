@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.3 (unreleased)
+0.10.3 (2019-05-01)
 -------------------
 
 - Re-release 0.10.2 with wheel
