@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.2 (unreleased)
+0.10.2 (2019-05-01)
 -------------------
 
 - Add support for inline response examples without HTTP version
