@@ -4,8 +4,13 @@ Changelog
 0.10.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add support for inline response examples without HTTP version
+  (e.g. `HTTP 200 OK`)
+  [datakurre]
 
+- Fix regression where support for reading request examples from
+  external files was broken since 0.10.0
+  [datakurre]
 
 0.10.1 (2019-03-19)
 -------------------
