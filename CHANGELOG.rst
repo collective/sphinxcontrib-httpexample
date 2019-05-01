@@ -4,7 +4,8 @@ Changelog
 0.10.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Re-release 0.10.2 with wheel
+  [datakurre]
 
 
 0.10.2 (2019-05-01)
