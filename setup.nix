@@ -35,6 +35,9 @@ let overrides = self: super: {
   "pytest-cov" = super."pytest-cov".overridePythonAttrs(old: {
     buildInputs = optionals self.isPy27 [ self."funcsigs" ];
   });
+  "pyopenssl" = super."pyopenssl".overridePythonAttrs(old: {
+    doCheck = false;
+  });
 };
 
 in setup {
