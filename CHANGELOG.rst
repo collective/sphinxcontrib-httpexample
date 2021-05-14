@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10.4 (unreleased)
+0.11.0 (2021-05-14)
 -------------------
 
 - Change to quote examples with " rather than '
