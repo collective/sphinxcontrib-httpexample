@@ -4,8 +4,12 @@ Changelog
 0.10.4 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Change to quote examples with " rather than '
+  [datakurre]
+- Fix Sphinx deprecation warnings and support Sphinx 4.x]
+  [kkrypt0nn,  AWhetter]
+- Fix to use ast.unparse instead astunparse on Python >= 3.9
+  [datakurre]
 
 0.10.3 (2019-05-01)
 -------------------
