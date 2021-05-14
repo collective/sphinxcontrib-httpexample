@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from .test_fixtures import FIXTURE_002_REQUEST
+from .test_fixtures import FIXTURE_010_REQUEST
+from .test_fixtures import FIXTURE_011_REQUEST
+from sphinxcontrib.httpexample import parsers
+
 import base64
 import json
 import pytest
-
-from sphinxcontrib.httpexample import parsers
-from .test_fixtures import \
-    FIXTURE_002_REQUEST, FIXTURE_010_REQUEST, FIXTURE_011_REQUEST
 
 
 def test_parse_request_headers():
