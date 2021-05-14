@@ -34,20 +34,6 @@ self: super: {
     nativeBuildInputs = [];
     propagatedBuildInputs = [];
   };
-  "Pygments" = super.buildPythonPackage rec {
-    pname = "Pygments";
-    version = "2.5.2";
-    src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/be/39/32da3184734730c0e4d3fa3b2b5872104668ad6dc1b5a73d8e477e5fe967/Pygments-2.5.2-py2.py3-none-any.whl";
-      sha256 = "06vgzl5srs5isskfpb0livj3nvajb3x7b77lkm51c82awnay4gra";
-    };
-    format = "wheel";
-    doCheck = false;
-    buildInputs = [];
-    checkInputs = [];
-    nativeBuildInputs = [];
-    propagatedBuildInputs = [];
-  };
   "alabaster" = super.buildPythonPackage rec {
     pname = "alabaster";
     version = "0.7.12";
@@ -686,12 +672,12 @@ self: super: {
   };
   "pyOpenSSL" = super.buildPythonPackage rec {
     pname = "pyOpenSSL";
-    version = "0.14";
+    version = "20.0.1";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/db/5c/fb48e163b66532166d43a6ed5734d84f2cd2b6b87b41a3251e86695f7e79/pyOpenSSL-0.14.tar.gz";
-      sha256 = "0vpfqhng4cky7chliknkxv910iabqbfcxvkjiankh08jkkjvi7d9";
+      url = "https://files.pythonhosted.org/packages/b2/5e/06351ede29fd4899782ad335c2e02f1f862a887c20a3541f17c3fa1a3525/pyOpenSSL-20.0.1-py2.py3-none-any.whl";
+      sha256 = "0jr7gxx36yb3vr1x0777vxgdi1jplkyg2cvsfxphcb4j0s7f32l1";
     };
-    format = "setuptools";
+    format = "wheel";
     doCheck = false;
     buildInputs = [];
     checkInputs = [];
@@ -743,6 +729,20 @@ self: super: {
     nativeBuildInputs = [];
     propagatedBuildInputs = [];
   };
+  "pygments" = super.buildPythonPackage rec {
+    pname = "pygments";
+    version = "2.5.2";
+    src = fetchurl {
+      url = "https://files.pythonhosted.org/packages/be/39/32da3184734730c0e4d3fa3b2b5872104668ad6dc1b5a73d8e477e5fe967/Pygments-2.5.2-py2.py3-none-any.whl";
+      sha256 = "06vgzl5srs5isskfpb0livj3nvajb3x7b77lkm51c82awnay4gra";
+    };
+    format = "wheel";
+    doCheck = false;
+    buildInputs = [];
+    checkInputs = [];
+    nativeBuildInputs = [];
+    propagatedBuildInputs = [];
+  };
   "pyparsing" = super.buildPythonPackage rec {
     pname = "pyparsing";
     version = "2.4.7";
@@ -785,10 +785,10 @@ self: super: {
   };
   "pytest-cov" = super.buildPythonPackage rec {
     pname = "pytest-cov";
-    version = "2.11.1";
+    version = "2.12.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/e3/1a/6affecd2344efee7f2487fac82242474cbac09f9e04929da5944907baf11/pytest_cov-2.11.1-py2.py3-none-any.whl";
-      sha256 = "1nk9r76xscicfww60jq5cpiwg9faijs5ck4s4qjwhz2sp2qgvfdx";
+      url = "https://files.pythonhosted.org/packages/2c/70/184e8f4804b21dca4d78b6b76414c9d3b29cedbdef7ba28cdf14fe7de3e0/pytest_cov-2.12.0-py2.py3-none-any.whl";
+      sha256 = "0vh6cp0m4i5bx5wjmaw1771r03d3v80rick0pdvs7kxsrcyr7m4m";
     };
     format = "wheel";
     doCheck = false;
@@ -822,6 +822,20 @@ self: super: {
       sha256 = "1607gl2x9290ks5sa6dvqw9dgg1kwdf9fj9xcb9jw19nfwzcw47b";
     };
     format = "wheel";
+    doCheck = false;
+    buildInputs = [];
+    checkInputs = [];
+    nativeBuildInputs = [];
+    propagatedBuildInputs = [];
+  };
+  "pyyaml" = super.buildPythonPackage rec {
+    pname = "pyyaml";
+    version = "5.4.1";
+    src = fetchurl {
+      url = "https://files.pythonhosted.org/packages/a0/a4/d63f2d7597e1a4b55aa3b4d6c5b029991d3b824b5bd331af8d4ab1ed687d/PyYAML-5.4.1.tar.gz";
+      sha256 = "0pm440pmpvgv5rbbnm8hk4qga5a292kvlm1bh3x2nwr8pb5p8xv0";
+    };
+    format = "setuptools";
     doCheck = false;
     buildInputs = [];
     checkInputs = [];
@@ -877,9 +891,9 @@ self: super: {
     nativeBuildInputs = [];
     propagatedBuildInputs = [
       self."Jinja2"
-      self."Pygments"
       self."docutils"
       self."pdfrw"
+      self."pygments"
       self."reportlab"
       self."setuptools"
       self."six"
@@ -973,12 +987,12 @@ self: super: {
     nativeBuildInputs = [];
     propagatedBuildInputs = [
       self."Jinja2"
-      self."Pygments"
       self."alabaster"
       self."babel"
       self."docutils"
       self."imagesize"
       self."packaging"
+      self."pygments"
       self."requests"
       self."setuptools"
       self."six"
@@ -1072,6 +1086,20 @@ self: super: {
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/9c/93/08cbd1203cd490ac789f42a9594540d1b6c4d8fca6c2d06296b284518052/testfixtures-6.17.1-py2.py3-none-any.whl";
       sha256 = "0dwir7f9n31s6flvbxw08n7n1q0n3qj3n1fz2zxf46cnyn1ixlwy";
+    };
+    format = "wheel";
+    doCheck = false;
+    buildInputs = [];
+    checkInputs = [];
+    nativeBuildInputs = [];
+    propagatedBuildInputs = [];
+  };
+  "toml" = super.buildPythonPackage rec {
+    pname = "toml";
+    version = "0.10.2";
+    src = fetchurl {
+      url = "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl";
+      sha256 = "16sgpg57kxx5jh467d9qwc2hwshfvdbl0xkafdp3qspvbfp46qc0";
     };
     format = "wheel";
     doCheck = false;

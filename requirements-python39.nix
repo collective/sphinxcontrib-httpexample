@@ -556,10 +556,10 @@ self: super: {
   };
   "pytest-cov" = super.buildPythonPackage rec {
     pname = "pytest-cov";
-    version = "2.11.1";
+    version = "2.12.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/e3/1a/6affecd2344efee7f2487fac82242474cbac09f9e04929da5944907baf11/pytest_cov-2.11.1-py2.py3-none-any.whl";
-      sha256 = "1nk9r76xscicfww60jq5cpiwg9faijs5ck4s4qjwhz2sp2qgvfdx";
+      url = "https://files.pythonhosted.org/packages/2c/70/184e8f4804b21dca4d78b6b76414c9d3b29cedbdef7ba28cdf14fe7de3e0/pytest_cov-2.12.0-py2.py3-none-any.whl";
+      sha256 = "0vh6cp0m4i5bx5wjmaw1771r03d3v80rick0pdvs7kxsrcyr7m4m";
     };
     format = "wheel";
     doCheck = false;
@@ -593,6 +593,20 @@ self: super: {
       sha256 = "1607gl2x9290ks5sa6dvqw9dgg1kwdf9fj9xcb9jw19nfwzcw47b";
     };
     format = "wheel";
+    doCheck = false;
+    buildInputs = [];
+    checkInputs = [];
+    nativeBuildInputs = [];
+    propagatedBuildInputs = [];
+  };
+  "pyyaml" = super.buildPythonPackage rec {
+    pname = "pyyaml";
+    version = "5.4.1";
+    src = fetchurl {
+      url = "https://files.pythonhosted.org/packages/a0/a4/d63f2d7597e1a4b55aa3b4d6c5b029991d3b824b5bd331af8d4ab1ed687d/PyYAML-5.4.1.tar.gz";
+      sha256 = "0pm440pmpvgv5rbbnm8hk4qga5a292kvlm1bh3x2nwr8pb5p8xv0";
+    };
+    format = "setuptools";
     doCheck = false;
     buildInputs = [];
     checkInputs = [];

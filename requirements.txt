@@ -12,6 +12,7 @@ flake8-quotes
 idna==2.10
 isort
 pep8-naming
+pyyaml
 pytest
 pytest-cov
 pytest-runner
@@ -21,3 +22,4 @@ sphinx
 sphinx-testing
 sphinx_rtd_theme
 sphinxcontrib-httpdomain
+toml

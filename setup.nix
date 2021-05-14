@@ -139,6 +139,9 @@ let
         rm $out/${self.python.sitePackages}/backports/__init__.pyc
       '';
     });
+    "pytest-cov" = super."pytest-cov".overridePythonAttrs(old: {
+      propagatedBuildInputs = old.propagatedBuildInputs ++ [ self."toml" ];
+    });
     "coveralls" = super."coveralls".overridePythonAttrs(old: {
       propagatedBuildInputs = old.propagatedBuildInputs ++ [ self."pyOpenSSL" ];
     });
