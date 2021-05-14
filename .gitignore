@@ -6,6 +6,7 @@
 .coverage
 .eggs/
 .idea/
+.pytest_cache/
 bin/
 docs/_build/
 html/

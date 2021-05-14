@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from sphinxcontrib.httpexample import utils
+
 import json
 import os
 import pytest
-
-from sphinxcontrib.httpexample import utils
 
 
 def test_merge_dicts():

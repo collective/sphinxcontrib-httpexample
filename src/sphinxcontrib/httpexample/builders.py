@@ -3,9 +3,13 @@ from sphinxcontrib.httpexample.utils import is_json
 from sphinxcontrib.httpexample.utils import maybe_str
 
 import ast
-import astunparse
 import json
 
+
+try:
+    from ast import unparse
+except ImportError:
+    from astunparse import unparse
 
 try:
     from shlex import quote as shlex_quote
@@ -52,7 +56,7 @@ def build_curl_command(request):
     if data:
         if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
-        parts.append('--data-raw \'{}\''.format(data))
+        parts.append("--data-raw '{}'".format(data))
 
     # Authorization
     if method == 'Basic':
@@ -92,9 +96,9 @@ def build_wget_command(request):
         if is_json(request.headers.get('Content-Type', '')):
             data = json.dumps(data)
         if request.command == 'POST':
-            parts.append('--post-data=\'{}\''.format(data))
+            parts.append("--post-data='{}'".format(data))
         elif request.command != 'POST':
-            parts.append('--body-data=\'{}\''.format(data))
+            parts.append("--body-data='{}'".format(data))
 
     # Authorization
     if method == 'Basic':
@@ -192,11 +196,11 @@ def build_requests_command(request):
         if isinstance(obj, str):
             return ast.Str(obj)
         elif isinstance(obj, bool):
-            return ast.Name(obj, ast.Load())
+            return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, int):
-            return ast.Name(obj, ast.Load())
+            return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, float):
-            return ast.Name(obj, ast.Load())
+            return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, list):
             json_values = []
             for v in obj:
@@ -225,4 +229,4 @@ def build_requests_command(request):
             ast.keyword('auth', ast.Tuple(
                 tuple(map(ast.Str, token.split(':'))), None)))
 
-    return astunparse.unparse(tree).strip()
+    return unparse(tree).strip()

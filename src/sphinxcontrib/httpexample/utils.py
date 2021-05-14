@@ -6,11 +6,17 @@ import pkg_resources
 
 
 try:
-    from urllib import urlencode, unquote
-    from urlparse import urlparse, parse_qsl, ParseResult
+    from urllib import unquote
+    from urllib import urlencode
+    from urlparse import parse_qsl
+    from urlparse import ParseResult
+    from urlparse import urlparse
 except ImportError:
-    from urllib.parse import \
-        urlencode, unquote, urlparse, parse_qsl, ParseResult
+    from urllib.parse import parse_qsl
+    from urllib.parse import ParseResult
+    from urllib.parse import unquote
+    from urllib.parse import urlencode
+    from urllib.parse import urlparse
 
 
 def merge_dicts(a, b):
