@@ -4,6 +4,8 @@ from sphinxcontrib.httpexample.utils import maybe_str
 
 import ast
 import json
+import re
+import string
 
 
 try:
@@ -15,6 +17,24 @@ try:
     from shlex import quote as shlex_quote
 except ImportError:
     from pipes import quote as shlex_quote
+
+
+_find_unsafe = re.compile(
+    r'[^\w@%+=:,./-' + string.ascii_letters + string.digits + ']',
+).search
+
+
+def shlex_double_quote(s):
+    """Return a shell-escaped version of the string *s*."""
+    if not s:
+        return '""'
+    if _find_unsafe(s) is None:
+        return s
+
+    # use double quotes, and put double quotes into single quotes
+    # the string $"b is then quoted as "$"'"'"b"
+    return re.sub(r'^""|""$', '', ('"' + s.replace('"', "\"'\"'\"") + '"'))
+
 
 EXCLUDE_HEADERS = [
     'Authorization',
@@ -43,12 +63,16 @@ def build_curl_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        header_line = shlex_double_quote('{}: {}'.format(
+            header, request.headers[header]),
+        )
         parts.append('-H {}'.format(header_line))
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        header_line = shlex_double_quote(
+            '{}: {}'.format(header, request.headers[header]),
+        )
         parts.append('-H {}'.format(header_line))
 
     # JSON
@@ -82,12 +106,16 @@ def build_wget_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        header_line = shlex_double_quote(
+            '{}: {}'.format(header, request.headers[header]),
+        )
         parts.append('--header={}'.format(header_line))
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        header_line = shlex_quote('{}: {}'.format(header, request.headers[header]))  # noqa: E501
+        header_line = shlex_double_quote(
+            '{}: {}'.format(header, request.headers[header])
+        )
         parts.append('--header={}'.format(header_line))
 
     # JSON or raw data
@@ -128,11 +156,15 @@ def build_httpie_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS_HTTP:
             continue
-        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
+        parts.append('{}:{}'.format(
+            header, shlex_double_quote(request.headers[header]),
+        ))
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('{}:{}'.format(header, shlex_quote(request.headers[header])))  # noqa
+        parts.append('{}:{}'.format(
+            header, shlex_double_quote(request.headers[header]),
+        ))
 
     # JSON or raw data
     data = maybe_str(request.data())
