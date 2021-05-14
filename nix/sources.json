@@ -1,0 +1,50 @@
+{
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "94080ae8286024820c570a2a24ed7c36d7ad04a9",
+        "sha256": "0wlk52zwlrq727x3z1vg9d9qq4zw62ab5jzg4068iqb6hyb0cr0w",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/94080ae8286024820c570a2a24ed7c36d7ad04a9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "master",
+        "description": "Nix Packages collection",
+        "homepage": "",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "580d6f695192038972087caa8a7368ffcc61d98e",
+        "sha256": "117cgi7gq5mfpg8csy0wfrcyndsnrcfwpxwlm70710v091jmxpa6",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/580d6f695192038972087caa8a7368ffcc61d98e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-20.09": {
+        "branch": "release-20.09",
+        "description": "Nix Packages collection",
+        "homepage": "",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7cdef6071a655c927675ab586979e6fe676a934d",
+        "sha256": "059yrvi2pw1blmy0qpgw48y6djwc28r7qhancdr3xb74f89ai9fm",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/7cdef6071a655c927675ab586979e6fe676a934d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "pip2nix": {
+        "branch": "master",
+        "description": "Freeze pip-installable packages into Nix expressions [maintainer=@datakurre]",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "pip2nix",
+        "rev": "5f58838d9c7b0e05cb0744cdbcb11d15f48066fd",
+        "sha256": "0lq0mrvfvpbnikkxwmlqk0p72ki2160r417y2nfpb652ng77daqr",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/pip2nix/archive/5f58838d9c7b0e05cb0744cdbcb11d15f48066fd.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

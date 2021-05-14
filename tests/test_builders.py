@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-from sphinxcontrib.httpexample.parsers import parse_request
-from sphinxcontrib.httpexample.builders import build_curl_command
-from sphinxcontrib.httpexample.builders import build_wget_command
-from sphinxcontrib.httpexample.builders import build_httpie_command
-from sphinxcontrib.httpexample.builders import build_requests_command
-from sphinxcontrib.httpexample.builders import is_json
-
 from .test_fixtures import FIXTURE_001_REQUEST
 from .test_fixtures import FIXTURE_002_REQUEST
 from .test_fixtures import FIXTURE_003_REQUEST
@@ -17,8 +10,14 @@ from .test_fixtures import FIXTURE_008_REQUEST
 from .test_fixtures import FIXTURE_009_REQUEST
 from .test_fixtures import FIXTURE_011_REQUEST
 from .test_fixtures import FIXTURE_012_REQUEST
+from sphinxcontrib.httpexample.builders import build_curl_command
+from sphinxcontrib.httpexample.builders import build_httpie_command
+from sphinxcontrib.httpexample.builders import build_requests_command
+from sphinxcontrib.httpexample.builders import build_wget_command
+from sphinxcontrib.httpexample.parsers import parse_request
 
 import pytest
+
 
 request_fixtures = (
     {'name': 'fixture_001', 'data': FIXTURE_001_REQUEST},
