@@ -37,7 +37,7 @@ coverage: .coverage
 
 .PHONY: coveralls
 coveralls: .coverage
-	coveralls
+	coveralls --service=github
 
 .PHONY: test
 test:
