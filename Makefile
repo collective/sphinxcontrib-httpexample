@@ -10,13 +10,13 @@ SRC = $(wildcard src/sphinxcontrib/httpexample/*.py)
 all: test coverage
 
 .PHONY: nix-%
-nix-%: requirements.nix
+nix-%:
 	nix-shell setup.nix $(ARGSTR) -A package --run "$(MAKE) $*"
 
-nix-env: requirements.nix
+nix-env: nix/requirements-$(PYTHON).nix
 	nix-build setup.nix $(ARGSTR) -A env
 
-nix-shell: requirements.nix
+nix-shell: nix/requirements-$(PYTHON).nix
 	nix-shell setup.nix $(ARGSTR) -A package
 
 .PHONY: cache
@@ -25,7 +25,7 @@ cache:
 	xargs nix-store --realise | xargs nix-store --query --requisites | cachix push $(CACHIX_CACHE)
 
 .PHONY: docs
-docs: requirements.nix
+docs:
 	sphinx-build -b html docs docs/html
 ifeq "$(PYTHON)" "python27"
 	sphinx-build -b pdf docs docs/pdf
@@ -44,15 +44,6 @@ test:
 	flake8 src
 	py.test
 
-.PHONY: push-cachix
-push-cachix:
-	nix-build setup.nix --argstr python python3 -A env|cachix push datakurre
-	nix-build setup.nix --argstr python python2 -A env|cachix push datakurre
-
-.PHONY: freeze
-freeze:
-	@grep "name" requirements.nix |grep -Eo "\"(.*)\""|grep -Eo "[^\"]+"|sed -r "s|-([0-9\.]+)|==\1|g"
-
 ###
 
 .cache:
@@ -63,11 +54,11 @@ freeze:
 	coverage run setup.py test
 
 .PHONY: requirements
-requirements: .cache requirements-$(PYTHON).nix
+requirements: .cache nix/requirements-$(PYTHON).nix
 
-requirements-$(PYTHON).nix: .cache requirements-$(PYTHON).txt
-	pip2nix generate -r requirements-$(PYTHON).txt --output=requirements-$(PYTHON).nix
+nix/requirements-$(PYTHON).nix: .cache requirements-$(PYTHON).txt
+	pip2nix generate -r requirements-$(PYTHON).txt --output=nix/requirements-$(PYTHON).nix
 
 requirements-$(PYTHON).txt: .cache requirements.txt
-	pip2nix generate -r requirements.txt --output=requirements-$(PYTHON).nix
-	@grep "pname =\|version =" requirements-$(PYTHON).nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > requirements-$(PYTHON).txt
+	pip2nix generate -r requirements.txt --output=nix/requirements-$(PYTHON).nix
+	@grep "pname =\|version =" nix/requirements-$(PYTHON).nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > requirements-$(PYTHON).txt

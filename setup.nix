@@ -2,7 +2,7 @@
 , sources ? import ./nix/sources.nix {}
 , python ? "python39"
 , pythonPackages ? builtins.getAttr (python + "Packages") pkgs
-, requirements ?  ./. + "/requirements-${python}.nix"
+, requirements ?  ./. + "/nix/requirements-${python}.nix"
 , src ? ./.
 , buildInputs ? with pkgs; []
 , propagatedBuildInputs ? []
