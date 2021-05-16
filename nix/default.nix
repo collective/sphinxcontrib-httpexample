@@ -10,10 +10,11 @@
 let
 
   overlay = _: pkgs: {
-    # pip2nix branches require specific nixpkgs branch (for pip)
-    pip2nix = ((import (sources."pip2nix" + "/release.nix") {
+    inherit (import sources."gitignore.nix" { inherit (pkgs) lib; }) gitignoreSource;
+    inherit (import (sources."pip2nix" + "/release.nix") {
+      # pip2nix branches require specific nixpkgs branch (for pip)
       pkgs = import sources."nixpkgs-20.09" {};
-    }).pip2nix);
+    }) pip2nix ;
   };
 
   pkgs = import nixpkgs {

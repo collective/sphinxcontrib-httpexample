@@ -3,7 +3,7 @@
 , python ? "python39"
 , pythonPackages ? builtins.getAttr (python + "Packages") pkgs
 , requirements ?  ./. + "/nix/requirements-${python}.nix"
-, src ? ./.
+, src ? pkgs.gitignoreSource ./.
 , buildInputs ? with pkgs; []
 , propagatedBuildInputs ? []
 }:
@@ -148,6 +148,7 @@ let
     "fastdiff" = super."fastdiff".overridePythonAttrs(old: {
       propagatedBuildInputs = [];
     });
+# } else if buildPython.pkgs.isPy36 then {
   } else {};
 
 in rec {

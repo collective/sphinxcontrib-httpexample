@@ -13,15 +13,15 @@ all: test coverage
 nix-%:
 	nix-shell setup.nix $(ARGSTR) -A package --run "$(MAKE) $*"
 
-nix-env: nix/requirements-$(PYTHON).nix
+nix-env:
 	nix-build setup.nix $(ARGSTR) -A env
 
-nix-shell: nix/requirements-$(PYTHON).nix
+nix-shell:
 	nix-shell setup.nix $(ARGSTR) -A package
 
 .PHONY: cache
 cache:
-	nix-store --query --references $$(nix-instantiate shell.nix --argstr python $(PYTHON)) --references $$(nix-instantiate default.nix --argstr python $(PYTHON)) | \
+	nix-store --query --references $$(nix-instantiate default.nix --argstr python $(PYTHON)) | \
 	xargs nix-store --realise | xargs nix-store --query --requisites | cachix push $(CACHIX_CACHE)
 
 .PHONY: docs
