@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [python27, python39]
+        python: [python27, python36, python39]
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.github_token }}
     steps:
