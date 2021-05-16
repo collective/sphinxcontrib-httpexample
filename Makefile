@@ -39,6 +39,10 @@ coverage: .coverage
 coveralls: .coverage
 	coveralls --service=github
 
+.PHONY: show
+show:
+	pip list
+
 .PHONY: test
 test:
 	flake8 src
@@ -57,8 +61,8 @@ test:
 requirements: .cache nix/requirements-$(PYTHON).nix
 
 nix/requirements-$(PYTHON).nix: .cache requirements-$(PYTHON).txt
-	pip2nix generate -r requirements-$(PYTHON).txt --output=nix/requirements-$(PYTHON).nix
+	nix-shell -p "(import ./nix {}).pip2nix.$(PYTHON)" --run "pip2nix generate -r requirements-$(PYTHON).txt --output=nix/requirements-$(PYTHON).nix"
 
 requirements-$(PYTHON).txt: .cache requirements.txt
-	pip2nix generate -r requirements.txt --output=nix/requirements-$(PYTHON).nix
+	nix-shell -p "(import ./nix {}).pip2nix.$(PYTHON)" --run "pip2nix generate -r requirements.txt --output=nix/requirements-$(PYTHON).nix"
 	@grep "pname =\|version =" nix/requirements-$(PYTHON).nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > requirements-$(PYTHON).txt
