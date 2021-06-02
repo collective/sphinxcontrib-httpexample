@@ -69,6 +69,6 @@ termcolor==1.1.0
 testfixtures==6.17.1
 toml==0.10.2
 typing==3.10.0.0
-urllib3==1.26.4
+urllib3==1.26.5
 wcwidth==0.2.5
 zipp==1.2.0
