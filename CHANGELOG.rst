@@ -1,11 +1,11 @@
 Changelog
 =========
 
-0.11.1 (unreleased)
--------------------
+1.0 (unreleased)
+----------------
 
-- Nothing changed yet.
-
+- The curl command builder will now always specify a method
+  [LefterisJP]
 
 0.11.0 (2021-05-14)
 -------------------
