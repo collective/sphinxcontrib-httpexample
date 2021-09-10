@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0 (unreleased)
+1.0 (2021-09-10)
 ----------------
 
 - The curl command builder will now always specify a method
