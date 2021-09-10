@@ -26,19 +26,19 @@ snapshots['test_fixture[build_httpie_command-fixture_006] 1'] = 'echo defgh | ht
 
 snapshots['test_fixture[build_httpie_command-fixture_007] 1'] = "http 'http://localhost:8080/Plone/front-page?foo=bar&bar=foo' Accept:application/json -a admin:admin"
 
-snapshots['test_fixture[build_curl_command-fixture_001] 1'] = 'curl -i http://localhost:8080/Plone/front-page -H "Accept: application/json" --user admin:admin'
+snapshots['test_fixture[build_curl_command-fixture_001] 1'] = 'curl -i -X GET http://localhost:8080/Plone/front-page -H "Accept: application/json" --user admin:admin'
 
 snapshots['test_fixture[build_curl_command-fixture_002] 1'] = 'curl -i -X POST http://localhost:8080/Plone/folder -H "Accept: application/json" -H "Content-Type: application/json" --data-raw \'{"@type": "Document", "title": "My Document"}\' --user admin:admin'
 
 snapshots['test_fixture[build_curl_command-fixture_003] 1'] = 'curl -i -X PATCH http://localhost:8080/Plone/folder/my-document -H "Accept: application/json" -H "Content-Type: application/json" --data-raw \'{"title": "My New Document Title"}\' --user admin:admin'
 
-snapshots['test_fixture[build_curl_command-fixture_004] 1'] = 'curl -i http://localhost:8080/Plone/front-page -H "Accept: application/json"'
+snapshots['test_fixture[build_curl_command-fixture_004] 1'] = 'curl -i -X GET http://localhost:8080/Plone/front-page -H "Accept: application/json"'
 
-snapshots['test_fixture[build_curl_command-fixture_005] 1'] = 'curl -i http://localhost:8080/Plone/front-page -H "Accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6IiIsInN1YiI6ImFkbWluIiwiZXhwIjoxNDY0MDQyMTAzfQ.aOyvMwdcIMV6pzC0GYQ3ZMdGaHR1_W7DxT0W0ok4FxI"'
+snapshots['test_fixture[build_curl_command-fixture_005] 1'] = 'curl -i -X GET http://localhost:8080/Plone/front-page -H "Accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6IiIsInN1YiI6ImFkbWluIiwiZXhwIjoxNDY0MDQyMTAzfQ.aOyvMwdcIMV6pzC0GYQ3ZMdGaHR1_W7DxT0W0ok4FxI"'
 
 snapshots['test_fixture[build_curl_command-fixture_006] 1'] = 'curl -i -X PATCH http://nohost/plone/folder/@upload/032803b64ad746b3ab46d9223ea3d90f -H "Accept: application/json" -H "Content-Type: application/offset+octet-stream" -H "Tus-Resumable: 1.0.0" -H "Upload-Offset: 3" --data-raw \'defgh\' --user admin:secret'
 
-snapshots['test_fixture[build_curl_command-fixture_007] 1'] = 'curl -i \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' -H "Accept: application/json" --user admin:admin'
+snapshots['test_fixture[build_curl_command-fixture_007] 1'] = 'curl -i -X GET \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' -H "Accept: application/json" --user admin:admin'
 
 snapshots['test_fixture[build_wget_command-fixture_001] 1'] = 'wget -S -O- http://localhost:8080/Plone/front-page --header="Accept: application/json" --auth-no-challenge --user=admin --password=admin'
 
@@ -70,7 +70,7 @@ snapshots['test_fixture[build_requests_command-fixture_007] 1'] = "requests.get(
 
 snapshots['test_fixture[build_httpie_command-fixture_008] 1'] = 'http \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' Accept:application/json Accept-Encoding:"gzip, deflate" Cookie:"zyx 123" If-None-Match:\'"\'"abc123"\'"\' Authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"'
 
-snapshots['test_fixture[build_curl_command-fixture_008] 1'] = 'curl -i \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' -H "Accept: application/json" -H "Accept-Encoding: gzip, deflate" -H "Cookie: zyx 123" -H "If-None-Match: "\'"\'"abc123"\'"\' -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"'
+snapshots['test_fixture[build_curl_command-fixture_008] 1'] = 'curl -i -X GET \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' -H "Accept: application/json" -H "Accept-Encoding: gzip, deflate" -H "Cookie: zyx 123" -H "If-None-Match: "\'"\'"abc123"\'"\' -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"'
 
 snapshots['test_fixture[build_wget_command-fixture_008] 1'] = 'wget -S -O- \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\' --header="Accept: application/json" --header="Accept-Encoding: gzip, deflate" --header="Cookie: zyx 123" --header="If-None-Match: "\'"\'"abc123"\'"\' --header="Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"'
 
@@ -116,7 +116,7 @@ snapshots['test_fixture[build_wget_command-fixture_009] 1'] = 'wget -S -O- --met
 
 snapshots['test_fixture[build_httpie_command-fixture_011] 1'] = "http 'http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc' Accept:application/json -a admin:admin"
 
-snapshots['test_fixture[build_curl_command-fixture_011] 1'] = 'curl -i \'http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc\' -H "Accept: application/json" --user admin:admin'
+snapshots['test_fixture[build_curl_command-fixture_011] 1'] = 'curl -i -X GET \'http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc\' -H "Accept: application/json" --user admin:admin'
 
 snapshots['test_fixture[build_requests_command-fixture_011] 1'] = "requests.get('http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc', headers={'Accept': 'application/json'}, auth=('admin', 'admin'))"
 
