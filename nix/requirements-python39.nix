@@ -940,10 +940,10 @@ self: super: {
   };
   "urllib3" = super.buildPythonPackage rec {
     pname = "urllib3";
-    version = "1.26.4";
+    version = "1.26.5";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/09/c6/d3e3abe5b4f4f16cf0dfc9240ab7ce10c2baa0e268989a4e3ec19e90c84e/urllib3-1.26.4-py2.py3-none-any.whl";
-      sha256 = "1pxhnlgf548k2cs44bnld89nqknz3xaipfs4m48f3qdp9mcs8k9g";
+      url = "https://files.pythonhosted.org/packages/0c/cd/1e2ec680ec7b09846dc6e605f5a7709dfb9d7128e51a026e7154e18a234e/urllib3-1.26.5-py2.py3-none-any.whl";
+      sha256 = "0z2siwabara1prpr8vbqhmcx11m6jh1y9kr6v2cqyr96vxs06fkm";
     };
     format = "wheel";
     doCheck = false;

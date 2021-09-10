@@ -125,10 +125,10 @@ self: super: {
   };
   "certifi" = super.buildPythonPackage rec {
     pname = "certifi";
-    version = "2020.12.5";
+    version = "2021.5.30";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/5e/a0/5f06e1e1d463903cf0c0eebeb751791119ed7a4b3737fdc9a77f1cdfb51f/certifi-2020.12.5-py2.py3-none-any.whl";
-      sha256 = "0c4qsp7q10hhiryvl6dyxsfh9r1mpja8sfkzri2bvf9kkvxp96ki";
+      url = "https://files.pythonhosted.org/packages/05/1b/0a0dece0e8aa492a6ec9e4ad2fe366b511558cdc73fd3abc82ba7348e875/certifi-2021.5.30-py2.py3-none-any.whl";
+      sha256 = "1n57ixzaln34d2qw55g7vh0hd6g033dkhqyxwwdz81kb8kwf9cah";
     };
     format = "wheel";
     doCheck = false;
@@ -139,10 +139,10 @@ self: super: {
   };
   "cffi" = super.buildPythonPackage rec {
     pname = "cffi";
-    version = "1.14.5";
+    version = "1.14.6";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/a8/20/025f59f929bbcaa579704f443a438135918484fffaacfaddba776b374563/cffi-1.14.5.tar.gz";
-      sha256 = "174d6814x3qca0kn5qwq4l1ab8aabc0rmnvfxwr9yw4iwpzfay7x";
+      url = "https://files.pythonhosted.org/packages/2e/92/87bb61538d7e60da8a7ec247dc048f7671afe17016cd0008b3b710012804/cffi-1.14.6.tar.gz";
+      sha256 = "1pb5jwd368dcl8lc3p6a3mxrp42p7i9xsx22g23jiqvzkp77ba69";
     };
     format = "setuptools";
     doCheck = false;
@@ -399,10 +399,10 @@ self: super: {
   };
   "flake8-quotes" = super.buildPythonPackage rec {
     pname = "flake8-quotes";
-    version = "3.2.0";
+    version = "3.3.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/80/d0/e257f4435cf930bc85182b0c44e6ceb539e095dc982ab26ef7d1e28c6455/flake8-quotes-3.2.0.tar.gz";
-      sha256 = "0ph5s6lxgpzz4an0ax6s5xjqypqmngwr5b1i0h9pqhzghplic49z";
+      url = "https://files.pythonhosted.org/packages/0c/8a/6a935cd8dbb01d7fcf858117962fbe19840e56e3735f1b271d6eb48f5ddf/flake8-quotes-3.3.0.tar.gz";
+      sha256 = "05w2aa6s3jjdpzzm8lrm8pqfh85fhzyy03pw8z7g4zyp1s1qgpgi";
     };
     format = "setuptools";
     doCheck = false;
@@ -581,10 +581,10 @@ self: super: {
   };
   "pathlib2" = super.buildPythonPackage rec {
     pname = "pathlib2";
-    version = "2.3.5";
+    version = "2.3.6";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/e9/45/9c82d3666af4ef9f221cbb954e1d77ddbb513faf552aea6df5f37f1a4859/pathlib2-2.3.5-py2.py3-none-any.whl";
-      sha256 = "1nrmzj855vzcnr3xkxb8b5jzwi2xpn7v3h01qfndg03w2md21j0f";
+      url = "https://files.pythonhosted.org/packages/76/67/dc02c72177ec79f0176e5bf9921e9c1745a381ed556afb3b3ecc2bb8ba2e/pathlib2-2.3.6-py2.py3-none-any.whl";
+      sha256 = "1j69jmhywmzmv2lnxji57044yqy9g8y7phbrri6i6disdck0n4rs";
     };
     format = "wheel";
     doCheck = false;
@@ -612,10 +612,10 @@ self: super: {
   };
   "pep8-naming" = super.buildPythonPackage rec {
     pname = "pep8-naming";
-    version = "0.11.1";
+    version = "0.12.1";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/44/57/d6544d56909f5fc77e24dd6c6727c33cd8d06c67828ecb05c650f3ec95ec/pep8_naming-0.11.1-py2.py3-none-any.whl";
-      sha256 = "0f37045x6p17hiy97xpgr9n4gwj7mc3n8zfhnpl763byx8zgwfzl";
+      url = "https://files.pythonhosted.org/packages/5d/5d/2b8fc7b8776e0285d9a1f88593ee2bd84ba35736c5a3b80b0d8adf45b799/pep8_naming-0.12.1-py2.py3-none-any.whl";
+      sha256 = "0dwzxf38y1n5cfvhi0wampibp8v81af0rz09jdvxxz1wnfpax3aa";
     };
     format = "wheel";
     doCheck = false;
@@ -623,6 +623,7 @@ self: super: {
     checkInputs = [];
     nativeBuildInputs = [];
     propagatedBuildInputs = [
+      self."flake8"
       self."flake8-polyfill"
     ];
   };
@@ -785,10 +786,10 @@ self: super: {
   };
   "pytest-cov" = super.buildPythonPackage rec {
     pname = "pytest-cov";
-    version = "2.12.0";
+    version = "2.12.1";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/2c/70/184e8f4804b21dca4d78b6b76414c9d3b29cedbdef7ba28cdf14fe7de3e0/pytest_cov-2.12.0-py2.py3-none-any.whl";
-      sha256 = "0vh6cp0m4i5bx5wjmaw1771r03d3v80rick0pdvs7kxsrcyr7m4m";
+      url = "https://files.pythonhosted.org/packages/ba/84/576b071aef9ac9301e5c0ff35d117e12db50b87da6f12e745e9c5f745cc2/pytest_cov-2.12.1-py2.py3-none-any.whl";
+      sha256 = "0am6livypp3pabg0xy0kd31i0ll6f8lzkvf3i6f0kgb5gvjbj6r6";
     };
     format = "wheel";
     doCheck = false;
@@ -798,6 +799,7 @@ self: super: {
     propagatedBuildInputs = [
       self."coverage"
       self."pytest"
+      self."toml"
     ];
   };
   "pytest-runner" = super.buildPythonPackage rec {
@@ -860,10 +862,10 @@ self: super: {
   };
   "requests" = super.buildPythonPackage rec {
     pname = "requests";
-    version = "2.25.1";
+    version = "2.26.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/29/c1/24814557f1d22c56d50280771a17307e6bf87b70727d975fd6b2ce6b014a/requests-2.25.1-py2.py3-none-any.whl";
-      sha256 = "07l7fm7y9zkvmpfli803dni6iwyyhy1f804y46wycam46r70h462";
+      url = "https://files.pythonhosted.org/packages/92/96/144f70b972a9c0eabbd4391ef93ccd49d0f2747f4f6a2a2738e99e5adc65/requests-2.26.0-py2.py3-none-any.whl";
+      sha256 = "097xdqddqm6ikzf30867irmrq3wg1s8nz450512wspnd7r8lc4kc";
     };
     format = "wheel";
     doCheck = false;
@@ -1082,10 +1084,10 @@ self: super: {
   };
   "testfixtures" = super.buildPythonPackage rec {
     pname = "testfixtures";
-    version = "6.17.1";
+    version = "6.18.1";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/9c/93/08cbd1203cd490ac789f42a9594540d1b6c4d8fca6c2d06296b284518052/testfixtures-6.17.1-py2.py3-none-any.whl";
-      sha256 = "0dwir7f9n31s6flvbxw08n7n1q0n3qj3n1fz2zxf46cnyn1ixlwy";
+      url = "https://files.pythonhosted.org/packages/02/00/14abcb06c4b45d3d6d644c9e06c6f97b1118bfdc2857a091d2ceb7fb2a09/testfixtures-6.18.1-py2.py3-none-any.whl";
+      sha256 = "1cymv2cl9qn86g30w7324i1rkrxp2wrqm1qik012c4xp3sqffss8";
     };
     format = "wheel";
     doCheck = false;
@@ -1124,10 +1126,10 @@ self: super: {
   };
   "urllib3" = super.buildPythonPackage rec {
     pname = "urllib3";
-    version = "1.26.4";
+    version = "1.26.6";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/09/c6/d3e3abe5b4f4f16cf0dfc9240ab7ce10c2baa0e268989a4e3ec19e90c84e/urllib3-1.26.4-py2.py3-none-any.whl";
-      sha256 = "1pxhnlgf548k2cs44bnld89nqknz3xaipfs4m48f3qdp9mcs8k9g";
+      url = "https://files.pythonhosted.org/packages/5f/64/43575537846896abac0b15c3e5ac678d787a4021e906703f1766bfb8ea11/urllib3-1.26.6-py2.py3-none-any.whl";
+      sha256 = "1m6823gifpdhma46q3rg3vn4s406138qswd776qsqnb129r8dyrr";
     };
     format = "wheel";
     doCheck = false;
