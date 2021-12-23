@@ -51,7 +51,7 @@ let
 
   # Return base name from python drv name or name when not python drv
   pythonNameOrName = drv:
-    if hasAttr "overridePythonAttrs" drv then drv.pname else drv.name;
+    if hasAttr "pythonModule" drv then drv.pname else drv.name;
 
   # Merge named input list from nixpkgs drv with input list from requirements drv
   mergedInputs = old: new: inputsName: self: super:
@@ -95,6 +95,12 @@ let
     packageOverrides = self: super:
       # 1) Merge packages already in pythonPackages
       let super_ = (requirementsFunc self buildPython.pkgs);  # from requirements
+          # Resistance to nixpkgs pytest dependencies is futile
+          pytest = listToAttrs (map
+            (name: { inherit name; value = (getAttr name buildPython.pkgs); })
+            (filter (name: (hasAttr name buildPython.pkgs))
+                    (map (drv: pythonNameOrName drv)
+                         buildPython.pkgs.pytest.propagatedBuildInputs)));
           results = (listToAttrs (map (name: let new = getAttr name super_; in {
         inherit name;
         value = mergedPackage (getAttr name buildPython.pkgs) new self super_;
@@ -114,7 +120,7 @@ let
         (listToAttrs (map (name: {
           name = getAttr name aliases; value = getAttr name results;
         }) (filter (x: hasAttr x results) (attrNames aliases))))
-      )); in (final // (overrides self final)));
+      )); in (final // (overrides self final) // pytest));
     self = buildPython;
   });
 
