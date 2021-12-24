@@ -5,9 +5,9 @@
     $('.http-example.container').each(function() {
       var $container = $(this),
           $blocks = $(this).children(),
-          $captions = $(this).find('.caption');
+          $captions = $(this).find('.caption-text');
       $captions.each(function() {
-        var $block = $(this).parent();
+        var $block = $(this).parent().parent();
         $(this).on('click', function() {
           $captions.removeClass('selected');
           $(this).addClass('selected');
