@@ -1,11 +1,11 @@
-.http-example .caption-text,
-.section ul .http-example .caption-text {
+.http-example .caption,
+.section ul .http-example .caption {
     display: inline-block;
     cursor: pointer;
     padding: 0.5em 1em;
     margin: 0;
 }
-.http-example .caption-text.selected {
+.http-example .caption.selected {
     font-weight: bold;
     background-color: #fff;
     border: 1px solid #e1e4e5;
