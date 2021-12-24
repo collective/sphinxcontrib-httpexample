@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2021-12-25)
 ----------------
 
 - Add support for docutils 0.17.x
