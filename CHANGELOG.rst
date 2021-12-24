@@ -1,11 +1,15 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
-------------------
+1.1 (unreleased)
+----------------
 
-- Nothing changed yet.
-
+- Add support for docutils 0.17.x
+  [kvondersaar, datakurre]
+- Add support for Python 3.8
+  [datakurre]
+- Fix example tabs accessibility
+  [datakurre]
 
 1.0 (2021-09-10)
 ----------------
