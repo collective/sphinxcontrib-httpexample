@@ -3,7 +3,7 @@ MarkupSafe
 astunparse
 coverage
 coveralls
-docutils==0.16
+docutils==0.17.1
 flake8-blind-except
 flake8-coding
 flake8-debugger

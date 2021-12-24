@@ -171,10 +171,10 @@ self: super: {
   };
   "docutils" = super.buildPythonPackage rec {
     pname = "docutils";
-    version = "0.17.1";
+    version = "0.16";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/4c/5e/6003a0d1f37725ec2ebd4046b657abb9372202655f96e76795dca8c0063c/docutils-0.17.1-py2.py3-none-any.whl";
-      sha256 = "0qgw95skhxi8xi1bm7vsldsgkb02cr7qfmibnwia0dx7f21nqcfg";
+      url = "https://files.pythonhosted.org/packages/81/44/8a15e45ffa96e6cf82956dd8d7af9e666357e16b0d93b253903475ee947f/docutils-0.16-py2.py3-none-any.whl";
+      sha256 = "1bxk9azs910d03ldns9kw8wj6xlybk6iam9z8caj8xppzfnphnqc";
     };
     format = "wheel";
     doCheck = false;
@@ -196,7 +196,6 @@ self: super: {
     checkInputs = [];
     nativeBuildInputs = [];
     propagatedBuildInputs = [
-      self."importlib-metadata"
       self."mccabe"
       self."pycodestyle"
       self."pyflakes"
@@ -334,10 +333,10 @@ self: super: {
   };
   "importlib-metadata" = super.buildPythonPackage rec {
     pname = "importlib-metadata";
-    version = "1.7.0";
+    version = "4.10.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/8e/58/cdea07eb51fc2b906db0968a94700866fc46249bdc75cac23f9d13168929/importlib_metadata-1.7.0-py2.py3-none-any.whl";
-      sha256 = "0w10iv6rq7zvigai2y8mk8g7kiwa84nydsqyql2n7qsckfbb45fw";
+      url = "https://files.pythonhosted.org/packages/f9/6c/a14560ec00a14f50fdb3e91665563500b55f3c672e621c3ef159d351e9f7/importlib_metadata-4.10.0-py3-none-any.whl";
+      sha256 = "190jj20cgsqg46wmm6zkx3bp656mzc76djln1b4f9wbmxwzpvkxp";
     };
     format = "wheel";
     doCheck = false;
@@ -449,9 +448,7 @@ self: super: {
     buildInputs = [];
     checkInputs = [];
     nativeBuildInputs = [];
-    propagatedBuildInputs = [
-      self."importlib-metadata"
-    ];
+    propagatedBuildInputs = [];
   };
   "poetry-core" = super.buildPythonPackage rec {
     pname = "poetry-core";
@@ -465,9 +462,7 @@ self: super: {
     buildInputs = [];
     checkInputs = [];
     nativeBuildInputs = [];
-    propagatedBuildInputs = [
-      self."importlib-metadata"
-    ];
+    propagatedBuildInputs = [];
   };
   "py" = super.buildPythonPackage rec {
     pname = "py";
@@ -553,7 +548,6 @@ self: super: {
     nativeBuildInputs = [];
     propagatedBuildInputs = [
       self."attrs"
-      self."importlib-metadata"
       self."iniconfig"
       self."packaging"
       self."pluggy"
@@ -937,20 +931,6 @@ self: super: {
     src = fetchurl {
       url = "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl";
       sha256 = "16sgpg57kxx5jh467d9qwc2hwshfvdbl0xkafdp3qspvbfp46qc0";
-    };
-    format = "wheel";
-    doCheck = false;
-    buildInputs = [];
-    checkInputs = [];
-    nativeBuildInputs = [];
-    propagatedBuildInputs = [];
-  };
-  "typing-extensions" = super.buildPythonPackage rec {
-    pname = "typing-extensions";
-    version = "4.0.1";
-    src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/05/e4/baf0031e39cf545f0c9edd5b1a2ea12609b7fcba2d58e118b11753d68cf0/typing_extensions-4.0.1-py3-none-any.whl";
-      sha256 = "0fwx7nbx73jjm5rvbmc631q4xgk8r1z4r1h82m0c184hq9d1w03z";
     };
     format = "wheel";
     doCheck = false;

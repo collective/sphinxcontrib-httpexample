@@ -171,10 +171,10 @@ self: super: {
   };
   "docutils" = super.buildPythonPackage rec {
     pname = "docutils";
-    version = "0.16";
+    version = "0.17.1";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/81/44/8a15e45ffa96e6cf82956dd8d7af9e666357e16b0d93b253903475ee947f/docutils-0.16-py2.py3-none-any.whl";
-      sha256 = "1bxk9azs910d03ldns9kw8wj6xlybk6iam9z8caj8xppzfnphnqc";
+      url = "https://files.pythonhosted.org/packages/4c/5e/6003a0d1f37725ec2ebd4046b657abb9372202655f96e76795dca8c0063c/docutils-0.17.1-py2.py3-none-any.whl";
+      sha256 = "0qgw95skhxi8xi1bm7vsldsgkb02cr7qfmibnwia0dx7f21nqcfg";
     };
     format = "wheel";
     doCheck = false;
