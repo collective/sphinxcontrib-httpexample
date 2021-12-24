@@ -1,5 +1,6 @@
 PYTHON ?= python39
-ARGSTR ?= --argstr python $(PYTHON)
+FEATURE ?=
+ARGSTR ?= --argstr python $(PYTHON) --argstr feature "$(FEATURE)"
 
 CACHIX_CACHE ?= datakurre
 
