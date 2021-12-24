@@ -1,8 +1,9 @@
-{ pkgs ? import ./nix { nixpkgs = sources."nixpkgs"; }
+{ pkgs ? import ./nix {}
 , sources ? import ./nix/sources.nix {}
 , python ? "python39"
+, feature ? ""
 , pythonPackages ? builtins.getAttr (python + "Packages") pkgs
-, requirements ?  ./. + "/nix/requirements-${python}.nix"
+, requirements ?  ./. + "/nix/requirements-${python}${feature}.nix"
 , src ? pkgs.gitignoreSource ./.
 , buildInputs ? with pkgs; []
 , propagatedBuildInputs ? []
@@ -139,17 +140,29 @@ let
         rm $out/${self.python.sitePackages}/backports/__init__.pyc
       '';
     });
-    "pytest-cov" = super."pytest-cov".overridePythonAttrs(old: {
-      propagatedBuildInputs = old.propagatedBuildInputs ++ [ self."toml" ];
-    });
     "coveralls" = super."coveralls".overridePythonAttrs(old: {
       propagatedBuildInputs = old.propagatedBuildInputs ++ [ self."pyOpenSSL" ];
     });
     "fastdiff" = super."fastdiff".overridePythonAttrs(old: {
+      pipInstallFlags = ["--no-dependencies"];
       propagatedBuildInputs = [];
+      doCheck = false;
     });
-# } else if buildPython.pkgs.isPy36 then {
-  } else {};
+    "configparser" = buildPython.pkgs."configparser";
+    "contextlib2" = buildPython.pkgs."contextlib2";
+    "importlib-metadata" = buildPython.pkgs."importlib-metadata";
+    "more-itertools" = buildPython.pkgs."more-itertools";
+    "packaging" = buildPython.pkgs."packaging";
+    "pathlib2" = buildPython.pkgs."pathlib2";
+    "pyparsing" = buildPython.pkgs."pyparsing";
+    "scandir" = buildPython.pkgs."scandir";
+    "six" = buildPython.pkgs."six";
+    "zipp" = buildPython.pkgs."zipp";
+  } else {
+    "packaging" = buildPython.pkgs."packaging";
+    "pyparsing" = buildPython.pkgs."pyparsing";
+    "six" = buildPython.pkgs."six";
+  };
 
 in rec {
 

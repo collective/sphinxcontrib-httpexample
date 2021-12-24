@@ -334,10 +334,10 @@ self: super: {
   };
   "importlib-metadata" = super.buildPythonPackage rec {
     pname = "importlib-metadata";
-    version = "4.8.3";
+    version = "1.7.0";
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/a0/a1/b153a0a4caf7a7e3f15c2cd56c7702e2cf3d89b1b359d1f1c5e59d68f4ce/importlib_metadata-4.8.3-py3-none-any.whl";
-      sha256 = "0pkvblg25ymsl9dzs1ic9pilbk0534j2mi1ks52cln1dbdm5gab5";
+      url = "https://files.pythonhosted.org/packages/8e/58/cdea07eb51fc2b906db0968a94700866fc46249bdc75cac23f9d13168929/importlib_metadata-1.7.0-py2.py3-none-any.whl";
+      sha256 = "0w10iv6rq7zvigai2y8mk8g7kiwa84nydsqyql2n7qsckfbb45fw";
     };
     format = "wheel";
     doCheck = false;
@@ -345,7 +345,6 @@ self: super: {
     checkInputs = [];
     nativeBuildInputs = [];
     propagatedBuildInputs = [
-      self."typing-extensions"
       self."zipp"
     ];
   };

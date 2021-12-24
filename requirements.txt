@@ -1,5 +1,5 @@
-Jinja2==2.11.3
-MarkupSafe==1.1.1
+Jinja2
+MarkupSafe
 astunparse
 coverage
 coveralls
@@ -9,13 +9,13 @@ flake8-coding
 flake8-debugger
 flake8-isort
 flake8-quotes
-idna==2.10
+idna
 isort
 pep8-naming
-pyyaml
 pytest
-pytest-cov
+pytest-cov==2.12.1
 pytest-runner
+pyyaml
 rst2pdf
 snapshottest==0.5.0
 sphinx

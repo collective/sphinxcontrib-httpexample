@@ -1,4 +1,4 @@
-{ pkgs ? import ./nix { nixpkgs = sources."nixpkgs"; }
+{ pkgs ? import ./nix {}
 , sources ? import ./nix/sources.nix {}
 , python ? "python39"
 }:
