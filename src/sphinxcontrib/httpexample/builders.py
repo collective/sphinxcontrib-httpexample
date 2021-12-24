@@ -11,7 +11,22 @@ import string
 try:
     from ast import unparse
 except ImportError:
-    from astunparse import unparse
+    from six.moves import StringIO
+
+    import astunparse
+
+    # Fix: https://github.com/simonpercivall/astunparse/issues/43
+    # See: https://github.com/juanlao7/codeclose/commit/0f145f53a3253f9c593c537e1a25c9ef445f30d1  # noqa: E501
+    class FixUnparser(astunparse.Unparser):
+        def _Constant(self, t):  # noqa:  N802
+            if not hasattr(t, 'kind'):
+                setattr(t, 'kind', None)
+            super()._Constant(t)
+
+    def unparse(tree):
+        v = StringIO()
+        FixUnparser(tree, file=v)
+        return v.getvalue()
 
 try:
     from shlex import quote as shlex_quote
