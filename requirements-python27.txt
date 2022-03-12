@@ -38,7 +38,7 @@ packaging==20.9
 pathlib2==2.3.6
 pdfrw==0.4
 pep8-naming==0.12.1
-pillow==6.2.2
+pillow==9.0.1
 pluggy==0.13.1
 py==1.11.0
 pyOpenSSL==21.0.0
