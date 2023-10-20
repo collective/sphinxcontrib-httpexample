@@ -141,7 +141,7 @@ snapshots['test_fixture[build_curl_command-fixture_013] 1'] = 'curl -i -X POST h
 
 snapshots['test_fixture[build_wget_command-fixture_013] 1'] = 'wget -S -O- http://localhost:8080/@@oauth2-token --header="Accept: application/json" --header="Content-Type: application/x-www-form-urlencoded" --post-data=\'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=REDACTED\''
 
-snapshots['test_fixture[build_requests_command-fixture_013] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': ['urn:ietf:params:oauth:grant-type:jwt-bearer'], 'assertion': ['REDACTED']})"
+snapshots['test_fixture[build_requests_command-fixture_013] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': 'REDACTED'})"
 
 snapshots['test_fixture[build_httpie_command-fixture_014] 1'] = 'echo \'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=REDACTED\' | http POST http://localhost:8080/@@oauth2-token Accept:application/json Content-Type:"application/x-www-form-urlencoded"'
 
@@ -149,5 +149,5 @@ snapshots['test_fixture[build_curl_command-fixture_014] 1'] = 'curl -i -X POST h
 
 snapshots['test_fixture[build_wget_command-fixture_014] 1'] = 'wget -S -O- http://localhost:8080/@@oauth2-token --header="Accept: application/json" --header="Content-Type: application/x-www-form-urlencoded" --post-data=\'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=REDACTED\''
 
-snapshots['test_fixture[build_requests_command-fixture_014] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': ['urn:ietf:params:oauth:grant-type:jwt-bearer'], 'assertion': ['REDACTED']})"
+snapshots['test_fixture[build_requests_command-fixture_014] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': 'REDACTED'})"
 
