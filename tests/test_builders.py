@@ -10,6 +10,8 @@ from .test_fixtures import FIXTURE_008_REQUEST
 from .test_fixtures import FIXTURE_009_REQUEST
 from .test_fixtures import FIXTURE_011_REQUEST
 from .test_fixtures import FIXTURE_012_REQUEST
+from .test_fixtures import FIXTURE_013_REQUEST
+from .test_fixtures import FIXTURE_014_REQUEST
 from sphinxcontrib.httpexample.builders import build_curl_command
 from sphinxcontrib.httpexample.builders import build_httpie_command
 from sphinxcontrib.httpexample.builders import build_requests_command
@@ -31,6 +33,8 @@ request_fixtures = (
     {'name': 'fixture_009', 'data': FIXTURE_009_REQUEST},
     {'name': 'fixture_011', 'data': FIXTURE_011_REQUEST},
     {'name': 'fixture_012', 'data': FIXTURE_012_REQUEST},
+    {'name': 'fixture_013', 'data': FIXTURE_013_REQUEST},
+    {'name': 'fixture_014', 'data': FIXTURE_014_REQUEST},
 )
 
 

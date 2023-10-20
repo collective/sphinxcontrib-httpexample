@@ -134,3 +134,20 @@ snapshots['test_fixture[build_wget_command-fixture_012] 1'] = 'wget -S -O- http:
 snapshots['test_fixture[build_requests_command-fixture_012] 1'] = "requests.post('http://localhost:8080/metrics', headers={'Accept': 'application/json', 'Content-Type': 'application/json'}, json={'max': 0.2, 'min': 0.1}, auth=('admin', 'admin'))"
 
 snapshots['test_fixture[build_requests_command-fixture_009] 1'] = 'requests.patch(\'http://localhost:8080/etc/fstab\', headers={\'Accept\': \'application/vnd.acme+json\', \'Accept-Encoding\': \'gzip, deflate\', \'Content-Type\': \'application/vnd.acme+json; charset=utf-8\', \'If-None-Match\': \'"abc123"\', \'Authorization\': \'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\'}, json={\'/\': {\'fstype\': \'btrfs\', \'readonly\': True, \'storage\': {\'device\': \'/dev/sda1\', \'type\': \'disk\'}}, \'/tmp\': {\'storage\': {\'sizeInMB\': 64, \'type\': \'tmpfs\'}}, \'/var\': {\'fstype\': \'ext4\', \'options\': [\'nosuid\'], \'storage\': {\'label\': \'8f3ba6f4-5c70-46ec-83af-0d5434953e5f\', \'type\': \'disk\'}}, \'/var/www\': {\'storage\': {\'remotePath\': \'/exports/mypath\', \'server\': \'my.nfs.server\', \'type\': \'nfs\'}}})'
+
+snapshots['test_fixture[build_httpie_command-fixture_013] 1'] = 'echo \'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=REDACTED\' | http POST http://localhost:8080/@@oauth2-token Accept:application/json Content-Type:"application/x-www-form-urlencoded"'
+
+snapshots['test_fixture[build_curl_command-fixture_013] 1'] = 'curl -i -X POST http://localhost:8080/@@oauth2-token -H "Accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" --data-raw \'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=REDACTED\''
+
+snapshots['test_fixture[build_wget_command-fixture_013] 1'] = 'wget -S -O- http://localhost:8080/@@oauth2-token --header="Accept: application/json" --header="Content-Type: application/x-www-form-urlencoded" --post-data=\'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=REDACTED\''
+
+snapshots['test_fixture[build_requests_command-fixture_013] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': ['urn:ietf:params:oauth:grant-type:jwt-bearer'], 'assertion': ['REDACTED']})"
+
+snapshots['test_fixture[build_httpie_command-fixture_014] 1'] = 'echo \'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=REDACTED\' | http POST http://localhost:8080/@@oauth2-token Accept:application/json Content-Type:"application/x-www-form-urlencoded"'
+
+snapshots['test_fixture[build_curl_command-fixture_014] 1'] = 'curl -i -X POST http://localhost:8080/@@oauth2-token -H "Accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" --data-raw \'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=REDACTED\''
+
+snapshots['test_fixture[build_wget_command-fixture_014] 1'] = 'wget -S -O- http://localhost:8080/@@oauth2-token --header="Accept: application/json" --header="Content-Type: application/x-www-form-urlencoded" --post-data=\'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=REDACTED\''
+
+snapshots['test_fixture[build_requests_command-fixture_014] 1'] = "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': ['urn:ietf:params:oauth:grant-type:jwt-bearer'], 'assertion': ['REDACTED']})"
+

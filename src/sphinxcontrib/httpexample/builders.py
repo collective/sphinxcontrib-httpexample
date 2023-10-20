@@ -9,6 +9,11 @@ import string
 
 
 try:
+    from urllib.parse import parse_qs
+except ImportError:
+    from urlparse import parse_qs
+
+try:
     from ast import unparse
 except ImportError:
     from six.moves import StringIO
@@ -236,6 +241,12 @@ def build_requests_command(request):
 
     # JSON or raw data
     data = maybe_str(request.data())
+
+    # Form data
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/x-www-form-urlencoded':
+        if not isinstance(data, dict):
+            data = parse_qs(data)
 
     def astify_json_obj(obj):
         obj = maybe_str(obj)
