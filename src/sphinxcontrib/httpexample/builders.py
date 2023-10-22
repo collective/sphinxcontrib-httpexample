@@ -9,6 +9,11 @@ import string
 
 
 try:
+    from urllib.parse import parse_qs
+except ImportError:
+    from urlparse import parse_qs
+
+try:
     from ast import unparse
 except ImportError:
     from six.moves import StringIO
@@ -207,6 +212,14 @@ def build_httpie_command(request):
         return 'echo {} | {}'.format(redir_input, cmd)
 
 
+def flatten_parsed_qs(data):
+    """Flatten single value lists in parse_qs results."""
+    for key, value in data.items():
+        if isinstance(value, list) and len(value) == 1:
+            data[key] = value[0]
+    return data
+
+
 def build_requests_command(request):
     # Method
     tree = ast.parse('requests.{}()'.format(request.command.lower()))
@@ -236,6 +249,12 @@ def build_requests_command(request):
 
     # JSON or raw data
     data = maybe_str(request.data())
+
+    # Form data
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/x-www-form-urlencoded':
+        if not isinstance(data, dict):
+            data = flatten_parsed_qs(parse_qs(data))
 
     def astify_json_obj(obj):
         obj = maybe_str(obj)
