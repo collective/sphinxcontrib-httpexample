@@ -17,6 +17,7 @@
 .http-example div[class^='highlight'] pre {
     white-space: normal;
 }
+.http-example-JavaScript div[class^='highlight'] pre,
 .http-example-http div[class^='highlight'] pre,
 .http-example-response div[class^='highlight'] pre {
     white-space: pre;

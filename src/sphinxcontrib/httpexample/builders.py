@@ -212,6 +212,25 @@ def build_httpie_command(request):
         return 'echo {} | {}'.format(redir_input, cmd)
 
 
+def build_plone_javascript_command(request):
+    javascript_code = 'createAliasesMutation'
+    redir_input2 = ''
+
+    # Request body
+    data = maybe_str(request.data())
+    if data:
+        if is_json(request.headers.get('Content-Type', '')):
+            redir_input2 = json.dumps(data, indent=2, sort_keys=True,
+                           separators=(',', ': '))
+        else:
+            redir_input2 = data
+            
+    # Output string
+    output_string = f"{javascript_code}\n|\nconst aliasesData = {redir_input2};"
+
+    return output_string
+
+
 def flatten_parsed_qs(data):
     """Flatten single value lists in parse_qs results."""
     for key, value in data.items():
@@ -295,3 +314,5 @@ def build_requests_command(request):
                 tuple(map(ast.Str, token.split(':'))), None)))
 
     return unparse(tree).strip()
+
+

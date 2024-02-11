@@ -16,7 +16,8 @@ AVAILABLE_BUILDERS = {
     'wget': (builders.build_wget_command, 'bash'),
     'httpie': (builders.build_httpie_command, 'bash'),
     'requests': (builders.build_requests_command, 'python'),
-    'python-requests': (builders.build_requests_command, 'python')
+    'python-requests': (builders.build_requests_command, 'python'),
+    'plone_javascript': (builders.build_plone_javascript_command, 'javascript'),
 }
 
 AVAILABLE_FIELDS = [
@@ -127,6 +128,10 @@ class HTTPExample(CodeBlock):
             for name in chosen_builders:
                 request = parsers.parse_request(raw, config.httpexample_scheme)
                 builder_, language = AVAILABLE_BUILDERS[name]
+
+                #Setting plone JavaScript tab name
+                name = 'JavaScript' if name == 'plone_javascript' else name
+                
                 command = builder_(request)
 
                 content = StringList(
