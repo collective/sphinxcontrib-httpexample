@@ -101,7 +101,7 @@ snapshots['test_fixture[build_httpie_command-fixture_014] 1'] = 'echo \'grant_ty
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_001] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_002] 1'] = '''createAliasesMutation
 |
@@ -118,23 +118,23 @@ const aliasesData = '{
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_004] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_005] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_006] 1'] = '''createAliasesMutation
 |
-const aliasesData = defgh;'''
+const aliasesData = 'defgh';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_007] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_008] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_009] 1'] = '''createAliasesMutation
 |
@@ -174,7 +174,7 @@ const aliasesData = '{
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_011] 1'] = '''createAliasesMutation
 |
-const aliasesData = ;'''
+const aliasesData = '';'''
 
 snapshots['test_fixture[build_plone_javascript_command-fixture_012] 1'] = '''createAliasesMutation
 |

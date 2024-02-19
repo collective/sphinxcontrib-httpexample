@@ -220,13 +220,19 @@ def build_plone_javascript_command(request):
     data = maybe_str(request.data())
     if data:
         if is_json(request.headers.get('Content-Type', '')):
-            redir_input2 = json.dumps(data, indent=2, sort_keys=True,
-                           separators=(',', ': '))
+            redir_input2 = json.dumps(
+                data, indent=2, sort_keys=True,
+                separators=(',', ': '),
+            ).encode('utf-8')
         else:
             redir_input2 = data
-            
+
     # Output string
-    output_string = f"{javascript_code}\n|\nconst aliasesData = {redir_input2};"
+    output_string =\
+        "{}\n|\nconst aliasesData = '{}';".format(
+            maybe_str(javascript_code),
+            maybe_str(redir_input2),
+        )
 
     return output_string
 
@@ -314,5 +320,3 @@ def build_requests_command(request):
                 tuple(map(ast.Str, token.split(':'))), None)))
 
     return unparse(tree).strip()
-
-
