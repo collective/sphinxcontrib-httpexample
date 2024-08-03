@@ -1,7 +1,9 @@
 (function() {
   var jQuery = window.jQuery || function() {};
 
+  console.log("1");
   jQuery(function($) {
+    console.log("2");
     $('.http-example.container').each(function() {
       var $container = $(this),
           $blocks = $(this).children(),

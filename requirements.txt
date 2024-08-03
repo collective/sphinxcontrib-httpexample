@@ -3,7 +3,8 @@ MarkupSafe
 astunparse
 coverage
 coveralls
-docutils==0.17.1
+docutils
+#docutils==0.17.1
 flake8-blind-except
 flake8-coding
 flake8-debugger
@@ -19,7 +20,9 @@ pyyaml
 rst2pdf
 snapshottest==0.5.0
 sphinx
+sphinx-autobuild
 sphinx-testing
 sphinx_rtd_theme
+plone-sphinx-theme
 sphinxcontrib-httpdomain
 toml

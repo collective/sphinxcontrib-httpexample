@@ -7,6 +7,16 @@ CACHIX_CACHE ?= datakurre
 TEST = $(wildcard tests/*.py)
 SRC = $(wildcard src/sphinxcontrib/httpexample/*.py)
 
+# Sphinx variables
+# You can set these variables from the command line.
+SPHINXOPTS      ?=
+# Internal variables.
+SPHINXBUILD     = "$(realpath env/bin/sphinx-build)"
+SPHINXAUTOBUILD = "$(realpath env/bin/sphinx-autobuild)"
+DOCS_DIR        = ./docs/
+BUILDDIR        = ../_build/
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(SPHINXOPTS) .
+
 .PHONY: all
 all: test coverage
 
@@ -27,10 +37,14 @@ cache:
 
 .PHONY: docs
 docs:
-	sphinx-build -b html docs docs/html
-ifeq "$(PYTHON)" "python27"
-	sphinx-build -b pdf docs docs/pdf
-endif
+	cd $(DOCS_DIR) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+
+.PHONY: livehtml
+livehtml:  ## Rebuild Sphinx documentation on changes, with live-reload in the browser
+	cd "$(DOCS_DIR)" && ${SPHINXAUTOBUILD} \
+		--ignore "*.swp" \
+		--port 8050 \
+		-b html . "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 
 .PHONY: coverage
 coverage: .coverage
