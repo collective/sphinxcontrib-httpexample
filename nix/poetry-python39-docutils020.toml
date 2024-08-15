@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "sphinxcontrib-httpexample"
+version = "1.2.dev0"
+description = "Adds example directive for sphinx-contrib httpdomain"
+authors = ["Asko Soukka <asko.soukka@iki.fi>"]
+license = "GPL-2.0-or-later"
+readme = "README.rst"
+homepage = "https://github.com/collective/sphinxcontrib-httpexample"
+repository = "https://github.com/collective/sphinxcontrib-httpexample"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Framework :: Sphinx :: Extension",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 2",
+    "Programming Language :: Python :: 3",
+    "Topic :: Documentation",
+    "Topic :: Utilities",
+]
+packages = [
+    { include = "src/sphinxcontrib" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+astunparse = "^1.6.3"
+docutils = "<0.21"
+sphinxcontrib-httpdomain = "^1.8.1"
+setuptools = "^72.2.0"
+sphinx = ">6"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+coverage = "<6.0.dev0"
+pytest = "^8.3.2"
+pytest-runner = "^6.0.1"
+pytest-cov = "^5.0.0"
+isort = "^5.13.2"
+snapshottest = "^0.6.0"
+sphinx-testing = "^1.0.1"
+flake8 = "^7.1.1"
+sphinx-rtd-theme = "^2.0.0"
+coveralls = "3.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+force_alphabetical_sort_within_sections = true
+force_single_line = true
+from_first = true
+line_length = 200
+lines_after_imports = 2
+lines_between_types = 0
+no_sections = true

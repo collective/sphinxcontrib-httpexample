@@ -1,29 +1,11 @@
-PYTHON ?= python39
-FEATURE ?=
-ARGSTR ?= --argstr python $(PYTHON) --argstr feature "$(FEATURE)"
-
-CACHIX_CACHE ?= datakurre
+export PYTHON ?= python27
+export FEATURE ?= docutils016
 
 TEST = $(wildcard tests/*.py)
 SRC = $(wildcard src/sphinxcontrib/httpexample/*.py)
 
 .PHONY: all
 all: test coverage
-
-.PHONY: nix-%
-nix-%:
-	nix-shell setup.nix $(ARGSTR) -A package --run "$(MAKE) $*"
-
-nix-env:
-	nix-build setup.nix $(ARGSTR) -A env
-
-nix-shell:
-	nix-shell setup.nix $(ARGSTR) -A package
-
-.PHONY: cache
-cache:
-	nix-store --query --references $$(nix-instantiate default.nix --argstr python $(PYTHON)) | \
-	xargs nix-store --realise | xargs nix-store --query --requisites | cachix push $(CACHIX_CACHE)
 
 .PHONY: docs
 docs:
@@ -40,9 +22,13 @@ coverage: .coverage
 coveralls: .coverage
 	coveralls --service=github
 
+.PHONY: nix-fmt
+nix-fmt:
+	nix fmt flake.nix setup.nix
+
 .PHONY: show
 show:
-	pip list
+	pip freeze
 
 .PHONY: test
 test:
@@ -51,6 +37,21 @@ test:
 
 ###
 
+.PHONY: nix-%
+nix-%:
+	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config --command $(MAKE) $*
+
+.PHONY: nix-shell
+nix-shell:
+	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config
+
+.PHONY: shell
+shell:
+	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config
+
+env:
+	nix build .#$(PYTHON)$-(FEATURE)-env --accept-flake-config -o env
+
 .cache:
 	mkdir -p .cache
 	if [ -d ~/.cache/pip ]; then ln -s ~/.cache/pip ./.cache; fi
@@ -58,12 +59,9 @@ test:
 .coverage: $(TEST) $(SRC)
 	coverage run setup.py test
 
-.PHONY: requirements
-requirements: .cache nix/requirements-$(PYTHON).nix
+nix/requirements-python27.nix: .cache nix/requirements-python27.txt
+	nix develop .#python27-pip2nix --command pip2nix generate -r nix/requirements-python27.txt --output=nix/requirements-python27.nix
 
-nix/requirements-$(PYTHON).nix: .cache requirements-$(PYTHON).txt
-	nix-shell -p "(import ./nix {}).pip2nix.$(PYTHON)" --run "pip2nix generate -r requirements-$(PYTHON).txt --output=nix/requirements-$(PYTHON).nix"
-
-requirements-$(PYTHON).txt: .cache requirements.txt
-	nix-shell -p "(import ./nix {}).pip2nix.$(PYTHON)" --run "pip2nix generate -r requirements.txt --output=nix/requirements-$(PYTHON).nix"
-	@grep "pname =\|version =" nix/requirements-$(PYTHON).nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > requirements-$(PYTHON).txt
+nix/requirements-python27.txt: .cache requirements.txt
+	nix develop .#python27-pip2nix --command pip2nix generate -r requirements.txt --output=nix/requirements-python27.nix
+	@grep "pname =\|version =" nix/requirements-python27.nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > nix/requirements-python27.txt
