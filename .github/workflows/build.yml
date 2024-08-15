@@ -7,7 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [python27, python37, python38, python39, python310]
+        python: [python27, python39, python310, python311]
+        docutils: [docutils016, docutils017, docutils018, docutils019, docutils020]
+        exclude:
+          - python: python27
+            docutils: docutils018
+          - python: python27
+            docutils: docutils019
+          - python: python27
+            docutils: docutils020
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.github_token }}
     steps:
@@ -18,4 +26,5 @@ jobs:
     - uses: cachix/cachix-action@v14
       with:
         name: datakurre
-    - run: make nix-show nix-test nix-coverage nix-coveralls nix-docs PYTHON=${{ matrix.python }}
+#       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'j
+    - run: make nix-show nix-test nix-coverage nix-coveralls nix-docs PYTHON=${{ matrix.python }} FEATURE=${{ matrix.docutils }}
