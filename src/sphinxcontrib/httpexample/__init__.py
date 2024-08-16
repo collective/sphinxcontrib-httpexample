@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sphinxcontrib.httpexample.directives import HTTPExample
+from sphinxcontrib.httpexample.directives import HTTPExample, HTTPExampleBlock
 
 import os
 import pkg_resources
@@ -28,6 +28,7 @@ def copy_assets(app, exception):
 def setup(app):
     app.connect('build-finished', copy_assets)
     app.add_directive_to_domain('http', 'example', HTTPExample)
+    app.add_directive_to_domain('http', 'example-block', HTTPExampleBlock)
     app.add_js_file(JS_FILE)
     app.add_css_file(CSS_FILE)
     app.add_config_value('httpexample_scheme', 'http', 'html')

@@ -19,6 +19,8 @@ pyyaml
 rst2pdf
 snapshottest==0.5.0
 sphinx
+sphinx-design
+sphinx-inline-tabs
 sphinx-testing
 sphinx_rtd_theme
 sphinxcontrib-httpdomain
