@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Process each caption element
-    captions.forEach(function(caption) {
+    captions.forEach(function(caption, index) {
       var orphan, block = !!caption.parentElement.id ? caption.parentElement : caption.parentElement.parentElement;
       block.setAttribute('role', 'tabpanel');
       block.setAttribute('tabindex', '0');
@@ -32,15 +32,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Click event for captions
       caption.addEventListener('click', function() {
-        // Deselect other captions
         captions.forEach(function(otherCaption) {
-          otherCaption.setAttribute('aria-selected', 'false');
-          otherCaption.classList.remove('selected');
+          if (caption === otherCaption) {
+            // Select the clicked caption
+            caption.setAttribute('aria-selected', 'true');
+            caption.classList.add('selected');
+            otherCaption.setAttribute('tabindex', '0');
+          } else {
+          // Deselect other captions
+            otherCaption.setAttribute('aria-selected', 'false');
+            otherCaption.setAttribute('tabindex', '-1');
+            otherCaption.classList.remove('selected');
+          }
         });
-
-        // Select the clicked caption
-        caption.setAttribute('aria-selected', 'true');
-        caption.classList.add('selected');
 
         // Hide other blocks and show the selected one
         blocks.forEach(function(otherBlock) {
@@ -57,6 +61,16 @@ document.addEventListener("DOMContentLoaded", function() {
       caption.addEventListener('keydown', function(event) {
         if (event.code === 'Space' || event.code === 'Enter') {
           caption.click();
+        } else if (event.code === 'ArrowRight') {
+          // Move focus to the next tab
+          var nextIndex = (index + 1) % captions.length;
+          captions[nextIndex].focus();
+          captions[nextIndex].click();
+        } else if (event.code === 'ArrowLeft') {
+          // Move focus to the previous tab
+          var prevIndex = (index - 1 + captions.length) % captions.length;
+          captions[prevIndex].focus();
+          captions[prevIndex].click();
         }
       });
 
