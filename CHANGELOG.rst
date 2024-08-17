@@ -4,8 +4,26 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add new HTTP example builder `plone-javascript`
+  [datakurre]
 
+- Fix tabbing to no longer depend on jQuery
+  [datakurre]
+
+- Fix tabbing to support arrow key navigation
+  [datakurre]
+
+- Fix tab key to stop at tab list only once
+  [datakurre]
+
+- Fix requests builder to flatten simple values in form data
+  [datakurre]
+
+- Fix requests builder to pass form data as dictionary
+  [datakurre]
+
+- Change JavaScript-based tabbing to no longer require JQuery
+  [datakurre]
 
 1.1 (2021-12-25)
 ----------------
