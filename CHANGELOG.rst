@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2024-08-17)
 ----------------
 
 - Add new HTTP example builder `plone-javascript`
