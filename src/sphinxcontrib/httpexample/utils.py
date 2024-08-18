@@ -28,8 +28,7 @@ def merge_dicts(a, b):
 def resolve_path(spec, cwd=''):
     if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
         return os.path.normpath(os.path.join(cwd, spec))
-    elif (spec.count(':') and
-          pkg_resources.resource_exists(*spec.split(':', 1))):
+    elif spec.count(':') and pkg_resources.resource_exists(*spec.split(':', 1)):
         return pkg_resources.resource_filename(*spec.split(':', 1))
     else:
         return spec
@@ -38,15 +37,15 @@ def resolve_path(spec, cwd=''):
 def maybe_str(v):
     """Convert any strings to local 'str' instances"""
     if isinstance(v, str) and isinstance(v, bytes):
-        return v                  # Python 2 encoded
+        return v  # Python 2 encoded
     elif str(type(v)) == "<type 'unicode'>":
         return v.encode('utf-8')  # Python 2 unicode
     elif isinstance(v, bytes):
         return v.decode('utf-8')  # Python 3 encoded
     elif isinstance(v, str):
-        return v                  # Python 3 unicode
+        return v  # Python 3 unicode
     else:
-        return v                  # not a string
+        return v  # not a string
 
 
 def ordered(dict_):
@@ -104,8 +103,12 @@ def add_url_params(url, params):
     new_params = parse_qsl(parsed_url.query) + params
     new_params_encoded = urlencode(new_params, doseq=True)
     new_url = ParseResult(
-        parsed_url.scheme, parsed_url.netloc, parsed_url.path,
-        parsed_url.params, new_params_encoded, parsed_url.fragment
+        parsed_url.scheme,
+        parsed_url.netloc,
+        parsed_url.path,
+        parsed_url.params,
+        new_params_encoded,
+        parsed_url.fragment,
     ).geturl()
 
     return new_url

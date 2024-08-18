@@ -17,18 +17,17 @@ AVAILABLE_BUILDERS = {
     'httpie': (builders.build_httpie_command, 'bash'),
     'requests': (builders.build_requests_command, 'python'),
     'python-requests': (builders.build_requests_command, 'python'),
-    'plone-javascript': (builders.build_plone_javascript_command,
-                         'javascript'),
+    'plone-javascript': (builders.build_plone_javascript_command, 'javascript'),
 }
 
-AVAILABLE_FIELDS = [
-    'query'
-]
+AVAILABLE_FIELDS = ['query']
 
 
 def choose_builders(arguments):
-    return [directives.choice(argument, AVAILABLE_BUILDERS)
-            for argument in (arguments or [])]
+    return [
+        directives.choice(argument, AVAILABLE_BUILDERS)
+        for argument in (arguments or [])
+    ]
 
 
 class HTTPExample(CodeBlock):
@@ -36,10 +35,13 @@ class HTTPExample(CodeBlock):
     required_arguments = 0
     optional_arguments = len(AVAILABLE_BUILDERS)
 
-    option_spec = utils.merge_dicts(CodeBlock.option_spec, {
-        'request': directives.unchanged,
-        'response': directives.unchanged,
-    })
+    option_spec = utils.merge_dicts(
+        CodeBlock.option_spec,
+        {
+            'request': directives.unchanged,
+            'response': directives.unchanged,
+        },
+    )
 
     @staticmethod
     def process_content(content):
@@ -49,8 +51,7 @@ class HTTPExample(CodeBlock):
             params, _ = request.extract_fields('query')
             params = [(p[1], p[2]) for p in params]
             new_path = utils.add_url_params(request.path, params)
-            content[0] = ' '.join(
-                [request.command, new_path, request.request_version])
+            content[0] = ' '.join([request.command, new_path, request.request_version])
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
@@ -66,21 +67,22 @@ class HTTPExample(CodeBlock):
             if in_response:
                 response_content.append(line, source)
             else:
-                if emptylines_count >= 2 and \
-                        (line.startswith('HTTP/') or line.startswith('HTTP ')):
+                if emptylines_count >= 2 and (
+                    line.startswith('HTTP/') or line.startswith('HTTP ')
+                ):
                     in_response = True
                     response_content = StringList()
                     response_content.append(line, source)
                 elif line == '':
                     emptylines_count += 1
                 else:
-                    request_content.extend(
-                        StringList([''] * emptylines_count, source))
+                    request_content.extend(StringList([''] * emptylines_count, source))
                     request_content.append(line, source)
 
                     if not re.match(is_field, line):
                         request_content_no_fields.extend(
-                            StringList([''] * emptylines_count, source))
+                            StringList([''] * emptylines_count, source)
+                        )
                         request_content_no_fields.append(line, source)
 
                     emptylines_count = 0
@@ -89,9 +91,7 @@ class HTTPExample(CodeBlock):
 
     def run(self):
         if self.content:
-            processed = self.process_content(
-                StringList(self.content)
-            )
+            processed = self.process_content(StringList(self.content))
             have_request = bool(processed[1])
             have_response = bool(processed[2])
         else:
@@ -111,7 +111,7 @@ class HTTPExample(CodeBlock):
             self.content_offset,
             self.block_text,
             self.state,
-            self.state_machine
+            self.state_machine,
         )
         container.extend(block.run())
 
@@ -138,7 +138,7 @@ class HTTPExample(CodeBlock):
                     self.content_offset,
                     self.block_text,
                     self.state,
-                    self.state_machine
+                    self.state_machine,
                 )
 
                 # Wrap and render main directive as 'http-example-{name}'
@@ -165,7 +165,7 @@ class HTTPExample(CodeBlock):
                 self.content_offset,
                 self.block_text,
                 self.state,
-                self.state_machine
+                self.state_machine,
             )
 
             # Wrap and render main directive as 'http-example-response'
@@ -187,10 +187,13 @@ class HTTPExample(CodeBlock):
 class HTTPExampleBlock(CodeBlock):
     required_arguments = 1
 
-    option_spec = utils.merge_dicts(CodeBlock.option_spec, {
-        'request': directives.unchanged,
-        'response': directives.unchanged,
-    })
+    option_spec = utils.merge_dicts(
+        CodeBlock.option_spec,
+        {
+            'request': directives.unchanged,
+            'response': directives.unchanged,
+        },
+    )
 
     def read_http_file(self, path):
         cwd = os.path.dirname(self.state.document.current_source)
@@ -213,11 +216,9 @@ class HTTPExampleBlock(CodeBlock):
             self.arguments = ['http']
         else:
             if 'request' in self.options:
-                request_content_no_fields = self.read_http_file(
-                    self.options['request'])
+                request_content_no_fields = self.read_http_file(self.options['request'])
             else:
-                request_content_no_fields = HTTPExample.process_content(
-                    self.content)[1]
+                request_content_no_fields = HTTPExample.process_content(self.content)[1]
 
             raw = ('\r\n'.join(request_content_no_fields)).encode('utf-8')
 
@@ -228,7 +229,6 @@ class HTTPExampleBlock(CodeBlock):
             self.arguments = [language]
 
             command = builder_(request)
-            self.content = StringList(
-                [command], request_content_no_fields.source(0))
+            self.content = StringList([command], request_content_no_fields.source(0))
 
         return super(HTTPExampleBlock, self).run()

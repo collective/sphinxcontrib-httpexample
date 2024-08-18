@@ -63,10 +63,12 @@ def test_parse_request_data():
 
 def test_parse_bad_request():
     with pytest.raises(Exception):
-        parsers.parse_request(b"""\
+        parsers.parse_request(
+            b"""\
 POST /Plone/folder
 Host: localhost:8080
-""")
+"""
+        )
 
 
 def test_parse_json_list():
@@ -81,11 +83,13 @@ def test_parse_extract_fields():
     request = parsers.parse_request(FIXTURE_011_REQUEST)
     fields, remainder = request.extract_fields('query')
 
-    expected = [('query', 'from', '20170101'),
-                ('query', 'to', '20171231'),
-                ('query', 'user_id', '15'),
-                ('query', 'limit', '20'),
-                ('query', 'sort', 'date-asc'), ]
+    expected = [
+        ('query', 'from', '20170101'),
+        ('query', 'to', '20171231'),
+        ('query', 'user_id', '15'),
+        ('query', 'limit', '20'),
+        ('query', 'sort', 'date-asc'),
+    ]
     actual = fields
     assert expected == actual
 
@@ -98,14 +102,17 @@ def test_parse_extract_fields():
     request_future_proof = FIXTURE_011_REQUEST + add
     request = parsers.parse_request(request_future_proof)
     fields, remainder = request.extract_fields(
-        field=None, available_fields=['query', 'some-future-field'])
+        field=None, available_fields=['query', 'some-future-field']
+    )
 
-    expected = [('query', 'from', '20170101'),
-                ('query', 'to', '20171231'),
-                ('query', 'user_id', '15'),
-                ('query', 'limit', '20'),
-                ('query', 'sort', 'date-asc'),
-                ('some-future-field', 'foo', 'bar'), ]
+    expected = [
+        ('query', 'from', '20170101'),
+        ('query', 'to', '20171231'),
+        ('query', 'user_id', '15'),
+        ('query', 'limit', '20'),
+        ('query', 'sort', 'date-asc'),
+        ('some-future-field', 'foo', 'bar'),
+    ]
     actual = fields
     assert expected == actual
 
@@ -120,5 +127,5 @@ def test_parse_extract_fields():
 
     with pytest.raises(ValueError):
         fields, remainder = request.extract_fields(
-            field='invalid-field',
-            available_fields=['query', 'some-future-field'])
+            field='invalid-field', available_fields=['query', 'some-future-field']
+        )

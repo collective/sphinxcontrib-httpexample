@@ -33,6 +33,7 @@ except ImportError:
         FixUnparser(tree, file=v)
         return v.getvalue()
 
+
 try:
     from shlex import quote as shlex_quote
 except ImportError:
@@ -60,10 +61,8 @@ EXCLUDE_HEADERS = [
     'Authorization',
     'Host',
 ]
-EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + [
-]
-EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + [
-]
+EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + []
+EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + []
 
 
 def build_curl_command(request):
@@ -82,8 +81,8 @@ def build_curl_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS:
             continue
-        header_line = shlex_double_quote('{}: {}'.format(
-            header, request.headers[header]),
+        header_line = shlex_double_quote(
+            '{}: {}'.format(header, request.headers[header]),
         )
         parts.append('-H {}'.format(header_line))
 
@@ -175,15 +174,21 @@ def build_httpie_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS_HTTP:
             continue
-        parts.append('{}:{}'.format(
-            header, shlex_double_quote(request.headers[header]),
-        ))
+        parts.append(
+            '{}:{}'.format(
+                header,
+                shlex_double_quote(request.headers[header]),
+            )
+        )
 
     if method != 'Basic' and 'Authorization' in request.headers:
         header = 'Authorization'
-        parts.append('{}:{}'.format(
-            header, shlex_double_quote(request.headers[header]),
-        ))
+        parts.append(
+            '{}:{}'.format(
+                header,
+                shlex_double_quote(request.headers[header]),
+            )
+        )
 
     # JSON or raw data
     data = maybe_str(request.data())
@@ -194,8 +199,8 @@ def build_httpie_command(request):
             # whitespace handling across Python 2 and 3. See
             # https://bugs.python.org/issue16333 for details.
             redir_input = shlex_quote(
-                json.dumps(data, indent=2, sort_keys=True,
-                           separators=(',', ': ')))
+                json.dumps(data, indent=2, sort_keys=True, separators=(',', ': '))
+            )
         else:
             redir_input = shlex_quote(data)
 
@@ -221,18 +226,19 @@ def build_plone_javascript_command(request):
     if data:
         if is_json(request.headers.get('Content-Type', '')):
             redir_input2 = json.dumps(
-                data, indent=2, sort_keys=True,
+                data,
+                indent=2,
+                sort_keys=True,
                 separators=(',', ': '),
             ).encode('utf-8')
         else:
             redir_input2 = data
 
     # Output string
-    output_string =\
-        "{}\n|\nconst aliasesData = '{}';".format(
-            maybe_str(javascript_code),
-            maybe_str(redir_input2),
-        )
+    output_string = "{}\n|\nconst aliasesData = '{}';".format(
+        maybe_str(javascript_code),
+        maybe_str(redir_input2),
+    )
 
     return output_string
 
@@ -270,7 +276,8 @@ def build_requests_command(request):
         header_values.append(ast.Str(request.headers['Authorization']))
     if header_keys and header_values:
         call.keywords.append(
-            ast.keyword('headers', ast.Dict(header_keys, header_values)))
+            ast.keyword('headers', ast.Dict(header_keys, header_values))
+        )
 
     # JSON or raw data
     data = maybe_str(request.data())
@@ -316,7 +323,7 @@ def build_requests_command(request):
     if method == 'Basic':
         token = maybe_str(token)
         call.keywords.append(
-            ast.keyword('auth', ast.Tuple(
-                tuple(map(ast.Str, token.split(':'))), None)))
+            ast.keyword('auth', ast.Tuple(tuple(map(ast.Str, token.split(':'))), None))
+        )
 
     return unparse(tree).strip()

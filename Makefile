@@ -22,6 +22,10 @@ coverage: .coverage
 coveralls: .coverage
 	coveralls --service=github
 
+.PHONY: format
+format:
+	black --skip-string-normalization src tests
+
 .PHONY: nix-fmt
 nix-fmt:
 	nix fmt flake.nix setup.nix
