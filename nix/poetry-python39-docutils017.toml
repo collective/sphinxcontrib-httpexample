@@ -44,6 +44,7 @@ sphinx-testing = "^1.0.1"
 flake8 = "^7.1.1"
 sphinx-rtd-theme = "^2.0.0"
 coveralls = "3.3.1"
+sphinx-copybutton = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core"]

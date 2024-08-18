@@ -1,18 +1,19 @@
-# Direct dependencies
+# Runtime dependencies
 astunparse
 docutils
 sphinxcontrib-httpdomain
 setuptools
 sphinx
-# Test and development dependencies
+# Build and development dependencies
 black
 coverage
-pytest
-pytest-runner
-pytest-cov
-isort
-snapshottest
-sphinx-testing
-flake8
-sphinx-rtd-theme
 coveralls
+flake8
+isort
+pytest
+pytest-cov
+pytest-runner
+snapshottest
+sphinx-rtd-theme
+sphinx-testing
+spihnx-copybutton
