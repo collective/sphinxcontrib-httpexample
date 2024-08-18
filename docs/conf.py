@@ -35,9 +35,11 @@ extensions = [
 ]
 
 try:
+    import sphinx_copybutton
     import sphinx_design
     import sphinx_inline_tabs
     extensions.extend([
+        'sphinx_copybutton',
         'sphinx_design',
         'sphinx_inline_tabs',
     ])
@@ -146,7 +148,9 @@ except ImportError:
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'collapse_navigation': False,
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
