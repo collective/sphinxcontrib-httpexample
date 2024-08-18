@@ -16,9 +16,7 @@ except ImportError:
     from BaseHTTPServer import BaseHTTPRequestHandler
 
 
-AVAILABLE_FIELDS = [
-    'query'
-]
+AVAILABLE_FIELDS = ['query']
 
 
 class HTTPRequest(BaseHTTPRequestHandler):
@@ -72,7 +70,8 @@ class HTTPRequest(BaseHTTPRequestHandler):
             fields.append((field.strip(), key.strip(), val.strip()))
 
         remaining_request = BytesIO(
-            '\n'.join(remaining_request).encode('utf-8').strip())
+            '\n'.join(remaining_request).encode('utf-8').strip()
+        )
         remaining_request.seek(0)
         self.rfile.seek(cursor)
 
@@ -92,9 +91,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
     def url(self):
         base_url = '{}://{}{}'.format(
-            self.scheme,
-            self.headers.get('Host', 'nohost'),
-            self.path
+            self.scheme, self.headers.get('Host', 'nohost'), self.path
         )
 
         params, _ = self.extract_fields('query')

@@ -20,7 +20,13 @@ coverage: .coverage
 
 .PHONY: coveralls
 coveralls: .coverage
-	coveralls --service=github
+ifeq ($(GITHUB_BASE_REF),)
+	coveralls
+endif
+
+.PHONY: format
+format:
+	black --skip-string-normalization src tests
 
 .PHONY: nix-fmt
 nix-fmt:
@@ -65,3 +71,40 @@ nix/requirements-python27.nix: .cache nix/requirements-python27.txt
 nix/requirements-python27.txt: .cache requirements.txt
 	nix develop .#python27-pip2nix --command pip2nix generate -r requirements.txt --output=nix/requirements-python27.nix
 	@grep "pname =\|version =" nix/requirements-python27.nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > nix/requirements-python27.txt
+
+poetry\ add\ --dev\ %:
+	cp nix/poetry-$(PYTHON)-$(FEATURE).toml pyproject.toml
+	cp nix/poetry-$(PYTHON)-$(FEATURE).lock poetry.lock
+	poetry add --group dev $*
+	mv pyproject.toml nix/poetry-$(PYTHON)-$(FEATURE).toml
+	mv poetry.lock nix/poetry-$(PYTHON)-$(FEATURE).lock
+
+every\ poetry\ add\ --dev\ %:
+	 PYTHON=python39  FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python39  FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python39  FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python310 FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python310 FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python310 FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python311 FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python311 FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
+	 PYTHON=python311 FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
+
+test\ all:
+	 PYTHON=python27  FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python27  FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils020 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils020 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils020 $(MAKE) nix-test

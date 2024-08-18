@@ -29,8 +29,20 @@ import sys
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinxcontrib.httpdomain',
-              'sphinxcontrib.httpexample']
+extensions = [
+    'sphinxcontrib.httpdomain',
+    'sphinxcontrib.httpexample',
+]
+
+try:
+    import sphinx_design
+    import sphinx_inline_tabs
+    extensions.extend([
+        'sphinx_design',
+        'sphinx_inline_tabs',
+    ])
+except ImportError:
+    pass
 
 try:
     import rst2pdf

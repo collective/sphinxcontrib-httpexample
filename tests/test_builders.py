@@ -44,13 +44,17 @@ request_fixtures = (
     request_fixtures,
     ids=[fixture['name'] for fixture in request_fixtures],
 )
-@pytest.mark.parametrize('builder', (
-    build_httpie_command,
-    build_curl_command,
-    build_wget_command,
-    build_requests_command,
-    build_plone_javascript_command,
-), ids=lambda fn: fn.__name__)
+@pytest.mark.parametrize(
+    'builder',
+    (
+        build_httpie_command,
+        build_curl_command,
+        build_wget_command,
+        build_requests_command,
+        build_plone_javascript_command,
+    ),
+    ids=lambda fn: fn.__name__,
+)
 def test_fixture(request_fixture, builder, snapshot):
     command = builder(parse_request(request_fixture['data']))
     snapshot.assert_match(command)
