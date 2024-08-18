@@ -4,8 +4,10 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Add new directive `.. http:example-block::` to allow use with Sphinx tab libraries like
+  `sphinx-inline-tabs <https://sphinx-inline-tabs.readthedocs.io/en/latest/>`_ or
+  `sphinx-design <https://sphinx-design.readthedocs.io/en/furo-theme/tabs.html>`_.
+  [AWhetter]
 
 1.2 (2024-08-17)
 ----------------
