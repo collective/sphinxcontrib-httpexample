@@ -3,6 +3,7 @@ docutils
 setuptools
 sphinx
 sphinxcontrib-httpdomain
+sphinx-copybutton
 sphinx-design
 sphinx-inline-tabs
 sphinx-rtd-theme
