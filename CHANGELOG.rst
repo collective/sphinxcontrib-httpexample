@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2024-08-18)
 ----------------
 
 - Add new directive `.. http:example-block::` to allow use with Sphinx tab libraries like
