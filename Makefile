@@ -20,7 +20,9 @@ coverage: .coverage
 
 .PHONY: coveralls
 coveralls: .coverage
-	coveralls --service=github
+ifeq ($(GITHUB_BASE_REF),)
+	coveralls
+endif
 
 .PHONY: format
 format:
@@ -87,3 +89,22 @@ every\ poetry\ add\ --dev\ %:
 	 PYTHON=python311 FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
 	 PYTHON=python311 FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
 	 PYTHON=python311 FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
+
+test\ all:
+	 PYTHON=python27  FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python27  FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python39  FEATURE=docutils020 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python310 FEATURE=docutils020 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils016 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils017 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils018 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils019 $(MAKE) nix-test
+	 PYTHON=python311 FEATURE=docutils020 $(MAKE) nix-test
