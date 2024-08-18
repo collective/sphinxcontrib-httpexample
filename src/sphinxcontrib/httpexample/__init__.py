@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from sphinxcontrib.httpexample.directives import HTTPExample, HTTPExampleBlock
+from sphinxcontrib.httpexample.directives import HTTPExample
+from sphinxcontrib.httpexample.directives import HTTPExampleBlock
 
 import os
 import pkg_resources
