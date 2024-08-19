@@ -1,4 +1,5 @@
 # .github/workflows/rtd-pr-preview.yml
+# https://github.com/readthedocs/actions/blob/v1/preview/README.md
 name: readthedocs/actions
 on:
   pull_request_target:
