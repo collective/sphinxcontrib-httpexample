@@ -13,7 +13,7 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -70,7 +70,7 @@ Code
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -121,7 +121,7 @@ Result
 
 or with inline response starting with just "HTTP " without the HTTP version:
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -179,7 +179,7 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests
 
         POST /Plone/folder HTTP/1.1
         Host: localhost:8080
@@ -195,7 +195,7 @@ Code
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests
 
     POST /Plone/folder HTTP/1.1
     Host: localhost:8080
@@ -216,7 +216,7 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests
 
         PATCH /Plone/folder/my-document HTTP/1.1
         Host: localhost:8080

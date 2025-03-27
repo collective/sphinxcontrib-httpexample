@@ -6,5 +6,5 @@ setup(
     # thanks to this bug
     # https://github.com/pypa/setuptools/issues/1136
     # we need one line in here:
-    package_dir={'': 'src'}
+    package_dir={"": "src"}
 )

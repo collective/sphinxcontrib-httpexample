@@ -1,8 +1,0 @@
-graft docs
-graft nix-support
-graft src
-graft tests
-prune nix
-include *.py *.cfg *.rst *.nix *.txt *.ini *.lock *.toml
-exclude .* Makefile
-global-exclude *.pyc

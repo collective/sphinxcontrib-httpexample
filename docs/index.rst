@@ -43,12 +43,19 @@ The audience for this extension are developers and technical writes documenting 
 
 * Rendering:
 
-  ..  http:example:: curl wget httpie python-requests
+    ..  http:example:: curl wget httpie python-requests
 
-      GET /Plone/front-page HTTP/1.1
-      Host: localhost:8080
-      Accept: application/json
-      Authorization: Basic YWRtaW46YWRtaW4=
+        GET /plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
+        Host: localhost:8080
+        Accept: application/json
+        Authorization: Basic YWRtaW46c2VjcmV0
+
+
+.. code:: javascript
+
+    import PloneClient from '@plone/client';
+    const cli = PloneClient.initialize({apiPath: 'http://nohost/plone'});
+    const { data, status } = cli.getContent({path: '/plone/folder/my-document', expanders: ['breadcrumbs', 'navigation']})
 
 * Compatible with other tab libraries:
 
@@ -134,3 +141,4 @@ The audience for this extension are developers and technical writes documenting 
     :maxdepth: 2
 
     usage
+    custom

@@ -1,22 +1,12 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-
+from importlib import resources
+from urllib.parse import parse_qsl
+from urllib.parse import ParseResult
+from urllib.parse import unquote
+from urllib.parse import urlencode
+from urllib.parse import urlparse
 import os
-import pkg_resources
-
-
-try:
-    from urllib import unquote
-    from urllib import urlencode
-    from urlparse import parse_qsl
-    from urlparse import ParseResult
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import parse_qsl
-    from urllib.parse import ParseResult
-    from urllib.parse import unquote
-    from urllib.parse import urlencode
-    from urllib.parse import urlparse
 
 
 def merge_dicts(a, b):
@@ -25,11 +15,14 @@ def merge_dicts(a, b):
     return c
 
 
-def resolve_path(spec, cwd=''):
+def resolve_path(spec, cwd=""):
     if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
         return os.path.normpath(os.path.join(cwd, spec))
-    elif spec.count(':') and pkg_resources.resource_exists(*spec.split(':', 1)):
-        return pkg_resources.resource_filename(*spec.split(':', 1))
+    elif spec.count(":"):
+        package, resource = spec.split(":", 1)
+        resource_path = resources.files(package) / resource
+        if resource_path.exists():
+            return str(resource_path)
     else:
         return spec
 
@@ -39,9 +32,9 @@ def maybe_str(v):
     if isinstance(v, str) and isinstance(v, bytes):
         return v  # Python 2 encoded
     elif str(type(v)) == "<type 'unicode'>":
-        return v.encode('utf-8')  # Python 2 unicode
+        return v.encode("utf-8")  # Python 2 unicode
     elif isinstance(v, bytes):
-        return v.decode('utf-8')  # Python 3 encoded
+        return v.decode("utf-8")  # Python 3 encoded
     elif isinstance(v, str):
         return v  # Python 3 unicode
     else:
@@ -60,7 +53,7 @@ def ordered(dict_):
 
 
 def capitalize(s):
-    return '-'.join(map(str.capitalize, s.split('-')))
+    return "-".join(map(str.capitalize, s.split("-")))
 
 
 def capitalize_keys(d):
@@ -75,12 +68,12 @@ def is_json(content_type):
     - `application/json` mimetype
     - `+json` structured syntax suffix
     """
-    parts = {part.strip() for part in content_type.lower().strip().split(';')}
-    if 'application/json' in parts:
+    parts = {part.strip() for part in content_type.lower().strip().split(";")}
+    if "application/json" in parts:
         return True
 
     for p in parts:
-        if p.endswith('+json'):
+        if p.endswith("+json"):
             return True
 
     return False
