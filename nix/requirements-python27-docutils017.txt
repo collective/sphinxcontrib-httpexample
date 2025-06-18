@@ -68,7 +68,7 @@ sphinxcontrib-websupport==1.1.2
 termcolor==1.1.0
 toml==0.10.2
 typing==3.10.0.0
-urllib3==1.26.19
+urllib3==2.5.0
 urllib3-secure-extra==0.1.0
 wcwidth==0.2.13
 zipp==1.2.0
