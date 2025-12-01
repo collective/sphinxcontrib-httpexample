@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # sphinxcontrib-httpexample documentation build configuration file, created by
 # sphinx-quickstart on Fri Mar  3 12:29:43 2017.

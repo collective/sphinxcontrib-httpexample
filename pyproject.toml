@@ -23,7 +23,6 @@ classifiers = [
 urls = { "Repository" = "https://github.com/collective/sphinxcontrib-httpexample"}
 requires-python = ">= 3.9"
 dependencies =[
-    "astunparse",
     "docutils",
     "importlib-metadata",
     "importlib-resources",
@@ -47,13 +46,15 @@ dev = [
     "mypy>=1.15.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
-    "snapshottest>=0.6.0",
+    "snapshottest==1.0.0a1",
     "sphinx-autobuild",
     "sphinx-design",
     "sphinx-inline-tabs",
     "sphinx-rtd-theme",
     "sphinx-testing",
     "zest-releaser>=9.4.0",
+    "watchfiles<1.1; python_version < '3.14'",
+    "watchfiles>=1.1; python_version >= '3.14'",
 ]
 
 [project.optional-dependencies]
@@ -72,24 +73,6 @@ sphinx802 = [
 sphinx747 = [
     "sphinx==7.4.7; python_version >= '3.9'"
 ]
-sphinx621 = [
-    "sphinx==6.2.1; python_version >= '3.9'"
-]
-sphinx530 = [
-    "sphinx==5.3.0; python_version >= '3.9'"
-]
-sphinx450 = [
-    "sphinx==4.5.0; python_version >= '3.9'"
-]
-sphinx354 = [
-    "sphinx==3.5.4; python_version >= '3.9'"
-]
-#sphinx245 = [
-#    "sphinx==2.4.5; python_version >= '3.9'"
-#]
-#sphinx186 = [
-#    "sphinx==1.8.6; python_version >= '3.9'"
-#]
 
 [tool.uv]
 conflicts = [
@@ -98,12 +81,6 @@ conflicts = [
       { extra = "sphinx813" },
       { extra = "sphinx802" },
       { extra = "sphinx747" },
-      { extra = "sphinx621" },
-      { extra = "sphinx530" },
-      { extra = "sphinx450" },
-      { extra = "sphinx354" },
-#     { extra = "sphinx245" },
-#     { extra = "sphinx186" },
     ],
 ]
 

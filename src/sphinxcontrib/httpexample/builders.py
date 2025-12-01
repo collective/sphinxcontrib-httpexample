@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ast import unparse
 from io import StringIO
 from shlex import quote as shlex_quote
 from sphinxcontrib.httpexample.utils import is_json
@@ -6,27 +7,9 @@ from sphinxcontrib.httpexample.utils import maybe_str
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 import ast
-import astunparse
 import json
 import re
 import string
-
-
-try:
-    from ast import unparse
-except ImportError:
-    # Fix: https://github.com/simonpercivall/astunparse/issues/43
-    # See: https://github.com/juanlao7/codeclose/commit/0f145f53a3253f9c593c537e1a25c9ef445f30d1  # noqa: E501
-    class FixUnparser(astunparse.Unparser):
-        def _Constant(self, t):  # noqa:  N802
-            if not hasattr(t, "kind"):
-                setattr(t, "kind", None)
-            super()._Constant(t)
-
-    def unparse(tree):
-        v = StringIO()
-        FixUnparser(tree, file=v)
-        return v.getvalue()
 
 
 _find_unsafe = re.compile(
@@ -221,7 +204,7 @@ def build_requests_command(request):
     call.keywords = []
 
     # URL
-    call.args.append(ast.Str(request.url()))
+    call.args.append(ast.Constant(request.url()))
 
     # Authorization (prepare)
     method, token = request.auth()
@@ -232,11 +215,11 @@ def build_requests_command(request):
     for header in sorted(request.headers):
         if header in EXCLUDE_HEADERS_REQUESTS:
             continue
-        header_keys.append(ast.Str(header))
-        header_values.append(ast.Str(request.headers[header]))
+        header_keys.append(ast.Constant(header))
+        header_values.append(ast.Constant(request.headers[header]))
     if method != "Basic" and "Authorization" in request.headers:
-        header_keys.append(ast.Str("Authorization"))
-        header_values.append(ast.Str(request.headers["Authorization"]))
+        header_keys.append(ast.Constant("Authorization"))
+        header_values.append(ast.Constant(request.headers["Authorization"]))
     if header_keys and header_values:
         call.keywords.append(
             ast.keyword("headers", ast.Dict(header_keys, header_values))
@@ -254,7 +237,7 @@ def build_requests_command(request):
     def astify_json_obj(obj):
         obj = maybe_str(obj)
         if isinstance(obj, str):
-            return ast.Str(obj)
+            return ast.Constant(obj)
         elif isinstance(obj, bool):
             return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, int):
@@ -270,7 +253,7 @@ def build_requests_command(request):
             json_values = []
             json_keys = []
             for k, v in obj.items():
-                json_keys.append(ast.Str(maybe_str(k)))
+                json_keys.append(ast.Constant(maybe_str(k)))
                 json_values.append(astify_json_obj(v))
             return ast.Dict(json_keys, json_values)
         else:
@@ -280,13 +263,15 @@ def build_requests_command(request):
         if is_json(request.headers.get("Content-Type", "")):
             call.keywords.append(ast.keyword("json", astify_json_obj(data)))
         else:
-            call.keywords.append(ast.keyword("data", ast.Str(data)))
+            call.keywords.append(ast.keyword("data", ast.Constant(data)))
 
     # Authorization
     if method == "Basic":
         token = maybe_str(token)
         call.keywords.append(
-            ast.keyword("auth", ast.Tuple(tuple(map(ast.Str, token.split(":"))), None))
+            ast.keyword(
+                "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":"))), None)
+            )
         )
 
     return unparse(tree).strip()

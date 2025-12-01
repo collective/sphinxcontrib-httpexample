@@ -1,22 +1,43 @@
 { pkgs, ... }:
 {
   imports = [
-    ./devenv/modules/python.nix
+    ./devenv.uv2nix.nix
   ];
 
-  languages.python.pyprojectOverrides = final: prev: {
-    "hatchling" = prev."hatchling".overrideAttrs (old: {
-      propagatedBuildInputs = [ final."editables" ];
-    });
-    "docopt" = prev."docopt".overrideAttrs (old: {
-      nativeBuildInputs =
-        old.nativeBuildInputs
-        ++ final.resolveBuildSystem ({
-          "setuptools" = [ ];
+  languages.python.pyprojectOverrides =
+    final: prev:
+    let
+      packagesToBuildWithSetuptools = [
+        "cmarkgfm"
+        "docopt"
+        "markupsafe"
+      ];
+    in
+    {
+      "hatchling" = prev."hatchling".overrideAttrs (old: {
+        propagatedBuildInputs = [ final."editables" ];
+      });
+      "cffi" = prev."cffi".overrideAttrs (old: {
+        buildInputs = [ pkgs.libffi ];
+        nativeBuildInputs =
+          old.nativeBuildInputs
+          ++ final.resolveBuildSystem ({
+            "setuptools" = [ ];
+          });
+      });
+    }
+    // builtins.listToAttrs (
+      map (pkg: {
+        name = pkg;
+        value = prev.${pkg}.overrideAttrs (old: {
+          nativeBuildInputs =
+            old.nativeBuildInputs
+            ++ final.resolveBuildSystem ({
+              "setuptools" = [ ];
+            });
         });
-
-    });
-  };
+      }) packagesToBuildWithSetuptools
+    );
 
   packages = [
     pkgs.gnumake

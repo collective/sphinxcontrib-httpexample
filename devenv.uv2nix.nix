@@ -42,13 +42,14 @@ in
     };
     dependencies = mkOption {
       default = [
+        "rf711"
         "dev"
       ];
       type = types.listOf types.str;
     };
     workspaceRoot = mkOption {
       type = types.path;
-      default = ../../.;
+      default = ./.;
     };
     pyprojectName = mkOption {
       type = types.str;
