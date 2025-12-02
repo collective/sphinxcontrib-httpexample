@@ -1,6 +1,6 @@
 [project]
 name = "sphinxcontrib-httpexample"
-version = "2.0.dev0"
+version = "2.0rc1"
 description = "Adds example directive for sphinx-contrib httpdomain"
 readme = "README.md"
 keywords = ["sphinx", "extension", "http", "rest", "documentation"]
@@ -35,7 +35,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/sphinxcontrib", "src/sphinxcontrib/httpexample"]
+packages = ["src/sphinxcontrib"]
 exclude = ["tests"]
 
 [dependency-groups]

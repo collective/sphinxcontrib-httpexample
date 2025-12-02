@@ -1,8 +1,11 @@
 # Changelog
 
-## 1.4 (unreleased)
+## 2.0rc1 (2025-12-02)
 
-- Nothing changed yet.
+- Add support for Python 3.14
+  [datakurre]
+- Drop support for Python 2
+  [datakurre]
 
 ## 1.3 (2024-08-18)
 
