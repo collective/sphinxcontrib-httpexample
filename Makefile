@@ -48,16 +48,25 @@ coverage: coverage.xml
 
 .PHONY: test\ all
 test\ all:  ## Test all supported versions
+	make PYTHON=python314 SPHINX=8.2.3 clean devenv-show devenv-test
+	make PYTHON=python314 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python314 SPHINX=8.0.2 clean devenv-show devenv-test
+	make PYTHON=python314 SPHINX=7.4.7 clean devenv-show devenv-test
+	make PYTHON=python313 SPHINX=8.2.3 clean devenv-show devenv-test
+	make PYTHON=python313 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python313 SPHINX=8.0.2 clean devenv-show devenv-test
+	make PYTHON=python313 SPHINX=7.4.7 clean devenv-show devenv-test
 	make PYTHON=python312 SPHINX=8.2.3 clean devenv-show devenv-test
-#make PYTHON=python311 SPHINX=8.1.3 clean devenv-show devenv-test
-#make PYTHON=python311 SPHINX=8.0.2 clean devenv-show devenv-test
-#make PYTHON=python311 SPHINX=7.4.7 clean devenv-show devenv-test
-
-	make PYTHON=python310 SPHINX=8.1.3 clean devenv-show devenv-test
-#make PYTHON=python310 SPHINX=8.0.2 clean devenv-show devenv-test
-#make PYTHON=python310 SPHINX=7.4.7 clean devenv-show devenv-test
-
+	make PYTHON=python312 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python312 SPHINX=8.0.2 clean devenv-show devenv-test
+	make PYTHON=python312 SPHINX=7.4.7 clean devenv-show devenv-test
+	make PYTHON=python311 SPHINX=8.2.3 clean devenv-show devenv-test
+	make PYTHON=python311 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python311 SPHINX=8.0.2 clean devenv-show devenv-test
 	make PYTHON=python311 SPHINX=7.4.7 clean devenv-show devenv-test
+	make PYTHON=python310 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python310 SPHINX=8.0.2 clean devenv-show devenv-test
+	make PYTHON=python310 SPHINX=7.4.7 clean devenv-show devenv-test
 
 devenv.local.nix:
 	@echo '{ pkgs, ...}: { languages.python = { interpreter = pkgs.$(PYTHON); dependencies = [ "sphinx$(subst .,,$(SPHINX))" "dev" ]; }; }' > devenv.local.nix
