@@ -1,0 +1,13 @@
+on-unmatched = "debug"
+
+[formatter.nix]
+command = "nixfmt"
+includes = ["*.nix"]
+
+[formatter.python]
+command = "black"
+includes = ["*.py"]
+
+[formatter.isort]
+command = "isort"
+includes = ["*.py"]

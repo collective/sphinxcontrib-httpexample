@@ -1,116 +1,63 @@
-export PYTHON ?= python27
-export FEATURE ?= docutils016
+help:
+	@grep -Eh '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | uniq
 
-TEST = $(wildcard tests/*.py)
-SRC = $(wildcard src/sphinxcontrib/httpexample/*.py)
+SPHINX ?= 8.3.2
+PYTHON ?= python39
 
-.PHONY: all
-all: test coverage
+.PHONY: clean
+clean:  ## Clean up build artifacts
+	rm -rf devenv.local.nix
 
 .PHONY: docs
-docs:
-	sphinx-build -b html docs docs/html
-ifeq "$(PYTHON)" "python27"
-	sphinx-build -b pdf docs docs/pdf
-endif
-
-.PHONY: coverage
-coverage: .coverage
-	coverage report --fail-under=80
-
-.PHONY: coveralls
-coveralls: .coverage
-ifeq ($(GITHUB_BASE_REF),)
-	coveralls
-endif
+docs:  ## Build docs
+	PYTHONPATH=$(PWD)/docs sphinx-build -b html docs docs/html
 
 .PHONY: format
-format:
-	black --skip-string-normalization src tests
+format:  ## Format code
+	treefmt
 
-.PHONY: nix-fmt
-nix-fmt:
-	nix fmt flake.nix setup.nix
+.PHONY: watch
+watch:  ## Watch build docs
+	PYTHONPATH=$(PWD)/docs sphinx-autobuild -b html docs docs/html
 
 .PHONY: show
-show:
-	pip freeze
+show:  ## Show installed packages
+	@python --version
+	@python -c "from importlib import metadata; print('\n'.join(sorted(d.metadata['Name'] + f' {d.version}' for d in metadata.distributions() if d.metadata['Name'].lower() in ['docutils', 'sphinx'])))"
 
 .PHONY: test
-test:
-	flake8 src
-	py.test
+test: ## Run tests
+	PYTHONPATH=$(PWD)/docs pytest --cov sphinxcontrib.httpexample tests
+
+.PHONY: devenv-%
+devenv-%: devenv.local.nix
+	devenv shell $(MAKE) $*
+
+shell: devenv.local.nix  ## Start a shell with the development environment
+	devenv shell
 
 ###
 
-.PHONY: nix-%
-nix-%:
-	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config --command $(MAKE) $*
+htmlcov: .coverage
+	coverage html
 
-.PHONY: nix-shell
-nix-shell:
-	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config
+coverage.xml: .coverage
+	coverage xml
 
-.PHONY: shell
-shell:
-	nix develop .#$(PYTHON)-$(FEATURE) --accept-flake-config
+coverage: coverage.xml
 
-env:
-	nix build .#$(PYTHON)$-(FEATURE)-env --accept-flake-config -o env
+.PHONY: test\ all
+test\ all:  ## Test all supported versions
+	make PYTHON=python312 SPHINX=8.2.3 clean devenv-show devenv-test
+#make PYTHON=python311 SPHINX=8.1.3 clean devenv-show devenv-test
+#make PYTHON=python311 SPHINX=8.0.2 clean devenv-show devenv-test
+#make PYTHON=python311 SPHINX=7.4.7 clean devenv-show devenv-test
 
-.cache:
-	mkdir -p .cache
-	if [ -d ~/.cache/pip ]; then ln -s ~/.cache/pip ./.cache; fi
+	make PYTHON=python310 SPHINX=8.1.3 clean devenv-show devenv-test
+#make PYTHON=python310 SPHINX=8.0.2 clean devenv-show devenv-test
+#make PYTHON=python310 SPHINX=7.4.7 clean devenv-show devenv-test
 
-.coverage: $(TEST) $(SRC)
-	coverage run setup.py test
+	make PYTHON=python311 SPHINX=7.4.7 clean devenv-show devenv-test
 
-nix/requirements-python27-%.nix: .cache nix/requirements-python27-%.txt
-	nix develop .#pip2nix --command pip2nix generate -r nix/requirements-python27-$*.txt --output=nix/requirements-python27-$*.nix
-
-nix/requirements-python27.txt: .cache requirements.txt
-	nix develop .#python27-pip2nix --command pip2nix generate -r requirements.txt --output=nix/requirements-python27.nix
-	@grep "pname =\|version =" nix/requirements-python27.nix|awk "ORS=NR%2?FS:RS"|sed 's|.*"\(.*\)";.*version = "\(.*\)".*|\1==\2|' > nix/requirements-python27.txt
-
-poetry\ add\ --dev\ %:
-	cp nix/poetry-$(PYTHON)-$(FEATURE).toml pyproject.toml
-	cp nix/poetry-$(PYTHON)-$(FEATURE).lock poetry.lock
-	poetry add --group dev $*
-	mv pyproject.toml nix/poetry-$(PYTHON)-$(FEATURE).toml
-	mv poetry.lock nix/poetry-$(PYTHON)-$(FEATURE).lock
-
-every\ poetry\ add\ --dev\ %:
-	 PYTHON=python39  FEATURE=docutils016 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python39  FEATURE=docutils017 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python39  FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python39  FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python39  FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python310 FEATURE=docutils016 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python310 FEATURE=docutils017 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python310 FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python310 FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python310 FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python311 FEATURE=docutils016 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python311 FEATURE=docutils017 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python311 FEATURE=docutils018 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python311 FEATURE=docutils019 $(MAKE) poetry\ add\ --dev\ $*
-	 PYTHON=python311 FEATURE=docutils020 $(MAKE) poetry\ add\ --dev\ $*
-
-test\ all:
-	 PYTHON=python27  FEATURE=docutils016 $(MAKE) nix-test
-	 PYTHON=python27  FEATURE=docutils017 $(MAKE) nix-test
-	 PYTHON=python39  FEATURE=docutils016 $(MAKE) nix-test
-	 PYTHON=python39  FEATURE=docutils017 $(MAKE) nix-test
-	 PYTHON=python39  FEATURE=docutils018 $(MAKE) nix-test
-	 PYTHON=python39  FEATURE=docutils019 $(MAKE) nix-test
-	 PYTHON=python39  FEATURE=docutils020 $(MAKE) nix-test
-	 PYTHON=python310 FEATURE=docutils016 $(MAKE) nix-test
-	 PYTHON=python310 FEATURE=docutils017 $(MAKE) nix-test
-	 PYTHON=python310 FEATURE=docutils018 $(MAKE) nix-test
-	 PYTHON=python310 FEATURE=docutils019 $(MAKE) nix-test
-	 PYTHON=python310 FEATURE=docutils020 $(MAKE) nix-test
-	 PYTHON=python311 FEATURE=docutils016 $(MAKE) nix-test
-	 PYTHON=python311 FEATURE=docutils017 $(MAKE) nix-test
-	 PYTHON=python311 FEATURE=docutils018 $(MAKE) nix-test
-	 PYTHON=python311 FEATURE=docutils019 $(MAKE) nix-test
-	 PYTHON=python311 FEATURE=docutils020 $(MAKE) nix-test
+devenv.local.nix:
+	@echo '{ pkgs, ...}: { languages.python = { interpreter = pkgs.$(PYTHON); dependencies = [ "sphinx$(subst .,,$(SPHINX))" "dev" ]; }; }' > devenv.local.nix
