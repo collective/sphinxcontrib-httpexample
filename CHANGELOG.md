@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0rc2 (unreleased)
+
+
+- Nothing changed yet.
+
+
 ## 2.0rc1 (2025-12-02)
 
 - Add support for Python 3.14
