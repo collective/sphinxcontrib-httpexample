@@ -65,6 +65,43 @@ Add sphinxcontrib-httpexample into requirements of your product documentation an
     extensions = ['sphinxcontrib.httpdomain', 'sphinxcontrib.httpexample']
 
 
+## Contribute
+
+```shell
+uv venv
+uv sync
+make watch
+```
+
+Yields
+
+```console
+$ make watch
+PYTHONPATH=/Users/stevepiercy/projects/sphinxcontrib-httpexample/docs sphinx-autobuild -b html docs docs/html
+[sphinx-autobuild] > sphinx-build -b html /Users/stevepiercy/projects/sphinxcontrib-httpexample/docs /Users/stevepiercy/projects/sphinxcontrib-httpexample/docs/html
+Running Sphinx v4.5.0
+
+Configuration error:
+There is a programmable error in your configuration file:
+
+Traceback (most recent call last):
+  File "/Users/stevepiercy/.pyenv/versions/3.10.13/lib/python3.10/site-packages/sphinx/config.py", line 332, in eval_config_file
+    exec(code, namespace)
+  File "/Users/stevepiercy/projects/sphinxcontrib-httpexample/docs/conf.py", line 86, in <module>
+    dist = metadata.distribution("sphinxcontrib-httpexample")
+  File "/Users/stevepiercy/.pyenv/versions/3.10.13/lib/python3.10/importlib/metadata/__init__.py", line 969, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/Users/stevepiercy/.pyenv/versions/3.10.13/lib/python3.10/importlib/metadata/__init__.py", line 548, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for sphinxcontrib-httpexample
+
+Command exited with exit code: 2
+The server will continue serving the build folder, but the contents being served are no longer in sync with the documentation sources. Please fix the cause of the error above or press Ctrl+C to stop the server.
+[I 251202 22:42:04 server:335] Serving on http://127.0.0.1:8000
+[I 251202 22:42:04 handlers:62] Start watching changes
+```
+
+
 License
 -------
 
