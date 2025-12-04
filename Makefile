@@ -7,15 +7,16 @@ SPHINXOPTS      ?=
 PAPER           ?=
 
 # Internal variables.
+MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 ifdef IN_NIX_SHELL
 BIN_FOLDER      = $(shell dirname "$$(command -v python)")
 VENV_FOLDER     = $(shell dirname "$(BIN_FOLDER)")
 else
-VENV_FOLDER     = ./.venv
+VENV_FOLDER     = $(MAKEFILE_DIR)/.venv
 BIN_FOLDER      = $(VENV_FOLDER)/bin
 endif
-DOCS_DIR        = ./docs/
-BUILDDIR        = ../_build
+DOCS_DIR        = $(MAKEFILE_DIR)/docs/
+BUILDDIR        = $(MAKEFILE_DIR)/_build
 SPHINXBUILD     = "$(realpath $(BIN_FOLDER)/sphinx-build)"
 SPHINXAUTOBUILD = "$(realpath $(BIN_FOLDER)/sphinx-autobuild)"
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -32,16 +33,23 @@ help:  ## This help message
 SPHINX ?= 8.3.2
 PYTHON ?= python313
 
+# docs contains example of custom http-example builder module
+export PYTHONPATH=$(DOCS_DIR)
+
 # environment management
 .PHONY: dev
 dev:  ## Install required Python, create Python virtual environment, and install package requirements
+ifndef IN_NIX_SHELL
 	@uv python install "$(PYTHONVERSION)"
 	@uv venv --python "$(PYTHONVERSION)"
 	@uv sync
+endif
 
 .PHONY: sync
 sync:  ## Sync package requirements
+ifndef IN_NIX_SHELL
 	@uv sync
+endif
 
 .PHONY: init
 init: clean clean-python dev  ## Clean docs build directory and initialize Python virtual environment
@@ -84,7 +92,7 @@ show:  ## Show installed packages
 
 .PHONY: test
 test: ## Run tests
-	PYTHONPATH=$(DOCS_DIR) $(BIN_FOLDER)/pytest --cov sphinxcontrib.httpexample tests
+	$(BIN_FOLDER)/pytest --cov sphinxcontrib.httpexample tests
 
 .PHONY: devenv-%
 devenv-%: devenv.local.nix
