@@ -1,24 +1,76 @@
-help:
+# Makefile for Sphinx documentation
+.DEFAULT_GOAL   = help
+SHELL           = bash
+
+# You can set these variables from the command line.
+SPHINXOPTS      ?=
+PAPER           ?=
+
+# Internal variables.
+SPHINXBUILD     = "$(realpath .venv/bin/sphinx-build)"
+SPHINXAUTOBUILD = "$(realpath .venv/bin/sphinx-autobuild)"
+DOCS_DIR        = ./docs/
+BUILDDIR        = ../_build
+VENV_FOLDER     = ./.venv
+BIN_FOLDER      = $(VENV_FOLDER)/bin
+PAPEROPT_a4     = -D latex_paper_size=a4
+PAPEROPT_letter = -D latex_paper_size=letter
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+PYTHONVERSION   = >=3.11,<3.15
+
+# Add the following 'help' target to your Makefile
+# And add help text after each target name starting with '\#\#'
+.PHONY: help
+help:  ## This help message
 	@grep -Eh '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | uniq
 
 SPHINX ?= 8.3.2
-PYTHON ?= python39
+PYTHON ?= python313
+
+# environment management
+.PHONY: dev
+dev:  ## Install required Python, create Python virtual environment, and install package requirements
+	@uv python install "$(PYTHONVERSION)"
+	@uv venv --python "$(PYTHONVERSION)"
+	@uv sync
+
+.PHONY: sync
+sync:  ## Sync package requirements
+	@uv sync
+
+.PHONY: init
+init: clean clean-python dev  ## Clean docs build directory and initialize Python virtual environment
 
 .PHONY: clean
-clean:  ## Clean up build artifacts
-	rm -rf devenv.local.nix
+clean:  ## Clean docs build directory
+	cd $(DOCS_DIR) && rm -rf $(BUILDDIR)/
 
-.PHONY: docs
-docs:  ## Build docs
-	PYTHONPATH=$(PWD)/docs sphinx-build -b html docs docs/html
+.PHONY: clean-python
+clean-python: clean
+	rm -rf .venv/
+# /environment management
 
+
+# documentation builders
+.PHONY: html
+html: dev  ## Build html
+	cd $(DOCS_DIR) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+.PHONY: livehtml
+livehtml: dev  ## Rebuild Sphinx documentation on changes, with live-reload in the browser
+	cd "$(DOCS_DIR)" && ${SPHINXAUTOBUILD} \
+		--ignore "*.swp" \
+		--port 8050 \
+		-b html . "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
+# /documentation builders
+
+
+# development and contributing
 .PHONY: format
 format:  ## Format code
 	treefmt
-
-.PHONY: watch
-watch:  ## Watch build docs
-	PYTHONPATH=$(PWD)/docs sphinx-autobuild -b html docs docs/html
 
 .PHONY: show
 show:  ## Show installed packages
@@ -27,7 +79,7 @@ show:  ## Show installed packages
 
 .PHONY: test
 test: ## Run tests
-	PYTHONPATH=$(PWD)/docs pytest --cov sphinxcontrib.httpexample tests
+	PYTHONPATH=$(DOCS_DIR) $(BIN_FOLDER)/pytest --cov sphinxcontrib.httpexample tests
 
 .PHONY: devenv-%
 devenv-%: devenv.local.nix
@@ -35,8 +87,6 @@ devenv-%: devenv.local.nix
 
 shell: devenv.local.nix  ## Start a shell with the development environment
 	devenv shell
-
-###
 
 htmlcov: .coverage
 	coverage html
@@ -70,3 +120,4 @@ test\ all:  ## Test all supported versions
 
 devenv.local.nix:
 	@echo '{ pkgs, ...}: { languages.python = { interpreter = pkgs.$(PYTHON); dependencies = [ "sphinx$(subst .,,$(SPHINX))" "dev" ]; }; }' > devenv.local.nix
+# /development and contributing
