@@ -4,6 +4,7 @@
 .cache
 .coverage
 .devenv*
+.pre-commit-config.yaml
 .eggs/
 _build/
 coverage.xml

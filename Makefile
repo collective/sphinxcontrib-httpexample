@@ -7,12 +7,17 @@ SPHINXOPTS      ?=
 PAPER           ?=
 
 # Internal variables.
-SPHINXBUILD     = "$(realpath .venv/bin/sphinx-build)"
-SPHINXAUTOBUILD = "$(realpath .venv/bin/sphinx-autobuild)"
-DOCS_DIR        = ./docs/
-BUILDDIR        = ../_build
+ifdef IN_NIX_SHELL
+BIN_FOLDER      = $(shell dirname "$$(command -v python)")
+VENV_FOLDER     = $(shell dirname "$(BIN_FOLDER)")
+else
 VENV_FOLDER     = ./.venv
 BIN_FOLDER      = $(VENV_FOLDER)/bin
+endif
+DOCS_DIR        = ./docs/
+BUILDDIR        = ../_build
+SPHINXBUILD     = "$(realpath $(BIN_FOLDER)/sphinx-build)"
+SPHINXAUTOBUILD = "$(realpath $(BIN_FOLDER)/sphinx-autobuild)"
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
