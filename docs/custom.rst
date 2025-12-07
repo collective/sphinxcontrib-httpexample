@@ -67,6 +67,8 @@ The following example gets the content at the specified location.
     Host: localhost:8080
     Accept: application/json
 
+The following example gets the content at the specified location, using an expansion.
+
 ..  http:example:: curl plone-client
 
     GET /Plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
@@ -77,6 +79,8 @@ The following example gets the content at the specified location.
 
 Update content
 ==============
+
+The following example updates the content at the specified location.
 
 ..  http:example:: curl plone-client
 
