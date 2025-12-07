@@ -1,7 +1,6 @@
 from sphinxcontrib.httpexample import HTTPRequest
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
-import json
 import re
 
 
@@ -71,7 +70,7 @@ cli.updateContent({python_to_js_literal(payload)});
 """
 
 
-def build_plone_javascript_command(request: HTTPRequest):
+def build_plone_client_command(request: HTTPRequest):
     url = urlparse(request.url())
     portal_path = url.path.split("/")[1]
     output = f"""\
