@@ -1,41 +1,73 @@
+==============
 Custom builder
 ==============
 
+Some packages use an API that sends HTTP requests.
+This allows the developer to focus on API calls instead of forming HTTP requests with low level utilities.
+For such packages, ``sphinxcontrib.httpexample`` supports custom builders.
 
+The examples in this chapter use the `@plone/client <https://www.npmjs.com/package/@plone/client>`_ package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
+
+
+Register
+========
+
+Create a file at :file:`docs/plone_client.py`.
+
+In this file, define a custom method as your builder.
 
 .. code:: python
 
-   from sphinxcontrib.httpexample import register_builder
-   from sphinxcontrib.httpexample import HTTPRequest
-
-    def build_plone_client_script(request: HTTPRequest): str
+    def build_plone_client_command(request: HTTPRequest): str
         result = ""
         # ...
         return result
 
+Next, in :file:`docs/conf.py`, register the builder with ``register_builder()`` to make it available.
 
-   register_builder(
-       # Name of the builder used in the directive
-       "plone-javascript",
-       # Function that builds the command
-       build_plone_javascript_command,
-       # Language for syntax highlighting
-       "javascript",
-       # Display name for the documentation tab
-       "@plone/client"
-   )
+.. code:: python
+
+    from plone_client import build_plone_client_command
+    from sphinxcontrib.httpexample import register_builder
+
+    register_builder(
+        # Name of the builder used in the directive
+        "plone-client",
+        # Function that builds the command
+        build_plone_client_command,
+        # Language for syntax highlighting
+        "javascript",
+        # Display name for the documentation tab
+        "@plone/client"
+    )
+
+The ``register_builder`` method has the following parameters.
+
+``name``
+    The name of the builder to use in the reStructuredText or MyST directive.
+
+``builder``
+    The function that builds the command to send an HTTP request.
+
+``language``
+    The language, or lexer, to use for syntax highlighting.
+
+``label``
+    The display name of the tab in the documentation.
 
 
 Get content
 ===========
 
-..  http:example:: curl plone-javascript
+The following example gets the content at the specified location.
+
+..  http:example:: curl plone-client
 
     GET /Plone/folder/my-document HTTP/1.1
     Host: localhost:8080
     Accept: application/json
 
-..  http:example:: curl plone-javascript
+..  http:example:: curl plone-client
 
     GET /Plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
     Host: localhost:8080
@@ -46,7 +78,7 @@ Get content
 Update content
 ==============
 
-..  http:example:: curl plone-javascript
+..  http:example:: curl plone-client
 
     PATCH /Plone/folder/my-document HTTP/1.1
     Host: localhost:8080
@@ -57,4 +89,3 @@ Update content
     {
         "title": "My New Document Title"
     }
-

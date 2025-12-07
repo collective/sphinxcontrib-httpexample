@@ -91,10 +91,10 @@ html_static_path = ["_static"]
 # typographically correct entities.
 html_use_smartypants = False
 
-from plone_client import build_plone_javascript_command
+from plone_client import build_plone_client_command
 from sphinxcontrib.httpexample import register_builder
 
 
 register_builder(
-    "plone-javascript", build_plone_javascript_command, "javascript", "@plone/client"
+    "plone-client", build_plone_client_command, "javascript", "@plone/client"
 )

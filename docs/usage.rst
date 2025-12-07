@@ -231,7 +231,7 @@ Code
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests plone-client
 
     PATCH /Plone/folder/my-document HTTP/1.1
     Host: localhost:8080
@@ -252,7 +252,7 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests plone-client
 
         GET /items?user_id=12&user_id=13 HTTP/1.1
         Host: localhost
@@ -269,7 +269,7 @@ Code
 Result
 ``````
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests plone-client
 
         GET /items?user_id=12&user_id=13 HTTP/1.1
         Host: localhost
@@ -294,14 +294,14 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests plone-client
         :request: ../tests/fixtures/001.request.txt
         :response: ../tests/fixtures/001.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests plone-client
     :request: ../tests/fixtures/001.request.txt
     :response: ../tests/fixtures/001.response.txt
 
@@ -313,14 +313,14 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests plone-client
         :request: ../tests/fixtures/002.request.txt
         :response: ../tests/fixtures/002.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests plone-client
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
 
@@ -332,14 +332,14 @@ Code
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests plone-javascript
+    ..  http:example:: curl wget httpie python-requests plone-client
         :request: ../tests/fixtures/003.request.txt
         :response: ../tests/fixtures/003.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie python-requests plone-javascript
+..  http:example:: curl wget httpie python-requests plone-client
     :request: ../tests/fixtures/003.request.txt
     :response: ../tests/fixtures/003.response.txt
 
