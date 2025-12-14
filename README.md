@@ -5,7 +5,7 @@
 <img alt="PyPI package" src="https://badge.fury.io/py/sphinxcontrib-httpexample.svg" href="https://badge.fury.io/py/sphinxcontrib-httpexample">
 <img alt="Documentation" src="https://readthedocs.org/projects/sphinxcontrib-httpexample/badge/?version=latest" href="http://sphinxcontrib-httpexample.readthedocs.io/en/latest">
 
-sphinxcontrib-httpexample enhances [`sphinxcontrib-httpdomain`](https://pythonhosted.org/sphinxcontrib-httpdomain/), a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive provided by this extension generates RESTful HTTP API call examples for different tools from a single HTTP request example.
+sphinxcontrib-httpexample enhances [`sphinxcontrib-httpdomain`](https://github.com/sphinx-contrib/httpdomain), a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive provided by this extension generates RESTful HTTP API call examples for different tools from a single HTTP request example.
 
 The audience for this extension are developers and technical writes documenting their RESTful HTTP APIs. This extension has originally been developed for documenting [`plone.restapi`](https://6.docs.plone.org/plone.restapi/docs/source/index.html).
 
