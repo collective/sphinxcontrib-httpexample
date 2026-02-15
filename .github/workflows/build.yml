@@ -9,18 +9,10 @@ jobs:
     strategy:
       matrix:
         python: [python310, python311, python312, python313, python314]
-        sphinx: [8.2.3, 8.1.3, 8.0.2, 7.4.7]
+        sphinx: [8.2.3, 8.1.3, 8.0.2]
         exclude:
           - python: python310
             sphinx: 8.2.3
-          - python: python311
-            sphinx: 7.4.7
-          - python: python312
-            sphinx: 7.4.7
-          - python: python313
-            sphinx: 7.4.7
-          - python: python314
-            sphinx: 7.4.7
     steps:
     - uses: actions/checkout@v6
     - uses: cachix/install-nix-action@v30
