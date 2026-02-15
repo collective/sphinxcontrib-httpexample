@@ -48,7 +48,7 @@ def test_inline_response_parser():
         try:
             app.build()
             with open(os.path.join(app.outdir, "usage.html")) as fp:
-                assert fp.read().count("http-example-response") == 5
+                assert fp.read().count("http-example-response") == 7
         finally:
             app.cleanup()
 
