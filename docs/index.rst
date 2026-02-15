@@ -79,7 +79,7 @@ sphinxcontrib-httpexample is compatible with the following tab libraries.
 ..  tab:: curl
 
     ..  http:example-block:: curl
-         :request: ../tests/fixtures/001.request.txt
+        :request: ../tests/fixtures/001.request.txt
 
 ..  tab:: wget
 
