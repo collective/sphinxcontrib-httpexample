@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         python: [python310, python311, python312, python313, python314]
-        sphinx: [8.2.3, 8.1.3, 8.0.2]
+        sphinx: [8.2.3, 8.1.3, 8.0.2, 7.4.7]
         exclude:
           - python: python310
             sphinx: 8.2.3

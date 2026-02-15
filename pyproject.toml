@@ -70,6 +70,9 @@ sphinx813 = [
 sphinx802 = [
     "sphinx==8.0.2; python_version >= '3.10'"
 ]
+sphinx747 = [
+    "sphinx==7.4.7; python_version >= '3.9'"
+]
 
 [tool.uv]
 conflicts = [
@@ -77,6 +80,7 @@ conflicts = [
       { extra = "sphinx823" },
       { extra = "sphinx813" },
       { extra = "sphinx802" },
+      { extra = "sphinx747" },
     ],
 ]
 
