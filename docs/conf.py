@@ -87,9 +87,9 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-# If true, SmartyPants will be used to convert quotes and dashes to
-# typographically correct entities.
-html_use_smartypants = False
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-smartquotes_action
+smartquotes_action = "De"
+
 
 from plone_client import build_plone_client_command
 from sphinxcontrib.httpexample import register_builder
