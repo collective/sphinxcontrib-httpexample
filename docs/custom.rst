@@ -2,8 +2,8 @@
 Custom builder
 ==============
 
-Some packages use an API that sends HTTP requests.
-This allows the developer to focus on API calls instead of forming HTTP requests with low level utilities.
+Some packages use an API to send HTTP requests.
+This allows developers to focus on API calls instead of forming HTTP requests with low level utilities.
 For such packages, ``sphinxcontrib.httpexample`` supports custom builders.
 
 The examples in this chapter use the `@plone/client <https://www.npmjs.com/package/@plone/client>`_ package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
