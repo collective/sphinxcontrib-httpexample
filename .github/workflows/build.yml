@@ -13,13 +13,10 @@ jobs:
         exclude:
           - python: python310
             sphinx: 8.2.3
-        exclude:
           - python: python312
             sphinx: 7.4.7
-        exclude:
           - python: python313
             sphinx: 7.4.7
-        exclude:
           - python: python314
             sphinx: 7.4.7
     steps:
