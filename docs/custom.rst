@@ -93,3 +93,22 @@ The following example updates the content at the specified location.
     {
         "title": "My New Document Title"
     }
+
+
+Create content
+==============
+
+The following example creates content at the specified path with the given JSON body.
+
+..  http:example:: curl plone-client
+
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "@type": "Document",
+        "title": "My New Document"
+    }
