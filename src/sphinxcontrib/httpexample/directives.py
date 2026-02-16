@@ -123,11 +123,11 @@ class HTTPExample(CodeBlock):
         # Append builder responses
         if have_request:
             for argument in self.arguments:
-                name = argument
                 try:
-                    name = AVAILABLE_BUILDERS[name][2]
+                    builder_entry = AVAILABLE_BUILDERS[argument]
+                    label = builder_entry[2] if len(builder_entry) == 3 else argument
                 except (KeyError, IndexError):
-                    pass
+                    label = argument
                 options = self.options.copy()
                 options.pop("name", None)
                 options.pop("caption", None)
@@ -145,9 +145,9 @@ class HTTPExample(CodeBlock):
                 )
 
                 # Wrap and render main directive as 'http-example-{name}'
-                klass = "http-example-{}".format(name)
+                klass = "http-example-{}".format(argument)
                 container = nodes.container("", classes=[klass])
-                container.append(nodes.caption("", name))
+                container.append(nodes.caption("", label))
                 container.extend(block.run())
 
                 # Append to result nodes
