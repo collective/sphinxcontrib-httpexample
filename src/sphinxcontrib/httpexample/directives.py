@@ -123,10 +123,10 @@ class HTTPExample(CodeBlock):
         # Append builder responses
         if have_request:
             for argument in self.arguments:
-                try:
-                    builder_entry = AVAILABLE_BUILDERS[argument]
-                    label = builder_entry[2] if len(builder_entry) == 3 else argument
-                except (KeyError, IndexError):
+                builder_entry = AVAILABLE_BUILDERS.get(argument)
+                if builder_entry is not None and len(builder_entry) == 3:
+                    label = builder_entry[2]
+                else:
                     label = argument
                 options = self.options.copy()
                 options.pop("name", None)
