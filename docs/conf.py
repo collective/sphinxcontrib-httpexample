@@ -96,5 +96,5 @@ from sphinxcontrib.httpexample import register_builder
 
 
 register_builder(
-    "plone-client", build_plone_client_command, "javascript", "@plone/client"
+    "plone-client", build_plone_client_command, "javascript", "plone-client"
 )
