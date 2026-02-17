@@ -478,12 +478,12 @@ Markup
 
     ..  tab:: python-requests
 
-        ..  http:example-block:: wget
+        ..  http:example-block:: python-requests
             :request: ../tests/fixtures/001.request.txt
 
     ..  tab:: plone-client
 
-        ..  http:example-block:: wget
+        ..  http:example-block:: plone-client
             :request: ../tests/fixtures/001.request.txt
 
     ..  tab:: response
@@ -516,12 +516,12 @@ Result
 
 ..  tab:: python-requests
 
-  ..  http:example-block:: wget
+  ..  http:example-block:: python-requests
       :request: ../tests/fixtures/001.request.txt
 
 ..  tab:: plone-client
 
-  ..  http:example-block:: wget
+  ..  http:example-block:: plone-client
       :request: ../tests/fixtures/001.request.txt
 
 ..  tab:: response
@@ -562,12 +562,12 @@ Markup
 
       ..  tab-item:: python-requests
 
-          ..  http:example-block:: wget
+          ..  http:example-block:: python-requests
               :request: ../tests/fixtures/001.request.txt
 
       ..  tab-item:: plone-client
 
-          ..  http:example-block:: wget
+          ..  http:example-block:: plone-client
               :request: ../tests/fixtures/001.request.txt
 
       ..  tab-item:: response
@@ -602,12 +602,12 @@ Result
 
   ..  tab-item:: python-requests
 
-      ..  http:example-block:: wget
+      ..  http:example-block:: python-requests
           :request: ../tests/fixtures/001.request.txt
 
   ..  tab-item:: plone-client
 
-      ..  http:example-block:: wget
+      ..  http:example-block:: plone-client
           :request: ../tests/fixtures/001.request.txt
 
   ..  tab-item:: response
