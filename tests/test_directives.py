@@ -86,6 +86,8 @@ def test_inline_response_content():
                 "..  http:example-block:: response\n\n"
                 "    GET /test HTTP/1.1\n"
                 "    Host: example.com\n\n\n"
+                "    \n"
+                "    \n"
                 "    HTTP/1.1 200 OK\n"
                 "    Content-Type: application/json\n\n"
                 "    {}\n"
