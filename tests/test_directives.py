@@ -85,7 +85,7 @@ def test_inline_response_content():
                 "====\n\n"
                 "..  http:example-block:: response\n\n"
                 "    GET /test HTTP/1.1\n"
-                "    Host: example.com\n\n\n"
+                "    Host: example.com\n"
                 "    \n"
                 "    \n"
                 "    HTTP/1.1 200 OK\n"
