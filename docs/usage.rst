@@ -146,7 +146,7 @@ Markup
         Authorization: Basic YWRtaW46YWRtaW4=
 
 
-        HTTP 200 OK
+        HTTP/1.1 200 OK
         Content-Type: application/json
 
         {
@@ -199,7 +199,7 @@ Result
     Authorization: Basic YWRtaW46YWRtaW4=
 
 
-    HTTP 200 OK
+    HTTP/1.1 200 OK
     Content-Type: application/json
 
     {
@@ -261,7 +261,7 @@ Markup
         Authorization: Basic YWRtaW46YWRtaW4=
 
 
-        HTTP 200 OK
+        HTTP/1.1 200 OK
         Content-Type: application/json
 
         {
@@ -281,7 +281,7 @@ Result
     Authorization: Basic YWRtaW46YWRtaW4=
 
 
-    HTTP 200 OK
+    HTTP/1.1 200 OK
     Content-Type: application/json
 
     {
@@ -310,7 +310,7 @@ Markup
         Authorization: Basic YWRtaW46YWRtaW4=
 
 
-        HTTP 200 OK
+        HTTP/1.1 200 OK
         Content-Type: application/json
 
         {
@@ -329,7 +329,7 @@ Result
     Authorization: Basic YWRtaW46YWRtaW4=
 
 
-    HTTP 200 OK
+    HTTP/1.1 200 OK
     Content-Type: application/json
 
     {

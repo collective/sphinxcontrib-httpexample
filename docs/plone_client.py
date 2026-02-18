@@ -1,5 +1,6 @@
 from sphinxcontrib.httpexample import HTTPRequest
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs
+from urllib.parse import urlparse
 import re
 
 

@@ -161,7 +161,7 @@ class HTTPExample(CodeBlock):
 
             block = HTTPExampleBlock(
                 "http:example-block",
-                ["http"],
+                ["response"],
                 options,
                 self.content,
                 self.lineno,
