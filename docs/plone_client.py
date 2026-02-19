@@ -69,6 +69,7 @@ def patch_content(request: HTTPRequest):
 cli.updateContent({python_to_js_literal(payload)});
 """
 
+
 def post_content(request: HTTPRequest):
     url = urlparse(request.url())
     path = f'/{url.path.split("/", 2)[-1]}'
