@@ -3,6 +3,7 @@ from importlib import metadata
 from sphinxcontrib.httpexample.directives import HTTPExample
 from sphinxcontrib.httpexample.directives import HTTPExampleBlock
 from sphinxcontrib.httpexample.directives import register_builder
+from sphinxcontrib.httpexample.lexers import HTTPResponseLexer
 from sphinxcontrib.httpexample.parsers import HTTPRequest
 import os
 import shutil
@@ -34,5 +35,6 @@ def setup(app):
     app.add_js_file(JS_FILE)
     app.add_css_file(CSS_FILE)
     app.add_config_value("httpexample_scheme", "http", "html")
+    app.add_lexer("http-response", HTTPResponseLexer)
     dist = metadata.distribution("sphinxcontrib-httpexample")
     return {"version": dist.version}

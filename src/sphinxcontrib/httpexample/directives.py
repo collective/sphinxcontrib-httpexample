@@ -215,8 +215,7 @@ class HTTPExampleBlock(CodeBlock):
                 self.content = self.read_http_file(self.options["response"])
             else:
                 self.content = HTTPExample.process_content(self.content)[2]
-
-            self.arguments = ["http"]
+            self.arguments = ["http-response"]
         else:
             if "request" in self.options:
                 request_content_no_fields = self.read_http_file(self.options["request"])
