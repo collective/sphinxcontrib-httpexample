@@ -15,6 +15,7 @@ from packaging.version import Version
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx_copybutton",
     "sphinx_design",
     "sphinx_inline_tabs",
     "sphinxcontrib.httpdomain",
