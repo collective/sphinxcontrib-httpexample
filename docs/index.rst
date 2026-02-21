@@ -51,16 +51,9 @@ The following example is of external sources.
 
 To display the response outside of the tabbed interface, then don't include it in the ``http:example`` directive, but instead list it separately.
 
-For inline sources, use ``code-block`` with the ``http`` lexer.
-
-..  code-block:: rst
-
-    ..  http:example:: space separated list of tools
-        A required inline source of a raw plain text HTTP request example.
-        This is required.
-
-    ..  code-block:: http
-        An optional inline source of a raw plain text HTTP response example.
+.. note::
+    Currently only external sources support a separate display of the HTTP response.
+    The users of sphinxcontrib.httpexample would appreciate a contribution to add this feature as indicated in `issue 120 <https://github.com/collective/sphinxcontrib-httpexample/issues/120>`_.
 
 For external sources, use ``literalinclude`` with the ``http`` lexer.
 

@@ -404,6 +404,36 @@ Result
     :request: ../tests/fixtures/001.request.txt
     :response: ../tests/fixtures/001.response.txt
 
+
+Separate response
+^^^^^^^^^^^^^^^^^
+The following example is exactly the same as the previous one, except the HTTP response is displayed separately from the tabbed interface.
+
+.. note::
+    Currently only external sources support a separate display of the HTTP response.
+    The users of sphinxcontrib.httpexample would appreciate a contribution to add this feature as indicated in `issue 120 <https://github.com/collective/sphinxcontrib-httpexample/issues/120>`_.
+
+Markup
+``````
+
+..  code-block:: rst
+
+    ..  http:example:: curl wget httpie requests plone-client
+        :request: ../tests/fixtures/001.request.txt
+
+    ..  literalinclude:: ../tests/fixtures/001.response.txt
+        :language: http
+
+Result
+``````
+
+..  http:example:: curl wget httpie requests plone-client
+    :request: ../tests/fixtures/001.request.txt
+
+..  literalinclude:: ../tests/fixtures/001.response.txt
+    :language: http
+
+
 HTTP ``POST``
 ^^^^^^^^^^^^^
 
