@@ -11,11 +11,11 @@ import re
 
 
 AVAILABLE_BUILDERS = {
-    "curl": (builders.build_curl_command, "bash"),
-    "wget": (builders.build_wget_command, "bash"),
-    "httpie": (builders.build_httpie_command, "bash"),
+    "curl": (builders.build_curl_command, "shell"),
+    "wget": (builders.build_wget_command, "shell"),
+    "httpie": (builders.build_httpie_command, "shell"),
     "python-requests": (builders.build_requests_command, "python"),
-    "requests": (builders.build_requests_command, "python", "python-requests"),
+    "requests": (builders.build_requests_command, "python"),
 }
 
 AVAILABLE_FIELDS = ["query"]
