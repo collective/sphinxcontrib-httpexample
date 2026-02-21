@@ -37,8 +37,7 @@ PYTHON ?= python313
 export PYTHONPATH=$(DOCS_DIR)
 
 # environment management
-.PHONY: dev
-dev:  ## Install required Python, create Python virtual environment, and install package requirements
+.venv:  ## Install required Python, create Python virtual environment, and install package requirements
 ifndef IN_NIX_SHELL
 	@uv python install "$(PYTHONVERSION)"
 	@uv venv --python "$(PYTHONVERSION)"
@@ -52,7 +51,7 @@ ifndef IN_NIX_SHELL
 endif
 
 .PHONY: init
-init: clean clean-python dev  ## Clean docs build directory and initialize Python virtual environment
+init: clean clean-python .venv  ## Clean docs build directory and initialize Python virtual environment
 
 .PHONY: clean
 clean:  ## Clean docs build directory
@@ -66,15 +65,16 @@ clean-python: clean
 
 # documentation builders
 .PHONY: html
-html: dev  ## Build html
+html: .venv  ## Build html
 	cd $(DOCS_DIR) && $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 .PHONY: livehtml
-livehtml: dev  ## Rebuild Sphinx documentation on changes, with live-reload in the browser
+livehtml: .venv  ## Rebuild Sphinx documentation on changes, with live-reload in the browser
 	cd "$(DOCS_DIR)" && ${SPHINXAUTOBUILD} \
 		--ignore "*.swp" \
+		--watch "../src/sphinxcontrib/httpexample/" \
 		--port 8050 \
 		-b html . "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 # /documentation builders
