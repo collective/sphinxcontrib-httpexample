@@ -23,43 +23,102 @@ It defaults to ``http``.
     # conf.py
     httpexample_scheme = "https"
 
+
 Syntax
 ======
+There are two syntaxes, one each for inline and external sources.
+
+The following example is of inline sources.
+
 ..  code-block:: rst
 
-    .. http:example:: space separated list of tools
-        :request: ../optional/rel/path/to/plaintext/request
-        :response: ../optional/rel/path/to/plaintext/response
+    ..  http:example:: space separated list of tools
+        A required inline source of a raw plain text HTTP request example.
+        This is required.
 
-        Raw plaintext HTTP request example, which is
-        required only when ``:request:`` is not specified.
+
+        An optional inline source of a raw plain text HTTP response example.
+        If present, it must be separated from the request by two blank lines.
+        It must begin with either ``HTTP/VERSION_NUMBER`` or ``HTTP ``.
+
+The following example is of external sources.
+
+..  code-block:: rst
+
+    ..  http:example:: space separated list of tools
+        :request: ../relative/path/to/plaintext/request/file
+        :response: ../relative/path/to/plaintext/response/file
+
+To display the response outside of the tabbed interface, then don't include it in the ``http:example`` directive, but instead list it separately.
+
+For inline sources, use ``code-block`` with the ``http`` lexer.
+
+..  code-block:: rst
+
+    ..  http:example:: space separated list of tools
+        A required inline source of a raw plain text HTTP request example.
+        This is required.
+
+    ..  code-block:: http
+        An optional inline source of a raw plain text HTTP response example.
+
+For external sources, use ``literalinclude`` with the ``http`` lexer.
+
+..  code-block:: rst
+
+    ..  http:example:: space separated list of tools
+        :request: ../relative/path/to/plaintext/request/file
+
+    ..  literalinclude:: ../relative/path/to/plaintext/response/file
+        :language: http
+
 
 Example
 =======
+
 ..  code-block:: rst
 
-    .. http:example:: curl wget httpie requests
+    ..  http:example:: curl wget httpie requests plone-client
 
-        GET /Plone/front-page HTTP/1.1
+        POST /Plone/folder HTTP/1.1
         Host: localhost:8080
         Accept: application/json
+        Content-Type: application/json
         Authorization: Basic YWRtaW46YWRtaW4=
+
+
+        HTTP 200 OK
+        Content-Type: application/json
+
+        {
+            "@type": "Document",
+            "title": "My Document"
+        }
+
 
 Rendering
 =========
-.. http:example:: curl wget httpie requests
 
-    GET /plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
+..  http:example:: curl wget httpie requests plone-client
+
+    POST /Plone/folder HTTP/1.1
     Host: localhost:8080
     Accept: application/json
-    Authorization: Basic YWRtaW46c2VjcmV0
+    Content-Type: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
 
 
-.. code:: javascript
+    HTTP 200 OK
+    Content-Type: application/json
 
-    import PloneClient from '@plone/client';
-    const cli = PloneClient.initialize({apiPath: 'http://nohost/plone'});
-    const { data, status } = cli.getContent({path: '/plone/folder/my-document', expanders: ['breadcrumbs', 'navigation']})
+    {
+        "@type": "Document",
+        "title": "My Document"
+    }
+
+
+.. seealso::
+    The :doc:`usage` provide an extensive demonstration of the capabilities of sphinxcontrib.httpexample.
 
 
 Compatibility with other tab libraries
@@ -136,6 +195,17 @@ sphinxcontrib-httpexample is compatible with the following tab libraries.
 
         ..  http:example-block:: response
             :response: ../tests/fixtures/001.response.txt
+
+
+Custom builders
+===============
+
+sphinxcontrib.httpexample supports custom builders.
+
+See the `issue tracker <https://github.com/collective/sphinxcontrib-httpexample/issues>`_ to request or provide a custom builder.
+
+.. seealso::
+    See an example :doc:`custom` for the `@plone/client <https://www.npmjs.com/package/@plone/client>`_ package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
 
 
 Supported tools
