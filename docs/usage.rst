@@ -241,6 +241,123 @@ Result
     }
 
 
+Separate response
+^^^^^^^^^^^^^^^^^
+
+The following example is exactly the same as the previous one, except the response is displayed separately from the tabbed interface in its own block.
+
+For inline sources, use ``code-block`` with the ``http-response`` lexer.
+
+Markup
+``````
+
+..  code-block:: rst
+
+    ..  http:example:: curl wget httpie requests plone-client
+
+        GET /Plone/front-page HTTP/1.1
+        Host: localhost:8080
+        Accept: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
+
+    ..  code-block:: http-response
+
+        HTTP 200 OK
+        Content-Type: application/json
+
+        {
+          "@id": "http://localhost:8080/Plone/front-page",
+          "@type": "Document",
+          "UID": "1f699ffa110e45afb1ba502f75f7ec33",
+          "allow_discussion": null,
+          "changeNote": "",
+          "contributors": [],
+          "created": "2016-01-21T01:14:48+00:00",
+          "creators": [
+            "test_user_1_",
+            "admin"
+          ],
+          "description": "Congratulations! You have successfully installed Plone.",
+          "effective": null,
+          "exclude_from_nav": false,
+          "expires": null,
+          "id": "front-page",
+          "language": "",
+          "modified": "2016-01-21T01:24:11+00:00",
+          "parent": {
+            "@id": "http://localhost:8080/Plone",
+            "@type": "Plone Site",
+            "description": "",
+            "title": "Plone site"
+          },
+          "relatedItems": [],
+          "review_state": "private",
+          "rights": "",
+          "subjects": [],
+          "table_of_contents": null,
+          "text": {
+            "content-type": "text/plain",
+            "data": "If you're seeing this instead of the web site you were expecting, the owner of this web site has just installed Plone. Do not contact the Plone Team or the Plone mailing lists about this.",
+            "encoding": "utf-8"
+          },
+          "title": "Welcome to Plone"
+        }
+
+
+Result
+``````
+
+..  http:example:: curl wget httpie requests plone-client
+
+    GET /Plone/front-page HTTP/1.1
+    Host: localhost:8080
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+..  code-block:: http-response
+
+    HTTP 200 OK
+    Content-Type: application/json
+
+    {
+      "@id": "http://localhost:8080/Plone/front-page",
+      "@type": "Document",
+      "UID": "1f699ffa110e45afb1ba502f75f7ec33",
+      "allow_discussion": null,
+      "changeNote": "",
+      "contributors": [],
+      "created": "2016-01-21T01:14:48+00:00",
+      "creators": [
+        "test_user_1_",
+        "admin"
+      ],
+      "description": "Congratulations! You have successfully installed Plone.",
+      "effective": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "front-page",
+      "language": "",
+      "modified": "2016-01-21T01:24:11+00:00",
+      "parent": {
+        "@id": "http://localhost:8080/Plone",
+        "@type": "Plone Site",
+        "description": "",
+        "title": "Plone site"
+      },
+      "relatedItems": [],
+      "review_state": "private",
+      "rights": "",
+      "subjects": [],
+      "table_of_contents": null,
+      "text": {
+        "content-type": "text/plain",
+        "data": "If you're seeing this instead of the web site you were expecting, the owner of this web site has just installed Plone. Do not contact the Plone Team or the Plone mailing lists about this.",
+        "encoding": "utf-8"
+      },
+      "title": "Welcome to Plone"
+    }
+
+
 HTTP ``POST``
 ^^^^^^^^^^^^^
 
@@ -409,9 +526,8 @@ Separate response
 ^^^^^^^^^^^^^^^^^
 The following example is exactly the same as the previous one, except the HTTP response is displayed separately from the tabbed interface.
 
-.. note::
-    Currently only external sources support a separate display of the HTTP response.
-    The users of sphinxcontrib.httpexample would appreciate a contribution to add this feature as indicated in `issue 120 <https://github.com/collective/sphinxcontrib-httpexample/issues/120>`_.
+For external sources, use ``literalinclude`` with either the ``http`` or ``http-response`` lexer.
+
 
 Markup
 ``````
@@ -422,7 +538,7 @@ Markup
         :request: ../tests/fixtures/001.request.txt
 
     ..  literalinclude:: ../tests/fixtures/001.response.txt
-        :language: http
+        :language: http-response
 
 Result
 ``````
@@ -431,7 +547,7 @@ Result
     :request: ../tests/fixtures/001.request.txt
 
 ..  literalinclude:: ../tests/fixtures/001.response.txt
-    :language: http
+    :language: http-response
 
 
 HTTP ``POST``
