@@ -1,5 +1,6 @@
 # sphinxcontrib-httpexample documentation build configuration file, created by
 # sphinx-quickstart on Fri Mar  3 12:29:43 2017.
+import datetime
 from importlib import metadata
 from packaging.version import Version
 
@@ -34,9 +35,10 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
+this_year = datetime.date.today().year
 project = "sphinxcontrib-httpexample"
-copyright = "2017, Asko Soukka"
 author = "Asko Soukka"
+copyright = f"2017 - {this_year}, {author}"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
