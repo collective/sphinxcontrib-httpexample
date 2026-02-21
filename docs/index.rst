@@ -38,7 +38,7 @@ Example
 =======
 ..  code-block:: rst
 
-    .. http:example:: curl wget httpie python-requests
+    .. http:example:: curl wget httpie requests
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -47,7 +47,7 @@ Example
 
 Rendering
 =========
-.. http:example:: curl wget httpie python-requests
+.. http:example:: curl wget httpie requests
 
     GET /plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
     Host: localhost:8080
@@ -91,7 +91,7 @@ sphinxcontrib-httpexample is compatible with the following tab libraries.
     ..  http:example-block:: httpie
         :request: ../tests/fixtures/001.request.txt
 
-..  tab:: python-requests
+..  tab:: requests
 
     ..  http:example-block:: wget
         :request: ../tests/fixtures/001.request.txt
@@ -127,7 +127,7 @@ sphinxcontrib-httpexample is compatible with the following tab libraries.
         ..  http:example-block:: httpie
             :request: ../tests/fixtures/001.request.txt
 
-    ..  tab-item:: python-requests
+    ..  tab-item:: requests
 
         ..  http:example-block:: wget
             :request: ../tests/fixtures/001.request.txt
@@ -144,12 +144,12 @@ Supported tools
 -   curl_
 -   wget_
 -   httpie_
--   python-requests_
+-   requests_
 
 .. _curl: https://curl.haxx.se/
 .. _wget: https://www.gnu.org/software/wget/
 .. _httpie: https://httpie.org/
-.. _python-requests: https://requests.readthedocs.io/en/stable/
+.. _requests: https://requests.readthedocs.io/en/stable/
 
 
 Contents
