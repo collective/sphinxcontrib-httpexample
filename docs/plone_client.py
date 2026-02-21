@@ -82,7 +82,7 @@ cli.createContent({python_to_js_literal(payload)});
 """
 
 
-def build_plone_client_command(request: HTTPRequest):
+def build_plone_client_command(request: HTTPRequest) -> str:
     url = urlparse(request.url())
     portal_path = url.path.split("/")[1]
     output = f"""\

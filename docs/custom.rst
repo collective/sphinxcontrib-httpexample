@@ -4,7 +4,7 @@ Custom builder
 
 Some packages use an API to send HTTP requests.
 This allows developers to focus on API calls instead of forming HTTP requests with low level utilities.
-For such packages, ``sphinxcontrib.httpexample`` supports custom builders.
+For such packages, sphinxcontrib.httpexample supports custom builders.
 
 The examples in this chapter use the `@plone/client <https://www.npmjs.com/package/@plone/client>`_ package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
 
@@ -18,10 +18,10 @@ In this file, define a custom method as your builder.
 
 .. code:: python
 
-    def build_plone_client_command(request: HTTPRequest): str
-        result = ""
+    def build_plone_client_command(request: HTTPRequest) -> str:
+        output = ""
         # ...
-        return result
+        return output
 
 Next, in :file:`docs/conf.py`, register the builder with ``register_builder()`` to make it available.
 
@@ -54,6 +54,27 @@ The ``register_builder`` method has the following parameters.
 
 ``label``
     The display name of the tab in the documentation.
+
+For a complete example, download :download:`plone_client.py`.
+
+
+Create content
+==============
+
+The following example creates content at the specified path with the given JSON body.
+
+..  http:example:: curl plone-client
+
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "@type": "Document",
+        "title": "My New Document"
+    }
 
 
 Get content
@@ -92,23 +113,4 @@ The following example updates the content at the specified location.
 
     {
         "title": "My New Document Title"
-    }
-
-
-Create content
-==============
-
-The following example creates content at the specified path with the given JSON body.
-
-..  http:example:: curl plone-client
-
-    POST /Plone/folder HTTP/1.1
-    Host: localhost:8080
-    Content-Type: application/json
-    Accept: application/json
-    Authorization: Basic YWRtaW46YWRtaW4=
-
-    {
-        "@type": "Document",
-        "title": "My New Document"
     }
