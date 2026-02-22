@@ -15,85 +15,91 @@ def lexer():
     """Return a new HTTPResponseLexer instance for each test."""
     return HTTPResponseLexer()
 
-
-@pytest.mark.parametrize(
-    "text,expected",
-    [
-        (
-            "HTTP/1.1 204 No Content",
+http_responses = []
+http_formats = ["HTTP ", "HTTP/1.1 ", "HTTP/2.0 "]
+for http_format in http_formats:
+    offset = len(http_format)
+    http_responses.append(
+        (f"{http_format}204 No Content",
             [
-                (0, Token.Keyword.Reserved, "HTTP/1.1 204 No Content"),
-            ],
-        ),
-        (
-            "HTTP/1.1 200 OK\n" "Content-Type: application/json",
+                (0, Token.Keyword.Reserved, f"{http_format}204 No Content"),
+            ]
+        )
+    )
+    http_responses.append(
+        (f"{http_format}200 OK\n" "Content-Type: application/json",
             [
-                (0, Token.Keyword.Reserved, "HTTP/1.1 200 OK"),
-                (15, Token.Text, "\n"),
-                (16, Name.Attribute, "Content-Type"),
-                (28, Text, ": "),
-                (30, String, "application/json"),
+                (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
+                (6 + offset, Token.Text, "\n"),
+                (7 + offset, Name.Attribute, "Content-Type"),
+                (19 + offset, Text, ": "),
+                (21 + offset, String, "application/json"),
             ],
-        ),
+        )
+    )
+    http_responses.append(
+        (f"{http_format}200 OK\n"
+        "Content-Type: application/json\n"
+        "\n"
+        '{"foo": "bar"}',
+            [
+                (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
+                (6 + offset, Token.Text, "\n"),
+                (7 + offset, Name.Attribute, "Content-Type"),
+                (19 + offset, Text, ": "),
+                (21 + offset, String, "application/json"),
+                (37 + offset, Token.Text, "\n\n"),
+                (39 + offset, Token.Punctuation, "{"),
+                (40 + offset, Token.Name.Tag, '"foo"'),
+                (45 + offset, Token.Punctuation, ":"),
+                (46 + offset, Token.Text.Whitespace, " "),
+                (47 + offset, Token.Literal.String.Double, '"bar"'),
+                (52 + offset, Token.Punctuation, "}"),
+            ],
+        )
+    )
+    http_responses.append(
         (
-            "HTTP/1.1 200 OK\n"
+            f"{http_format}200 OK\n"
             "Content-Type: application/json\n"
+            "Content-Length: 15\n"
             "\n"
             '{"foo": "bar"}',
             [
-                (0, Token.Keyword.Reserved, "HTTP/1.1 200 OK"),
-                (15, Token.Text, "\n"),
-                (16, Name.Attribute, "Content-Type"),
-                (28, Text, ": "),
-                (30, String, "application/json"),
-                (46, Token.Text, "\n\n"),
-                (48, Token.Punctuation, "{"),
-                (49, Token.Name.Tag, '"foo"'),
-                (54, Token.Punctuation, ":"),
-                (55, Token.Text.Whitespace, " "),
-                (56, Token.Literal.String.Double, '"bar"'),
-                (61, Token.Punctuation, "}"),
+                (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
+                (6 + offset, Token.Text, "\n"),
+                (7 + offset, Name.Attribute, "Content-Type"),
+                (19 + offset, Text, ": "),
+                (21 + offset, String, "application/json"),
+                (37 + offset, Token.Text.Whitespace, "\n"),
+                (38 + offset, Name.Attribute, "Content-Length"),
+                (52 + offset, Text, ": "),
+                (54 + offset, String, "15"),
+                (56 + offset, Token.Text, "\n\n"),
+                (58 + offset, Token.Punctuation, "{"),
+                (59 + offset, Token.Name.Tag, '"foo"'),
+                (64 + offset, Token.Punctuation, ":"),
+                (65 + offset, Token.Text.Whitespace, " "),
+                (66 + offset, Token.Literal.String.Double, '"bar"'),
+                (71 + offset, Token.Punctuation, "}"),
             ],
-        ),
+        )
+    )
+    http_responses.append(
         (
-            (
-                "HTTP/1.1 200 OK\n"
-                "Content-Type: application/json\n"
-                "Content-Length: 15\n"
-                "\n"
-                '{"foo": "bar"}'
-            ),
+        f"{http_format}200 OK\n" "Content-Type: application/unknown\n" "\n" "foo",
             [
-                (0, Token.Keyword.Reserved, "HTTP/1.1 200 OK"),
-                (15, Token.Text, "\n"),
-                (16, Name.Attribute, "Content-Type"),
-                (28, Text, ": "),
-                (30, String, "application/json"),
-                (46, Token.Text.Whitespace, "\n"),
-                (47, Name.Attribute, "Content-Length"),
-                (61, Text, ": "),
-                (63, String, "15"),
-                (65, Token.Text, "\n\n"),
-                (67, Token.Punctuation, "{"),
-                (68, Token.Name.Tag, '"foo"'),
-                (73, Token.Punctuation, ":"),
-                (74, Token.Text.Whitespace, " "),
-                (75, Token.Literal.String.Double, '"bar"'),
-                (80, Token.Punctuation, "}"),
+                (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
+                (6 + offset, Token.Text, "\n"),
+                (7 + offset, Name.Attribute, "Content-Type"),
+                (19 + offset, Text, ": "),
+                (21 + offset, String, "application/unknown"),
+                (40 + offset, Token.Text, "\n\n"),
+                (42 + offset, Token.Text, "foo"),
             ],
         ),
-        (
-            "HTTP/1.1 200 OK\n" "Content-Type: application/unknown\n" "\n" "foo",
-            [
-                (0, Token.Keyword.Reserved, "HTTP/1.1 200 OK"),
-                (15, Token.Text, "\n"),
-                (16, Name.Attribute, "Content-Type"),
-                (28, Text, ": "),
-                (30, String, "application/unknown"),
-                (49, Token.Text, "\n\n"),
-                (51, Token.Text, "foo"),
-            ],
-        ),
+    )
+    http_responses.append(
         (
             "Content-Type: application/json\n" "\n" '{"foo": "bar"}',
             [
@@ -108,9 +114,10 @@ def lexer():
                 (40, Token.Literal.String.Double, '"bar"'),
                 (45, Token.Punctuation, "}"),
             ],
-        ),
-    ],
-)
+        )
+    )
+
+@pytest.mark.parametrize("text,expected", http_responses)
 def test_response_lexing(lexer, text, expected):
     """Parametrized tests for various HTTP response lexing scenarios."""
     assert list(lexer.get_tokens_unprocessed(text)) == expected
