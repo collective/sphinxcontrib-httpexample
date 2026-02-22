@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1 (unreleased)
+
+
+- Nothing changed yet.
+
+
 ## 2.0 (2026-02-23)
 
 - Dropped support for Python 3.9.

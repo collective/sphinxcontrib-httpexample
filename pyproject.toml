@@ -1,6 +1,6 @@
 [project]
 name = "sphinxcontrib-httpexample"
-version = "2.0"
+version = "2.1.dev0"
 description = "Adds example directive for sphinx-contrib httpdomain"
 readme = "README.md"
 keywords = ["sphinx", "extension", "http", "rest", "documentation"]
