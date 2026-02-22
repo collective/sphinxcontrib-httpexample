@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0rc2 (unreleased)
+## 2.0 (2026-02-23)
 
 - Dropped support for Python 3.9.
   [stevepiercy]
