@@ -11,11 +11,11 @@ import re
 
 
 AVAILABLE_BUILDERS = {
-    "curl": (builders.build_curl_command, "bash"),
-    "wget": (builders.build_wget_command, "bash"),
-    "httpie": (builders.build_httpie_command, "bash"),
+    "curl": (builders.build_curl_command, "shell"),
+    "wget": (builders.build_wget_command, "shell"),
+    "httpie": (builders.build_httpie_command, "shell"),
     "python-requests": (builders.build_requests_command, "python"),
-    "requests": (builders.build_requests_command, "python", "python-requests"),
+    "requests": (builders.build_requests_command, "python"),
 }
 
 AVAILABLE_FIELDS = ["query"]
@@ -123,11 +123,11 @@ class HTTPExample(CodeBlock):
         # Append builder responses
         if have_request:
             for argument in self.arguments:
-                name = argument
-                try:
-                    name = AVAILABLE_BUILDERS[name][2]
-                except (KeyError, IndexError):
-                    pass
+                builder_entry = AVAILABLE_BUILDERS.get(argument)
+                if builder_entry is not None and len(builder_entry) == 3:
+                    label = builder_entry[2]
+                else:
+                    label = argument
                 options = self.options.copy()
                 options.pop("name", None)
                 options.pop("caption", None)
@@ -145,9 +145,9 @@ class HTTPExample(CodeBlock):
                 )
 
                 # Wrap and render main directive as 'http-example-{name}'
-                klass = "http-example-{}".format(name)
+                klass = "http-example-{}".format(argument)
                 container = nodes.container("", classes=[klass])
-                container.append(nodes.caption("", name))
+                container.append(nodes.caption("", label))
                 container.extend(block.run())
 
                 # Append to result nodes
@@ -161,7 +161,7 @@ class HTTPExample(CodeBlock):
 
             block = HTTPExampleBlock(
                 "http:example-block",
-                ["http"],
+                ["response"],
                 options,
                 self.content,
                 self.lineno,
@@ -215,8 +215,7 @@ class HTTPExampleBlock(CodeBlock):
                 self.content = self.read_http_file(self.options["response"])
             else:
                 self.content = HTTPExample.process_content(self.content)[2]
-
-            self.arguments = ["http"]
+            self.arguments = ["http-response"]
         else:
             if "request" in self.options:
                 request_content_no_fields = self.read_http_file(self.options["request"])

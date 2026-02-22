@@ -7,7 +7,7 @@
 }
 .http-example .caption.selected {
     font-weight: bold;
-    background-color: #fff;
+    background-color: transparent;
     border: 1px solid #e1e4e5;
     border-bottom: 1px solid white;
 }
@@ -15,11 +15,16 @@
     margin-top: -1px;
 }
 .http-example div[class^='highlight'] pre {
-    white-space: normal;
+    white-space: break-spaces;
 }
-.http-example-JavaScript div[class^='highlight'] pre,
+.http-example div.highlight-bash pre {
+    white-space: pre-wrap;
+}
 .http-example-http div[class^='highlight'] pre,
+.http-example-httpie div[class^='highlight'] pre,
+.http-example-plone-client div[class^='highlight'] pre,
+.http-example-python-requests div[class^='highlight'] pre,
+.http-example-wget div[class^='highlight'] pre,
 .http-example-response div[class^='highlight'] pre {
     white-space: pre;
 }
-

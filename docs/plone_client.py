@@ -1,7 +1,6 @@
 from sphinxcontrib.httpexample import HTTPRequest
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
-import json
 import re
 
 
@@ -71,7 +70,19 @@ cli.updateContent({python_to_js_literal(payload)});
 """
 
 
-def build_plone_javascript_command(request: HTTPRequest):
+def post_content(request: HTTPRequest):
+    url = urlparse(request.url())
+    path = f'/{url.path.split("/", 2)[-1]}'
+    payload = {
+        "path": path,
+        "data": request.data(),
+    }
+    return f"""\
+cli.createContent({python_to_js_literal(payload)});
+"""
+
+
+def build_plone_client_command(request: HTTPRequest) -> str:
     url = urlparse(request.url())
     portal_path = url.path.split("/")[1]
     output = f"""\
@@ -91,4 +102,6 @@ cli.login({{username: '{username}', password: '{password}'}});
         return output + get_content(request)
     elif request.command == "PATCH":
         return output + patch_content(request)
+    elif request.command == "POST":
+        return output + post_content(request)
     return output

@@ -1,142 +1,229 @@
+==============================================
 Sphinx directive for RESTful HTTP API examples
 ==============================================
 
-sphinxcontrib-httpexample enhances `sphinxcontrib-httpdomain`_, a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive provided by this extension generates RESTful HTTP API call examples for different tools from a single HTTP request example.
+sphinxcontrib-httpexample is a Sphinx domain extension for describing RESTful HTTP APIs in detail.
+It enhances `sphinxcontrib-httpdomain`_ with a simple call example directive.
+The directive provided by this extension generates RESTful HTTP API call examples for different HTTP clients from a single HTTP request example.
 
-The audience for this extension are developers and technical writes documenting their RESTful HTTP APIs. This extension has originally been developed for documenting `plone.restapi`_.
+The audience for this extension are developers and technical writers documenting their RESTful HTTP APIs.
+This extension was originally developed for documenting `plone.restapi`_.
 
 .. _sphinxcontrib-httpdomain: https://pythonhosted.org/sphinxcontrib-httpdomain/
-.. _plone.restapi: http://plonerestapi.readthedocs.org/
+.. _plone.restapi: https://6.docs.plone.org/plone.restapi/docs/source/index.html
 
-* Configuration:
 
-  The URL scheme, either ``http`` or ``https``, used in the generated examples
-  can be configured with the ``httpexample_scheme`` configuration variable. It
-  defaults to ``http``.
+Configuration
+=============
+The URL scheme, either ``http`` or ``https``, used in the generated examples can be configured with the ``httpexample_scheme`` configuration variable.
+It defaults to ``http``.
 
-  ..  code-block:: python
+..  code-block:: python
 
-      # conf.py
-      httpexample_scheme = 'https'
+    # conf.py
+    httpexample_scheme = "https"
 
-* Syntax:
 
-  ..  code-block:: rst
+Syntax
+======
+There are two syntaxes, one each for inline and external sources.
 
-      .. http:example:: space separated list of tools
-         :request: ../optional/rel/path/to/plaintext/request
-         :response: ../optional/rel/path/to/plaintext/response
+The following example is of inline sources.
 
-         Raw plaintext HTTP request example, which is
-         required only when :request: is not specified.
+..  code-block:: rst
 
-* Example:
+    ..  http:example:: space separated list of tools
+        A required inline source of a raw plain text HTTP request example.
+        This is required.
 
-  ..  code-block:: rst
 
-      ..  http:example:: curl wget httpie python-requests
+        An optional inline source of a raw plain text HTTP response example.
+        If present, it must be separated from the request by two blank lines.
+        It must begin with either ``HTTP/VERSION_NUMBER`` or ``HTTP ``.
 
-          GET /Plone/front-page HTTP/1.1
-          Host: localhost:8080
-          Accept: application/json
-          Authorization: Basic YWRtaW46YWRtaW4=
+The following example is of external sources.
 
-* Rendering:
+..  code-block:: rst
 
-    ..  http:example:: curl wget httpie python-requests
+    ..  http:example:: space separated list of tools
+        :request: ../relative/path/to/plaintext/request/file
+        :response: ../relative/path/to/plaintext/response/file
 
-        GET /plone/folder/my-document?expand=breadcrumbs,navigation HTTP/1.1
+To display the response outside of the tabbed interface, then don't include it in the ``http:example`` directive, but instead list it separately.
+
+For inline sources, use ``code-block`` with the ``http-response`` lexer.
+
+..  code-block:: rst
+
+    ..  http:example:: space separated list of tools
+        A required inline source of a raw plain text HTTP request example.
+        This is required.
+
+    ..  code-block:: http
+        An optional inline source of a raw plain text HTTP response example.
+
+For external sources, use ``literalinclude`` with either the ``http`` or ``http-response`` lexer.
+
+..  code-block:: rst
+
+    ..  http:example:: space separated list of tools
+        :request: ../relative/path/to/plaintext/request/file
+
+    ..  literalinclude:: ../relative/path/to/plaintext/response/file
+        :language: http
+
+
+Example
+=======
+
+..  code-block:: rst
+
+    ..  http:example:: curl wget httpie requests plone-client
+
+        POST /Plone/folder HTTP/1.1
         Host: localhost:8080
         Accept: application/json
-        Authorization: Basic YWRtaW46c2VjcmV0
+        Content-Type: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
 
 
-.. code:: javascript
+        HTTP 200 OK
+        Content-Type: application/json
 
-    import PloneClient from '@plone/client';
-    const cli = PloneClient.initialize({apiPath: 'http://nohost/plone'});
-    const { data, status } = cli.getContent({path: '/plone/folder/my-document', expanders: ['breadcrumbs', 'navigation']})
+        {
+            "@type": "Document",
+            "title": "My Document"
+        }
 
-* Compatible with other tab libraries:
 
-  `sphinx-inline-tabs <https://sphinx-inline-tabs.readthedocs.io/en/latest/>`_:
+Rendering
+=========
 
-  ..  tab:: http
+..  http:example:: curl wget httpie requests plone-client
 
-      ..  http:example-block:: http
-          :request: ../tests/fixtures/001.request.txt
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Accept: application/json
+    Content-Type: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
 
-  ..  tab:: curl
 
-      ..  http:example-block:: curl
-          :request: ../tests/fixtures/001.request.txt
+    HTTP 200 OK
+    Content-Type: application/json
 
-  ..  tab:: wget
+    {
+        "@type": "Document",
+        "title": "My Document"
+    }
 
-      ..  http:example-block:: wget
-          :request: ../tests/fixtures/001.request.txt
 
-  ..  tab:: httpie
+.. seealso::
+    The :doc:`usage` provide an extensive demonstration of the capabilities of sphinxcontrib.httpexample.
 
-      ..  http:example-block:: httpie
-          :request: ../tests/fixtures/001.request.txt
 
-  ..  tab:: python-requests
+Compatibility with other tab libraries
+======================================
 
-      ..  http:example-block:: wget
-          :request: ../tests/fixtures/001.request.txt
+sphinxcontrib-httpexample is compatible with the following tab libraries.
 
-  ..  tab:: response
 
-      ..  http:example-block:: response
-          :response: ../tests/fixtures/001.response.txt
+`sphinx-inline-tabs <https://sphinx-inline-tabs.readthedocs.io/en/latest/>`_
+----------------------------------------------------------------------------
 
-  `sphinx-design <https://sphinx-design.readthedocs.io/en/furo-theme/tabs.html>`_:
+..  tab:: http
 
-  ..  tab-set::
+    ..  http:example-block:: http
+        :request: ../tests/fixtures/001.request.txt
 
-      ..  tab-item:: http
+..  tab:: curl
 
-          ..  http:example-block:: http
-              :request: ../tests/fixtures/001.request.txt
+    ..  http:example-block:: curl
+        :request: ../tests/fixtures/001.request.txt
 
-      ..  tab-item:: curl
+..  tab:: wget
 
-          ..  http:example-block:: curl
-              :request: ../tests/fixtures/001.request.txt
+    ..  http:example-block:: wget
+        :request: ../tests/fixtures/001.request.txt
 
-      ..  tab-item:: wget
+..  tab:: httpie
 
-          ..  http:example-block:: wget
-              :request: ../tests/fixtures/001.request.txt
+    ..  http:example-block:: httpie
+        :request: ../tests/fixtures/001.request.txt
 
-      ..  tab-item:: httpie
+..  tab:: requests
 
-          ..  http:example-block:: httpie
-              :request: ../tests/fixtures/001.request.txt
+    ..  http:example-block:: wget
+        :request: ../tests/fixtures/001.request.txt
 
-      ..  tab-item:: python-requests
+..  tab:: response
 
-          ..  http:example-block:: wget
-              :request: ../tests/fixtures/001.request.txt
+    ..  http:example-block:: response
+        :response: ../tests/fixtures/001.response.txt
 
-      ..  tab-item:: response
 
-          ..  http:example-block:: response
-              :response: ../tests/fixtures/001.response.txt
+`sphinx-design <https://sphinx-design.readthedocs.io/en/furo-theme/tabs.html>`_
+-------------------------------------------------------------------------------
 
-* Supported tools:
+..  tab-set::
 
-  - curl_
-  - wget_
-  - httpie_
-  - python-requests_
+    ..  tab-item:: http
+
+        ..  http:example-block:: http
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: curl
+
+        ..  http:example-block:: curl
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: wget
+
+        ..  http:example-block:: wget
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: httpie
+
+        ..  http:example-block:: httpie
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: requests
+
+        ..  http:example-block:: wget
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: response
+
+        ..  http:example-block:: response
+            :response: ../tests/fixtures/001.response.txt
+
+
+Custom builders
+===============
+
+sphinxcontrib.httpexample supports custom builders.
+
+See the `issue tracker <https://github.com/collective/sphinxcontrib-httpexample/issues>`_ to request or provide a custom builder.
+
+.. seealso::
+    See an example :doc:`custom` for the `@plone/client <https://www.npmjs.com/package/@plone/client>`_ package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
+
+
+Supported tools
+===============
+
+-   curl_
+-   wget_
+-   httpie_
+-   requests_
 
 .. _curl: https://curl.haxx.se/
 .. _wget: https://www.gnu.org/software/wget/
 .. _httpie: https://httpie.org/
-.. _python-requests: http://docs.python-requests.org/
+.. _requests: https://requests.readthedocs.io/en/stable/
 
+
+Contents
+========
 ..  toctree::
     :maxdepth: 2
 
