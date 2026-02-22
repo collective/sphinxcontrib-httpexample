@@ -4,7 +4,7 @@ Sphinx directive for RESTful HTTP API examples
 
 sphinxcontrib-httpexample is a Sphinx domain extension for describing RESTful HTTP APIs in detail.
 It enhances `sphinxcontrib-httpdomain`_ with a simple call example directive.
-The directive provided by this extension generates RESTful HTTP API call examples for different tools from a single HTTP request example.
+The directive provided by this extension generates RESTful HTTP API call examples for different HTTP clients from a single HTTP request example.
 
 The audience for this extension are developers and technical writers documenting their RESTful HTTP APIs.
 This extension was originally developed for documenting `plone.restapi`_.

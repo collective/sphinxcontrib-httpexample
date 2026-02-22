@@ -2,13 +2,14 @@
 
 ## 2.0rc2 (unreleased)
 
-- Drop support for Python 3.9.
+- Dropped support for Python 3.9.
   [stevepiercy]
-- Overhaul `Makefile`. Add `make lint` and `make test` targets.
+- Overhauled `Makefile`. Add `make lint` and `make test` targets.
   [stevepiercy]
 - Use uv to set up a development environment.
   [stevepiercy]
-- Enhance documentation with `@plone/client` examples, clarify headings, fix broken links, and improve formatting, grammar, and syntax.
+- Enhanced documentation with `@plone/client` examples, clarify headings, fix broken links, and improve formatting, grammar, and syntax.
+  Added sphinx-copybutton extension to allow copying code snippets.
   [stevepiercy]
 
 

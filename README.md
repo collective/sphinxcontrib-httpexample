@@ -5,20 +5,26 @@
 <img alt="PyPI package" src="https://badge.fury.io/py/sphinxcontrib-httpexample.svg" href="https://pypi.org/project/sphinxcontrib-httpexample/">
 <img alt="Documentation" src="https://readthedocs.org/projects/sphinxcontrib-httpexample/badge/?version=latest" href="https://sphinxcontrib-httpexample.readthedocs.io/en/latest/">
 
-sphinxcontrib-httpexample enhances [`sphinxcontrib-httpdomain`](https://github.com/sphinx-contrib/httpdomain), a Sphinx domain extension for describing RESTful HTTP APIs in detail, with a simple call example directive. The new directive provided by this extension generates RESTful HTTP API call examples for different tools from a single HTTP request example.
+sphinxcontrib-httpexample is a Sphinx domain extension for describing RESTful HTTP APIs in detail.
+It enhances [`sphinxcontrib-httpdomain`](https://github.com/sphinx-contrib/httpdomain) with a simple call example directive.
+The directive provided by this extension generates RESTful HTTP API call examples for different HTTP clients from a single HTTP request example.
 
-The audience for this extension are developers and technical writes documenting their RESTful HTTP APIs. This extension has originally been developed for documenting [`plone.restapi`](https://6.docs.plone.org/plone.restapi/docs/source/index.html).
+The audience for this extension are developers and technical writers documenting their RESTful HTTP APIs.
+This extension was originally developed for documenting [`plone.restapi`](https://6.docs.plone.org/plone.restapi/docs/source/index.html).
 
 
 ## Features
 
 -   Directive for generating various RESTful HTTP API call examples from a single HTTP request.
--   Supported tools:
+-   Supported HTTP clients:
 
-    -   [curl](https://curl.se/)
+    -   [curl](https://curl.haxx.se/)
     -   [wget](https://www.gnu.org/software/wget/)
     -   [httpie](https://httpie.io/)
-    -   [python-requests](https://requests.readthedocs.io/en/latest/)
+    -   [requests](https://requests.readthedocs.io/en/stable/)
+
+-   Custom builders, such as the [`@plone/client`](https://www.npmjs.com/package/@plone/client) package, an agnostic library that provides easy access to the Plone REST API from a client written in TypeScript.
+    See https://sphinxcontrib-httpexample.readthedocs.io/en/latest/custom.html for examples.
 
 
 ## Examples
@@ -90,7 +96,9 @@ To stop the preview, type `CTRL-C`.
 
 ### Run tests
 
+```shell
 make test
+```
 
 
 ## License
