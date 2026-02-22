@@ -4,6 +4,8 @@
 
 - Dropped support for Python 3.9.
   [stevepiercy]
+- Migrated from `pkg_resources` to `importlib`.
+  [datakurre]
 - Overhauled `Makefile`. Add `make lint` and `make test` targets.
   [stevepiercy]
 - Use uv to set up a development environment.
@@ -11,6 +13,10 @@
 - Enhanced documentation with `@plone/client` examples, clarify headings, fix broken links, and improve formatting, grammar, and syntax.
   Added sphinx-copybutton extension to allow copying code snippets.
   [stevepiercy]
+- Use the `name` argument for the CSS label.
+  [Hrittik20]
+- Fixed a regression so that the response tab now shows the HTTP response instead of the request.
+  [datakurre]
 
 
 ## 2.0rc1 (2025-12-02)
