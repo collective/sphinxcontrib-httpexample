@@ -11,6 +11,8 @@
         "cmarkgfm"
         "docopt"
         "markupsafe"
+        "pycrypto"
+        "secretstorage"
       ];
     in
     {
