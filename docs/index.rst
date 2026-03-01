@@ -9,7 +9,7 @@ The directive provided by this extension generates RESTful HTTP API call example
 The audience for this extension are developers and technical writers documenting their RESTful HTTP APIs.
 This extension was originally developed for documenting `plone.restapi`_.
 
-.. _sphinxcontrib-httpdomain: https://pythonhosted.org/sphinxcontrib-httpdomain/
+.. _sphinxcontrib-httpdomain: https://sphinxcontrib-httpdomain.readthedocs.io/en/stable/index.html
 .. _plone.restapi: https://6.docs.plone.org/plone.restapi/docs/source/index.html
 
 
