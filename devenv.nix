@@ -44,6 +44,8 @@
   packages = [
     pkgs.gnumake
     pkgs.gnused
+    pkgs.treefmt
+    pkgs.nixfmt-rfc-style
   ];
 
   dotenv.disableHint = true;
@@ -60,11 +62,4 @@
   '';
 
   cachix.pull = [ "datakurre" ];
-
-  git-hooks.hooks.treefmt = {
-    enable = true;
-    settings.formatters = [
-      pkgs.nixfmt-rfc-style
-    ];
-  };
 }
