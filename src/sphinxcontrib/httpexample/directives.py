@@ -16,6 +16,7 @@ AVAILABLE_BUILDERS = {
     "httpie": (builders.build_httpie_command, "shell"),
     "python-requests": (builders.build_requests_command, "python"),
     "requests": (builders.build_requests_command, "python"),
+    "urllib3": (builders.build_urllib3_command, "python"),
 }
 
 AVAILABLE_FIELDS = ["query"]
