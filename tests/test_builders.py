@@ -15,6 +15,7 @@ from .test_fixtures import FIXTURE_014_REQUEST
 from sphinxcontrib.httpexample.builders import build_curl_command
 from sphinxcontrib.httpexample.builders import build_httpie_command
 from sphinxcontrib.httpexample.builders import build_requests_command
+from sphinxcontrib.httpexample.builders import build_urllib3_command
 from sphinxcontrib.httpexample.builders import build_wget_command
 from sphinxcontrib.httpexample.parsers import parse_request
 import pytest
@@ -49,6 +50,7 @@ request_fixtures = (
         build_curl_command,
         build_wget_command,
         build_requests_command,
+        build_urllib3_command,
     ),
     ids=lambda fn: fn.__name__,
 )

@@ -203,6 +203,111 @@ snapshots["test_fixture[build_requests_command-fixture_014] 1"] = (
     "requests.post('http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, data={'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': 'REDACTED'})"
 )
 
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_001] 1"
+] = """import urllib3
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('GET', 'http://localhost:8080/Plone/front-page', headers=headers)"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_002] 1"
+] = """import urllib3
+import json
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('POST', 'http://localhost:8080/Plone/folder', headers=headers, body=json.dumps({'@type': 'Document', 'title': 'My Document'}).encode('utf-8'))"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_003] 1"
+] = """import urllib3
+import json
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('PATCH', 'http://localhost:8080/Plone/folder/my-document', headers=headers, body=json.dumps({'title': 'My New Document Title'}).encode('utf-8'))"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_004] 1"
+] = """import urllib3
+http = urllib3.PoolManager()
+r = http.request('GET', 'http://localhost:8080/Plone/front-page', headers={'Accept': 'application/json'})"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_005] 1"
+] = """import urllib3
+http = urllib3.PoolManager()
+r = http.request('GET', 'http://localhost:8080/Plone/front-page', headers={'Accept': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6IiIsInN1YiI6ImFkbWluIiwiZXhwIjoxNDY0MDQyMTAzfQ.aOyvMwdcIMV6pzC0GYQ3ZMdGaHR1_W7DxT0W0ok4FxI'})"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_006] 1"
+] = """import urllib3
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json', 'Content-Type': 'application/offset+octet-stream', 'Tus-Resumable': '1.0.0', 'Upload-Offset': '3'}
+headers.update(make_headers(basic_auth='admin:secret'))
+r = http.request('PATCH', 'http://nohost/plone/folder/@upload/032803b64ad746b3ab46d9223ea3d90f', headers=headers, body='defgh')"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_007] 1"
+] = """import urllib3
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('GET', 'http://localhost:8080/Plone/front-page?foo=bar&bar=foo', headers=headers)"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_008] 1"
+] = """import urllib3
+http = urllib3.PoolManager()
+r = http.request(\'GET\', \'http://localhost:8080/Plone/front-page?foo=bar&bar=foo\', headers={\'Accept\': \'application/json\', \'Accept-Encoding\': \'gzip, deflate\', \'Cookie\': \'zyx 123\', \'If-None-Match\': \'"abc123"\', \'Authorization\': \'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\'})"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_009] 1"
+] = """import urllib3
+import json
+http = urllib3.PoolManager()
+r = http.request(\'PATCH\', \'http://localhost:8080/etc/fstab\', headers={\'Accept\': \'application/vnd.acme+json\', \'Accept-Encoding\': \'gzip, deflate\', \'Content-Type\': \'application/vnd.acme+json; charset=utf-8\', \'If-None-Match\': \'"abc123"\', \'Authorization\': \'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ\'}, body=json.dumps({\'/\': {\'fstype\': \'btrfs\', \'readonly\': True, \'storage\': {\'device\': \'/dev/sda1\', \'type\': \'disk\'}}, \'/tmp\': {\'storage\': {\'sizeInMB\': 64, \'type\': \'tmpfs\'}}, \'/var\': {\'fstype\': \'ext4\', \'options\': [\'nosuid\'], \'storage\': {\'label\': \'8f3ba6f4-5c70-46ec-83af-0d5434953e5f\', \'type\': \'disk\'}}, \'/var/www\': {\'storage\': {\'remotePath\': \'/exports/mypath\', \'server\': \'my.nfs.server\', \'type\': \'nfs\'}}}).encode(\'utf-8\'))"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_011] 1"
+] = """import urllib3
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('GET', 'http://localhost/items?user_id=12&user_id=13&from=20170101&to=20171231&user_id=15&limit=20&sort=date-asc', headers=headers)"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_012] 1"
+] = """import urllib3
+import json
+from urllib3.util import make_headers
+http = urllib3.PoolManager()
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+headers.update(make_headers(basic_auth='admin:admin'))
+r = http.request('POST', 'http://localhost:8080/metrics', headers=headers, body=json.dumps({'max': 0.2, 'min': 0.1}).encode('utf-8'))"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_013] 1"
+] = """import urllib3
+from urllib.parse import urlencode
+http = urllib3.PoolManager()
+r = http.request('POST', 'http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, body=urlencode({'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': 'REDACTED'}))"""
+
+snapshots[
+    "test_fixture[build_urllib3_command-fixture_014] 1"
+] = """import urllib3
+from urllib.parse import urlencode
+http = urllib3.PoolManager()
+r = http.request('POST', 'http://localhost:8080/@@oauth2-token', headers={'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, body=urlencode({'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': 'REDACTED'}))"""
+
 snapshots["test_fixture[build_wget_command-fixture_001] 1"] = (
     'wget -S -O- http://localhost:8080/Plone/front-page --header="Accept: application/json" --auth-no-challenge --user=admin --password=admin'
 )

@@ -275,3 +275,405 @@ def build_requests_command(request):
         )
 
     return unparse(tree).strip()
+
+
+def build_urllib3_command(request):
+    # Imports
+    imports = [
+        ast.Import(names=[ast.alias(name="urllib3")]),
+    ]
+    content_type = request.headers.get("Content-Type", "")
+    if is_json(content_type):
+        imports.append(ast.Import(names=[ast.alias(name="json")]))
+    elif content_type == "application/x-www-form-urlencoded":
+        imports.append(
+            ast.ImportFrom(
+                module="urllib.parse",
+                names=[ast.alias(name="urlencode")],
+                level=0,
+            )
+        )
+
+    # Method
+    tree = ast.parse("http.request()")
+    call = tree.body[0].value
+    call.keywords = []
+
+    # Method
+    call.args.append(ast.Constant(request.command))
+
+    # URL
+    call.args.append(ast.Constant(request.url()))
+
+    # Authorization (prepare)
+    method, token = request.auth()
+    if method == "Basic":
+        imports.append(
+            ast.ImportFrom(
+                module="urllib3.util",
+                names=[ast.alias(name="make_headers")],
+                level=0,
+            )
+        )
+
+    # Headers
+    headers = {}
+    for header in sorted(request.headers):
+        if header in EXCLUDE_HEADERS_REQUESTS:
+            continue
+        headers[header] = request.headers[header]
+
+    if method != "Basic" and "Authorization" in request.headers:
+        headers["Authorization"] = request.headers["Authorization"]
+
+    header_keys = [ast.Constant(k) for k in headers.keys()]
+    header_values = [ast.Constant(v) for v in headers.values()]
+    headers_dict = ast.Dict(header_keys, header_values)
+
+    if method == "Basic":
+        token = maybe_str(token)
+        headers_assignment = ast.Assign(
+            targets=[ast.Name(id="headers", ctx=ast.Store())],
+            value=headers_dict,
+        )
+        auth_headers = ast.Call(
+            func=ast.Name(id="make_headers", ctx=ast.Load()),
+            args=[],
+            keywords=[
+                ast.keyword(
+                    "basic_auth",
+                    ast.Constant(token),
+                )
+            ],
+        )
+        update_call = ast.Expr(
+            value=ast.Call(
+                func=ast.Attribute(
+                    value=ast.Name(id="headers", ctx=ast.Load()),
+                    attr="update",
+                    ctx=ast.Load(),
+                ),
+                args=[auth_headers],
+                keywords=[],
+            )
+        )
+        call.keywords.append(
+            ast.keyword(arg="headers", value=ast.Name(id="headers", ctx=ast.Load()))
+        )
+    elif headers:
+        call.keywords.append(ast.keyword(arg="headers", value=headers_dict))
+
+    # JSON or raw data
+    data = maybe_str(request.data())
+
+    # Form data
+    if content_type == "application/x-www-form-urlencoded":
+        if not isinstance(data, dict):
+            data = flatten_parsed_qs(parse_qs(data))
+
+    def astify_json_obj(obj):
+        obj = maybe_str(obj)
+        if isinstance(obj, str):
+            return ast.Constant(obj)
+        elif isinstance(obj, bool):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, int):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, float):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, list):
+            json_values = []
+            for v in obj:
+                json_values.append(astify_json_obj(v))
+            return ast.List(json_values, ast.Load())
+        elif isinstance(obj, dict):
+            json_values = []
+            json_keys = []
+            for k, v in obj.items():
+                json_keys.append(ast.Constant(maybe_str(k)))
+                json_values.append(astify_json_obj(v))
+            return ast.Dict(json_keys, json_values)
+        else:
+            raise Exception("Cannot astify {0:s}".format(str(obj)))
+
+    if data:
+        if is_json(content_type):
+            call.keywords.append(
+                ast.keyword(
+                    "body",
+                    ast.Call(
+                        func=ast.Attribute(
+                            value=ast.Call(
+                                func=ast.Attribute(
+                                    value=ast.Name(id="json", ctx=ast.Load()),
+                                    attr="dumps",
+                                    ctx=ast.Load(),
+                                ),
+                                args=[astify_json_obj(data)],
+                                keywords=[],
+                            ),
+                            attr="encode",
+                            ctx=ast.Load(),
+                        ),
+                        args=[ast.Constant("utf-8")],
+                        keywords=[],
+                    ),
+                )
+            )
+        elif content_type == "application/x-www-form-urlencoded":
+            call.keywords.append(
+                ast.keyword(
+                    "body",
+                    ast.Call(
+                        func=ast.Name(id="urlencode", ctx=ast.Load()),
+                        args=[astify_json_obj(data)],
+                        keywords=[],
+                    ),
+                )
+            )
+        else:
+            call.keywords.append(ast.keyword("body", ast.Constant(data)))
+
+    # Create a PoolManager
+    pool_manager = ast.Assign(
+        targets=[ast.Name(id="http", ctx=ast.Store())],
+        value=ast.Call(
+            func=ast.Attribute(
+                value=ast.Name(id="urllib3", ctx=ast.Load()),
+                attr="PoolManager",
+                ctx=ast.Load(),
+            ),
+            args=[],
+            keywords=[],
+        ),
+    )
+
+    # Response
+    response = ast.Assign(targets=[ast.Name(id="r", ctx=ast.Store())], value=call)
+
+    # The whole tree
+    tree.body = imports + [pool_manager]
+    if method == "Basic":
+        tree.body.extend([headers_assignment, update_call])
+    tree.body.append(response)
+
+    ast.fix_missing_locations(tree)
+    return unparse(tree).strip()
+
+    # Method
+    tree = ast.parse("http.request()")
+    call = tree.body[0].value
+    call.keywords = []
+
+    # Method
+    call.args.append(ast.Constant(request.command))
+
+    # URL
+    call.args.append(ast.Constant(request.url()))
+
+    # Authorization (prepare)
+    method, token = request.auth()
+    if method == "Basic":
+        imports.append(
+            ast.ImportFrom(
+                module="urllib3.util",
+                names=[ast.alias(name="make_headers")],
+                level=0,
+            )
+        )
+
+    # Headers
+    header_keys = []
+    header_values = []
+    # Use a dictionary to store headers to avoid duplicates
+    headers = {}
+    for header in sorted(request.headers):
+        if header in EXCLUDE_HEADERS_REQUESTS:
+            continue
+        headers[header] = request.headers[header]
+
+    if method != "Basic" and "Authorization" in request.headers:
+        headers["Authorization"] = request.headers["Authorization"]
+
+    if method == "Basic":
+        token = maybe_str(token)
+        # Create basic auth header
+        auth_headers = ast.Call(
+            func=ast.Name(id="make_headers", ctx=ast.Load()),
+            args=[],
+            keywords=[
+                ast.keyword(
+                    "basic_auth",
+                    ast.Constant(token),
+                )
+            ],
+        )
+        # Merge with existing headers
+        if headers:
+            # Update the auth headers with the existing headers
+            # headers.update(auth_headers)
+            # Cannot do this easily with AST, so I'll just have two headers arguments
+            # which is not ideal, but it's what the previous code was doing
+            pass  # Will be handled later
+
+    header_keys = [ast.Constant(k) for k in headers.keys()]
+    header_values = [ast.Constant(v) for v in headers.values()]
+
+    if header_keys and header_values:
+        headers_dict = ast.Dict(header_keys, header_values)
+        if method == "Basic":
+            # merge headers
+            headers_dict = ast.Call(
+                func=ast.Attribute(
+                    value=headers_dict,
+                    attr="update",
+                    ctx=ast.Load(),
+                ),
+                args=[
+                    ast.Call(
+                        func=ast.Name(id="make_headers", ctx=ast.Load()),
+                        args=[],
+                        keywords=[
+                            ast.keyword(
+                                "basic_auth",
+                                ast.Constant(token),
+                            )
+                        ],
+                    )
+                ],
+                keywords=[],
+            )
+            # The update call returns None, so we can't use it directly
+            # I will create a temporary variable and then update it
+            # temp_headers = {'a': 'b'}
+            # temp_headers.update(make_headers(basic_auth='user:pass'))
+            # r = http.request(..., headers=temp_headers)
+            # This is getting too complex. I will generate the headers dict and then
+            # add the auth to it if needed.
+
+            # Rebuild headers dict
+            headers_with_auth = ast.Dict(header_keys, header_values)
+            call.keywords.append(ast.keyword(arg="headers", value=headers_with_auth))
+            # It's tricky to merge dicts in AST.
+            # A simple way is to have two keywords, but that's invalid for the call.
+            # Another way is to create a new dict and merge them.
+            # Let's try to do it properly.
+            # 1. create the headers dict
+            # 2. if basic auth, create auth dict
+            # 3. merge them: {**headers, **auth} (python 3.5+)
+            # The target is 3.10 so this is fine.
+            final_headers = ast.Dict(header_keys, header_values)
+            if method == "Basic":
+                auth_header = ast.Call(
+                    func=ast.Name(id="make_headers", ctx=ast.Load()),
+                    args=[],
+                    keywords=[
+                        ast.keyword(
+                            "basic_auth",
+                            ast.Constant(token),
+                        )
+                    ],
+                )
+                final_headers = ast.Dict(
+                    keys=[None, None], values=[final_headers, auth_header]
+                )
+
+            call.keywords.append(ast.keyword(arg="headers", value=final_headers))
+        else:
+            call.keywords.append(
+                ast.keyword(arg="headers", value=ast.Dict(header_keys, header_values))
+            )
+
+    # JSON or raw data
+    data = maybe_str(request.data())
+
+    # Form data
+    if content_type == "application/x-www-form-urlencoded":
+        if not isinstance(data, dict):
+            data = flatten_parsed_qs(parse_qs(data))
+
+    def astify_json_obj(obj):
+        obj = maybe_str(obj)
+        if isinstance(obj, str):
+            return ast.Constant(obj)
+        elif isinstance(obj, bool):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, int):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, float):
+            return ast.Name(str(obj), ast.Load())
+        elif isinstance(obj, list):
+            json_values = []
+            for v in obj:
+                json_values.append(astify_json_obj(v))
+            return ast.List(json_values, ast.Load())
+        elif isinstance(obj, dict):
+            json_values = []
+            json_keys = []
+            for k, v in obj.items():
+                json_keys.append(ast.Constant(maybe_str(k)))
+                json_values.append(astify_json_obj(v))
+            return ast.Dict(json_keys, json_values)
+        else:
+            raise Exception("Cannot astify {0:s}".format(str(obj)))
+
+    if data:
+        if is_json(content_type):
+            call.keywords.append(
+                ast.keyword(
+                    "body",
+                    ast.Call(
+                        func=ast.Attribute(
+                            value=ast.Call(
+                                func=ast.Attribute(
+                                    value=ast.Name(id="json", ctx=ast.Load()),
+                                    attr="dumps",
+                                    ctx=ast.Load(),
+                                ),
+                                args=[astify_json_obj(data)],
+                                keywords=[],
+                            ),
+                            attr="encode",
+                            ctx=ast.Load(),
+                        ),
+                        args=[ast.Constant("utf-8")],
+                        keywords=[],
+                    ),
+                )
+            )
+        elif content_type == "application/x-www-form-urlencoded":
+            call.keywords.append(
+                ast.keyword(
+                    "body",
+                    ast.Call(
+                        func=ast.Name(id="urlencode", ctx=ast.Load()),
+                        args=[astify_json_obj(data)],
+                        keywords=[],
+                    ),
+                )
+            )
+        else:
+            call.keywords.append(ast.keyword("body", ast.Constant(data)))
+
+    # Create a PoolManager
+    pool_manager = ast.Assign(
+        targets=[ast.Name(id="http", ctx=ast.Store())],
+        value=ast.Call(
+            func=ast.Attribute(
+                value=ast.Name(id="urllib3", ctx=ast.Load()),
+                attr="PoolManager",
+                ctx=ast.Load(),
+            ),
+            args=[],
+            keywords=[],
+        ),
+    )
+
+    # Response
+    response = ast.Assign(targets=[ast.Name(id="r", ctx=ast.Store())], value=call)
+
+    # The whole tree
+    tree.body = imports + [pool_manager, response]
+
+    ast.fix_missing_locations(tree)
+    return unparse(tree).strip()
