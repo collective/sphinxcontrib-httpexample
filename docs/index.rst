@@ -78,7 +78,7 @@ Example
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         POST /Plone/folder HTTP/1.1
         Host: localhost:8080
@@ -99,7 +99,7 @@ Example
 Rendering
 =========
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     POST /Plone/folder HTTP/1.1
     Host: localhost:8080
@@ -188,7 +188,12 @@ sphinxcontrib-httpexample is compatible with the following tab libraries.
 
     ..  tab-item:: requests
 
-        ..  http:example-block:: wget
+        ..  http:example-block:: requests
+            :request: ../tests/fixtures/001.request.txt
+
+    ..  tab-item:: urllib3
+
+        ..  http:example-block:: urllib3
             :request: ../tests/fixtures/001.request.txt
 
     ..  tab-item:: response
