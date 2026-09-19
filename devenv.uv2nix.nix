@@ -42,7 +42,7 @@ in
     };
     dependencies = mkOption {
       default = [
-        "rf711"
+        "sphinx823"
         "dev"
       ];
       type = types.listOf types.str;

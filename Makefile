@@ -30,7 +30,7 @@ PYTHONVERSION   = >=3.11,<3.15
 help:  ## This help message
 	@grep -Eh '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | uniq
 
-SPHINX ?= 8.3.2
+SPHINX ?= 8.2.3
 PYTHON ?= python313
 
 # docs contains example of custom http-example builder module
