@@ -2,6 +2,7 @@
 from ast import unparse
 from io import StringIO
 from shlex import quote as shlex_quote
+from sphinxcontrib.httpexample.utils import capitalize
 from sphinxcontrib.httpexample.utils import is_json
 from sphinxcontrib.httpexample.utils import maybe_str
 from urllib.parse import parse_qs
@@ -37,7 +38,15 @@ EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + []
 EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + []
 
 
-def build_curl_command(request):
+def merge_exclude_headers(defaults, extra):
+    """Return the default excluded headers with the extra header names."""
+    if isinstance(extra, str):
+        extra = [extra]
+    return set(defaults) | {capitalize(h.strip()) for h in extra if h.strip()}
+
+
+def build_curl_command(request, exclude_headers=()):
+    exclude_headers = merge_exclude_headers(EXCLUDE_HEADERS, exclude_headers)
     parts = ["curl", "-i"]
 
     # Method
@@ -51,7 +60,7 @@ def build_curl_command(request):
 
     # Headers
     for header in sorted(request.headers):
-        if header in EXCLUDE_HEADERS:
+        if header in exclude_headers:
             continue
         header_line = shlex_double_quote(
             "{}: {}".format(header, request.headers[header]),
@@ -79,7 +88,8 @@ def build_curl_command(request):
     return " ".join(parts)
 
 
-def build_wget_command(request):
+def build_wget_command(request, exclude_headers=()):
+    exclude_headers = merge_exclude_headers(EXCLUDE_HEADERS, exclude_headers)
     parts = ["wget", "-S", "-O-"]
 
     # Method
@@ -94,7 +104,7 @@ def build_wget_command(request):
 
     # Headers
     for header in sorted(request.headers):
-        if header in EXCLUDE_HEADERS:
+        if header in exclude_headers:
             continue
         header_line = shlex_double_quote(
             "{}: {}".format(header, request.headers[header]),
@@ -128,7 +138,8 @@ def build_wget_command(request):
     return " ".join(parts)
 
 
-def build_httpie_command(request):
+def build_httpie_command(request, exclude_headers=()):
+    exclude_headers = merge_exclude_headers(EXCLUDE_HEADERS_HTTP, exclude_headers)
     parts = ["http"]
     redir_input = ""
 
@@ -144,7 +155,7 @@ def build_httpie_command(request):
 
     # Headers
     for header in sorted(request.headers):
-        if header in EXCLUDE_HEADERS_HTTP:
+        if header in exclude_headers:
             continue
         parts.append(
             "{}:{}".format(
@@ -197,7 +208,8 @@ def flatten_parsed_qs(data):
     return data
 
 
-def build_requests_command(request):
+def build_requests_command(request, exclude_headers=()):
+    exclude_headers = merge_exclude_headers(EXCLUDE_HEADERS_REQUESTS, exclude_headers)
     # Method
     tree = ast.parse("requests.{}()".format(request.command.lower()))
     call = tree.body[0].value
@@ -213,7 +225,7 @@ def build_requests_command(request):
     header_keys = []
     header_values = []
     for header in sorted(request.headers):
-        if header in EXCLUDE_HEADERS_REQUESTS:
+        if header in exclude_headers:
             continue
         header_keys.append(ast.Constant(header))
         header_values.append(ast.Constant(request.headers[header]))

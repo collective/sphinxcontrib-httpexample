@@ -35,6 +35,7 @@ def setup(app):
     app.add_js_file(JS_FILE)
     app.add_css_file(CSS_FILE)
     app.add_config_value("httpexample_scheme", "http", "html")
+    app.add_config_value("httpexample_exclude_headers", [], "env", [list, tuple])
     app.add_lexer("http-response", HTTPResponseLexer)
     dist = metadata.distribution("sphinxcontrib-httpexample")
     return {"version": dist.version}

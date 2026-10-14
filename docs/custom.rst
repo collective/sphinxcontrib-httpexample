@@ -58,6 +58,24 @@ The ``register_builder`` method has the following parameters.
 For a complete example, download :download:`plone_client.py`.
 
 
+Exclude headers
+===============
+
+Custom builders receive all request headers in ``request.headers``.
+This allows passing arguments to a custom builder as headers.
+To hide such headers from the built-in builders, list them in the ``httpexample_exclude_headers`` configuration variable.
+
+..  code-block:: python
+
+    # conf.py
+    httpexample_exclude_headers = ["X-Foo", "X-Bar"]
+
+Header names are matched case-insensitively.
+Excluded headers are still shown in the HTTP request example itself.
+``Authorization`` and ``Host`` are always handled by the built-in builders and cannot be hidden this way.
+Excluding headers that affect how the request body is formatted, such as ``Content-Type``, may produce inaccurate commands.
+
+
 Create content
 ==============
 

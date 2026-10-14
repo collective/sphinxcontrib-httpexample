@@ -2,8 +2,9 @@
 
 ## 2.1 (unreleased)
 
-
-- Nothing changed yet.
+- Added `httpexample_exclude_headers` configuration variable to exclude
+  additional headers from the built-in builders.
+  [datakurre]
 
 
 ## 2.0 (2026-02-23)

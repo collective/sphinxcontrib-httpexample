@@ -55,3 +55,55 @@ request_fixtures = (
 def test_fixture(request_fixture, builder, snapshot):
     command = builder(parse_request(request_fixture["data"]))
     snapshot.assert_match(command)
+
+
+@pytest.mark.parametrize(
+    "builder",
+    (
+        build_httpie_command,
+        build_curl_command,
+        build_wget_command,
+        build_requests_command,
+    ),
+    ids=lambda fn: fn.__name__,
+)
+def test_exclude_headers(builder):
+    request = parse_request(
+        b"GET /Plone HTTP/1.1\r\n"
+        b"Host: localhost:8080\r\n"
+        b"Accept: application/json\r\n"
+        b"x-foo: secretvalue\r\n"
+        b"\r\n"
+    )
+    assert request.headers["X-Foo"] == "secretvalue"
+    assert "secretvalue" in builder(request)
+    for exclude_headers in (["x-foo"], [" X-FOO "], "x-foo"):
+        command = builder(request, exclude_headers=exclude_headers)
+        assert "Accept" in command
+        assert "X-Foo" not in command
+        assert "secretvalue" not in command
+    assert builder(request, exclude_headers=[]) == builder(request)
+    assert builder(request, exclude_headers=["", " "]) == builder(request)
+
+
+@pytest.mark.parametrize(
+    "builder",
+    (
+        build_httpie_command,
+        build_curl_command,
+        build_wget_command,
+        build_requests_command,
+    ),
+    ids=lambda fn: fn.__name__,
+)
+def test_exclude_headers_authorization_and_host(builder):
+    request = parse_request(
+        b"GET /Plone HTTP/1.1\r\n"
+        b"Host: localhost:8080\r\n"
+        b"Authorization: Bearer secrettoken\r\n"
+        b"\r\n"
+    )
+    command = builder(request, exclude_headers=["authorization", "host"])
+    assert command == builder(request)
+    assert "secrettoken" in command
+    assert "localhost:8080" in command

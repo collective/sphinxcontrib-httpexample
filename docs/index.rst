@@ -23,6 +23,9 @@ It defaults to ``http``.
     # conf.py
     httpexample_scheme = "https"
 
+Additional request headers can be hidden from the built-in builders with the ``httpexample_exclude_headers`` configuration variable.
+See :doc:`custom` for details.
+
 
 Syntax
 ======

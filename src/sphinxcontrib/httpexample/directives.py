@@ -18,6 +18,13 @@ AVAILABLE_BUILDERS = {
     "requests": (builders.build_requests_command, "python"),
 }
 
+BUILTIN_BUILDERS = {
+    builders.build_curl_command,
+    builders.build_wget_command,
+    builders.build_httpie_command,
+    builders.build_requests_command,
+}
+
 AVAILABLE_FIELDS = ["query"]
 
 
@@ -233,7 +240,13 @@ class HTTPExampleBlock(CodeBlock):
                 builder_, language = AVAILABLE_BUILDERS[name]
             self.arguments = [language]
 
-            command = builder_(request)
+            if builder_ in BUILTIN_BUILDERS:
+                command = builder_(
+                    request,
+                    exclude_headers=config.httpexample_exclude_headers,
+                )
+            else:
+                command = builder_(request)
             self.content = StringList([command], request_content_no_fields.source(0))
 
         return super(HTTPExampleBlock, self).run()
