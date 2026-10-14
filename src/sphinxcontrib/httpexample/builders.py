@@ -2,12 +2,14 @@
 from ast import unparse
 from io import StringIO
 from shlex import quote as shlex_quote
+from sphinxcontrib.httpexample.utils import capitalize
 from sphinxcontrib.httpexample.utils import is_json
 from sphinxcontrib.httpexample.utils import maybe_str
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 import ast
 import json
+import os
 import re
 import string
 
@@ -29,10 +31,16 @@ def shlex_double_quote(s):
     return re.sub(r'^""|""$', "", ('"' + s.replace('"', '"\'"\'"') + '"'))
 
 
+def get_env_exclude_headers(environ=os.environ):
+    """Return extra headers to exclude from HTTP_EXAMPLE_EXCLUDE_HEADERS."""
+    value = environ.get("HTTP_EXAMPLE_EXCLUDE_HEADERS", "")
+    return [capitalize(h.strip()) for h in value.split(",") if h.strip()]
+
+
 EXCLUDE_HEADERS = [
     "Authorization",
     "Host",
-]
+] + get_env_exclude_headers()
 EXCLUDE_HEADERS_HTTP = EXCLUDE_HEADERS + []
 EXCLUDE_HEADERS_REQUESTS = EXCLUDE_HEADERS + []
 

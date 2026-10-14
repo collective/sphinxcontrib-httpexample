@@ -2,8 +2,9 @@
 
 ## 2.1 (unreleased)
 
-
-- Nothing changed yet.
+- Added `HTTP_EXAMPLE_EXCLUDE_HEADERS` environment variable to exclude
+  additional comma-separated headers from the built-in builders.
+  [datakurre]
 
 
 ## 2.0 (2026-02-23)

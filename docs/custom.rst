@@ -58,6 +58,24 @@ The ``register_builder`` method has the following parameters.
 For a complete example, download :download:`plone_client.py`.
 
 
+Exclude headers
+===============
+
+Custom builders receive all request headers in ``request.headers``.
+This allows passing arguments to a custom builder as headers.
+To hide such headers from the built-in builders, list them in the ``HTTP_EXAMPLE_EXCLUDE_HEADERS`` environment variable, separated by commas.
+
+.. code:: shell
+
+    HTTP_EXAMPLE_EXCLUDE_HEADERS="X-Foo,X-Bar" sphinx-build docs docs/_build
+
+Header names are matched exactly, but case-insensitively.
+The variable is read once when sphinxcontrib.httpexample is imported.
+Set it before running Sphinx, or in :file:`docs/conf.py` before importing sphinxcontrib.httpexample.
+Excluded headers are still shown in the HTTP request example itself.
+``Authorization`` and ``Host`` are always handled by the built-in builders and cannot be hidden this way.
+
+
 Create content
 ==============
 
