@@ -27,6 +27,17 @@
             "setuptools" = [ ];
           });
       });
+      # libcst (required by the editable hook) comes from nixpkgs (1.8.6) via
+      # pyproject-build-systems and pins a PyO3 too old for Python 3.15;
+      # remove once nixpkgs has libcst >= 1.9
+      "libcst" = prev."libcst".overrideAttrs (
+        old:
+        pkgs.lib.optionalAttrs (final.python.pythonAtLeast "3.15") {
+          env = (old.env or { }) // {
+            PYO3_USE_ABI3_FORWARD_COMPATIBILITY = "1";
+          };
+        }
+      );
     }
     // builtins.listToAttrs (
       map (pkg: {
@@ -45,7 +56,7 @@
     pkgs.gnumake
     pkgs.gnused
     pkgs.treefmt
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
   ];
 
   dotenv.disableHint = true;
