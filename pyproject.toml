@@ -24,6 +24,7 @@ urls = { "Repository" = "https://github.com/collective/sphinxcontrib-httpexample
 requires-python = ">= 3.11"
 dependencies = [
     "docutils",
+    "pyyaml",
     "sphinx",
     "sphinxcontrib-httpdomain",
 ]
@@ -42,6 +43,7 @@ dev = [
     "coverage>=7.7.1",
     "isort>=6.0.1",
     "mypy>=1.15.0",
+    "myst-parser",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
     "snapshottest==1.0.0a1",
