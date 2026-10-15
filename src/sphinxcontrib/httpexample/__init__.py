@@ -8,6 +8,7 @@ from sphinxcontrib.httpexample.parsers import HTTPRequest
 import os
 import shutil
 
+
 CSS_FILE = "sphinxcontrib-httpexample.css"
 JS_FILE = "sphinxcontrib-httpexample.js"
 

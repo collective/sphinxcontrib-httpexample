@@ -18,8 +18,10 @@ from sphinxcontrib.httpexample.builders import build_requests_command
 from sphinxcontrib.httpexample.builders import build_wget_command
 from sphinxcontrib.httpexample.builders import flatten_parsed_qs
 from sphinxcontrib.httpexample.builders import shlex_double_quote
+from sphinxcontrib.httpexample.builders import shlex_single_quote
 from sphinxcontrib.httpexample.parsers import parse_request
 import pytest
+
 
 request_fixtures = (
     {"name": "fixture_001", "data": FIXTURE_001_REQUEST},
@@ -117,3 +119,83 @@ def test_build_commands_empty_json():
     assert "echo '{}' | http" in httpie_cmd
     req_cmd = build_requests_command(request)
     assert "json={}" in req_cmd
+
+
+def test_shlex_single_quote():
+    assert shlex_single_quote("") == "''"
+    assert shlex_single_quote('{"a": 1}') == "'{\"a\": 1}'"
+    assert shlex_single_quote("it's") == "'it'\"'\"'s'"
+
+
+@pytest.mark.parametrize(
+    "body,httpie_input,requests_json",
+    [
+        (b"[]", "'[]'", "[]"),
+        (b"0", "0", "0"),
+        (b"false", "false", "False"),
+        (b'""', "'\"\"'", "''"),
+    ],
+)
+def test_build_commands_falsy_json(body, httpie_input, requests_json):
+    request = parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/json\r\n\r\n"
+        + body
+    )
+    literal = body.decode("utf-8")
+    assert "--data-raw '{}'".format(literal) in build_curl_command(request)
+    assert "--post-data='{}'".format(literal) in build_wget_command(request)
+    assert build_httpie_command(request).startswith(
+        "echo {} | http POST".format(httpie_input)
+    )
+    assert "json={})".format(requests_json) in build_requests_command(request)
+
+
+def test_build_commands_json_null():
+    request = parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/json\r\n\r\nnull"
+    )
+    assert "--data-raw 'null'" in build_curl_command(request)
+    assert "--post-data='null'" in build_wget_command(request)
+    assert build_httpie_command(request).startswith("echo null | http POST")
+    # json=None would make requests send no body at all
+    assert "data='null'" in build_requests_command(request)
+
+
+def test_build_commands_quote_in_data():
+    request = parse_request(
+        b"PUT /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: text/plain\r\n\r\nit's"
+    )
+    assert "--data-raw 'it'\"'\"'s'" in build_curl_command(request)
+    assert "--body-data='it'\"'\"'s'" in build_wget_command(request)
+
+
+def test_build_requests_command_form_without_pairs():
+    request = parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\na"
+    )
+    assert "data='a'" in build_requests_command(request)
+    assert "--data-raw 'a'" in build_curl_command(request)
+
+
+def test_build_requests_command_form_blank_value_and_charset():
+    request = parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded; charset=utf-8\r\n\r\nname=O%27Brien&x=a+b&e="
+    )
+    assert "data={'name': \"O'Brien\", 'x': 'a b', 'e': ''}" in build_requests_command(
+        request
+    )
+
+
+def test_build_commands_basic_auth_password_with_colon():
+    request = parse_request(
+        b"GET /path HTTP/1.1\r\nHost: example.com\r\nAuthorization: Basic YTpiOmM=\r\n\r\n"
+    )
+    assert "--user=a --password=b:c" in build_wget_command(request)
+    assert "auth=('a', 'b:c')" in build_requests_command(request)
+
+
+def test_build_requests_command_form_multiple_values():
+    request = parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\na=1&a=2&b=3"
+    )
+    assert "data={'a': ['1', '2'], 'b': '3'}" in build_requests_command(request)

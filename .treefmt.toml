@@ -11,3 +11,4 @@ includes = ["*.py"]
 [formatter.isort]
 command = "isort"
 includes = ["*.py"]
+priority = 1

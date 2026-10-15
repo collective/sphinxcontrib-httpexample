@@ -10,6 +10,7 @@ import json
 import re
 import string
 
+
 _find_unsafe = re.compile(
     r"[^\w@%+=:,./-" + string.ascii_letters + string.digits + "]",
 ).search
@@ -25,6 +26,11 @@ def shlex_double_quote(s):
     # use double quotes, and put double quotes into single quotes
     # the string $"b is then quoted as "$"'"'"b"
     return re.sub(r'^""|""$', "", ('"' + s.replace('"', '"\'"\'"') + '"'))
+
+
+def shlex_single_quote(s):
+    """Return *s* always wrapped in single quotes, escaping single quotes."""
+    return "'" + s.replace("'", "'\"'\"'") + "'"
 
 
 EXCLUDE_HEADERS = [
@@ -64,12 +70,11 @@ def build_curl_command(request):
         parts.append("-H {}".format(header_line))
 
     # JSON
-    data = request.data()
-    if data is not None:
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
-        if data:
-            parts.append("--data-raw '{}'".format(data))
+        parts.append("--data-raw {}".format(shlex_single_quote(data)))
 
     # Authorization
     if method == "Basic":
@@ -108,19 +113,18 @@ def build_wget_command(request):
         parts.append("--header={}".format(header_line))
 
     # JSON or raw data
-    data = request.data()
-    if data is not None:
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
-        if data:
-            if request.command == "POST":
-                parts.append("--post-data='{}'".format(data))
-            else:
-                parts.append("--body-data='{}'".format(data))
+        if request.command == "POST":
+            parts.append("--post-data={}".format(shlex_single_quote(data)))
+        else:
+            parts.append("--body-data={}".format(shlex_single_quote(data)))
 
     # Authorization
     if method == "Basic":
-        user, password = token.split(":")
+        user, password = token.split(":", 1)
         parts.append("--auth-no-challenge")
         parts.append("--user={}".format(user))
         parts.append("--password={}".format(password))
@@ -163,9 +167,8 @@ def build_httpie_command(request):
         )
 
     # JSON or raw data
-    data = request.data()
-    if data is not None:
-
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             # We need to explicitly set the separators to get consistent
             # whitespace handling across Python 2 and 3. See
@@ -173,7 +176,7 @@ def build_httpie_command(request):
             redir_input = shlex_quote(
                 json.dumps(data, indent=2, sort_keys=True, separators=(",", ": "))
             )
-        elif data:
+        else:
             redir_input = shlex_quote(data)
 
     # Authorization
@@ -229,10 +232,11 @@ def build_requests_command(request):
     data = request.data()
 
     # Form data
-    content_type = request.headers.get("Content-Type")
-    if content_type == "application/x-www-form-urlencoded":
-        if not isinstance(data, dict):
-            data = flatten_parsed_qs(parse_qs(data))
+    content_type = request.headers.get("Content-Type", "")
+    if content_type.split(";")[0].strip() == "application/x-www-form-urlencoded":
+        if isinstance(data, str) and "=" in data:
+            # keep the raw body when it has no key=value pairs to parse
+            data = flatten_parsed_qs(parse_qs(data, keep_blank_values=True)) or data
 
     def astify_json_obj(obj):
         if obj is None:
@@ -254,17 +258,21 @@ def build_requests_command(request):
         else:
             raise Exception("Cannot astify {0:s}".format(str(obj)))
 
-    if data is not None:
-        if is_json(request.headers.get("Content-Type", "")):
-            call.keywords.append(ast.keyword("json", astify_json_obj(data)))
-        elif data:
-            call.keywords.append(ast.keyword("data", ast.Constant(data)))
+    if request.has_data():
+        if is_json(content_type):
+            if data is None:
+                # json=None would send no body at all
+                call.keywords.append(ast.keyword("data", ast.Constant("null")))
+            else:
+                call.keywords.append(ast.keyword("json", astify_json_obj(data)))
+        else:
+            call.keywords.append(ast.keyword("data", astify_json_obj(data)))
 
     # Authorization
     if method == "Basic":
         call.keywords.append(
             ast.keyword(
-                "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":"))), None)
+                "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":", 1))), None)
             )
         )
 

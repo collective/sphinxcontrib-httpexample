@@ -3,13 +3,12 @@
 from importlib import metadata
 from packaging.version import Version
 import datetime
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
 import os
 import sys
 
+
+# Make the example builder module (plone_client.py) importable also when
+# PYTHONPATH does not include this directory (e.g. inside devenv shell).
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 # -- General configuration ------------------------------------------------
@@ -102,6 +101,7 @@ smartquotes_action = "De"
 
 from plone_client import build_plone_client_command
 from sphinxcontrib.httpexample import register_builder
+
 
 register_builder(
     "plone-client", build_plone_client_command, "javascript", "@plone/client"

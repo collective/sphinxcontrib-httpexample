@@ -9,6 +9,7 @@ import base64
 import json
 import re
 
+
 AVAILABLE_FIELDS = ["query"]
 
 
@@ -62,9 +63,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
                 continue
             fields.append((field.strip(), key.strip(), val.strip()))
 
-        remaining_request = BytesIO(
-            "\n".join(remaining_request).encode("utf-8").strip()
-        )
+        remaining_request = BytesIO("".join(remaining_request).encode("utf-8").strip())
         remaining_request.seek(0)
         self.rfile.seek(cursor)
 
@@ -76,7 +75,8 @@ class HTTPRequest(BaseHTTPRequestHandler):
             if method == "Basic":
                 token = base64.b64decode(token.encode("utf-8")).decode("utf-8")
             return method, token
-        except (AttributeError, KeyError, ValueError, Exception):
+        except (AttributeError, ValueError):
+            # missing header, malformed header or invalid Basic token
             return None, None
 
     def url(self):
@@ -94,11 +94,15 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
         return new_url
 
+    def has_data(self):
+        _, payload_bytes = self.extract_fields(None)
+        return bool(payload_bytes.read())
+
     def data(self):
         _, payload_bytes = self.extract_fields(None)
         payload_bytes = payload_bytes.read()
         if payload_bytes:
-            payload_str = payload_bytes.decode("utf-8", errors="replace")
+            payload_str = payload_bytes.decode("utf-8")
             if is_json(self.headers.get("Content-Type", "")):
                 return ordered(json.loads(payload_str))
             else:

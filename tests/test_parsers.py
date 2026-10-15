@@ -62,6 +62,13 @@ def test_parse_request_auth_invalid_basic():
     assert request.auth() == (None, None)
 
 
+def test_parse_request_auth_malformed():
+    request = parsers.parse_request(
+        b"GET / HTTP/1.1\r\nHost: example.com\r\nAuthorization: Bearer\r\n\r\n"
+    )
+    assert request.auth() == (None, None)
+
+
 def test_parse_request_raw():
     request = parsers.parse_request(FIXTURE_002_REQUEST)
 
@@ -90,6 +97,36 @@ def test_parse_request_data_text_plain():
 def test_parse_request_data_empty():
     request = parsers.parse_request(b"GET /path HTTP/1.1\r\nHost: example.com\r\n\r\n")
     assert request.data() is None
+    assert request.has_data() is False
+
+
+def test_parse_request_data_json_null():
+    request = parsers.parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/json\r\n\r\nnull"
+    )
+    assert request.data() is None
+    assert request.has_data() is True
+
+
+@pytest.mark.parametrize("method", ["extract_fields", "has_data", "data"])
+def test_parse_request_data_invalid_utf8(method):
+    request = parsers.parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: text/plain\r\n\r\n\xff"
+    )
+    # body lines are decoded strictly in extract_fields
+    with pytest.raises(UnicodeDecodeError):
+        getattr(request, method)()
+
+
+@pytest.mark.parametrize("eol", [b"\n", b"\r\n"])
+def test_parse_request_data_multiline(eol):
+    request = parsers.parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: text/plain\r\n\r\n"
+        + b"line1"
+        + eol
+        + b"line2"
+    )
+    assert request.data() == (b"line1" + eol + b"line2").decode("utf-8")
 
 
 def test_parse_bad_request():

@@ -9,6 +9,7 @@ from sphinxcontrib.httpexample import utils
 import os
 import re
 
+
 AVAILABLE_BUILDERS = {
     "curl": (builders.build_curl_command, "shell"),
     "wget": (builders.build_wget_command, "shell"),
