@@ -74,7 +74,7 @@ def test_build_requests_command_no_headers():
     assert "headers=" not in cmd
 
 
-def test_build_requests_command_form_dict_data():
+def test_build_requests_command_from_dict_data():
     request = parse_request(
         b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\na=1"
     )
