@@ -15,19 +15,22 @@ def lexer():
     """Return a new HTTPResponseLexer instance for each test."""
     return HTTPResponseLexer()
 
+
 http_responses = []
 http_formats = ["HTTP ", "HTTP/1.1 ", "HTTP/2.0 "]
 for http_format in http_formats:
     offset = len(http_format)
     http_responses.append(
-        (f"{http_format}204 No Content",
+        (
+            f"{http_format}204 No Content",
             [
                 (0, Token.Keyword.Reserved, f"{http_format}204 No Content"),
-            ]
+            ],
         )
     )
     http_responses.append(
-        (f"{http_format}200 OK\n" "Content-Type: application/json",
+        (
+            f"{http_format}200 OK\n" "Content-Type: application/json",
             [
                 (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
                 (6 + offset, Token.Text, "\n"),
@@ -38,10 +41,11 @@ for http_format in http_formats:
         )
     )
     http_responses.append(
-        (f"{http_format}200 OK\n"
-        "Content-Type: application/json\n"
-        "\n"
-        '{"foo": "bar"}',
+        (
+            f"{http_format}200 OK\n"
+            "Content-Type: application/json\n"
+            "\n"
+            '{"foo": "bar"}',
             [
                 (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
                 (6 + offset, Token.Text, "\n"),
@@ -87,7 +91,7 @@ for http_format in http_formats:
     )
     http_responses.append(
         (
-        f"{http_format}200 OK\n" "Content-Type: application/unknown\n" "\n" "foo",
+            f"{http_format}200 OK\n" "Content-Type: application/unknown\n" "\n" "foo",
             [
                 (0, Token.Keyword.Reserved, f"{http_format}200 OK"),
                 (6 + offset, Token.Text, "\n"),
@@ -117,7 +121,19 @@ for http_format in http_formats:
         )
     )
 
+
 @pytest.mark.parametrize("text,expected", http_responses)
 def test_response_lexing(lexer, text, expected):
     """Parametrized tests for various HTTP response lexing scenarios."""
     assert list(lexer.get_tokens_unprocessed(text)) == expected
+
+
+def test_response_lexing_empty(lexer):
+    assert list(lexer.get_tokens_unprocessed("")) == []
+
+
+def test_response_lexing_empty_headers(lexer):
+    assert list(lexer.get_tokens_unprocessed("\n\n{}")) == [
+        (0, Token.Text, "\n\n"),
+        (2, Token.Text, "{}"),
+    ]

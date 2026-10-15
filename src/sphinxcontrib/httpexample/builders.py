@@ -3,14 +3,12 @@ from ast import unparse
 from io import StringIO
 from shlex import quote as shlex_quote
 from sphinxcontrib.httpexample.utils import is_json
-from sphinxcontrib.httpexample.utils import maybe_str
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 import ast
 import json
 import re
 import string
-
 
 _find_unsafe = re.compile(
     r"[^\w@%+=:,./-" + string.ascii_letters + string.digits + "]",
@@ -66,11 +64,12 @@ def build_curl_command(request):
         parts.append("-H {}".format(header_line))
 
     # JSON
-    data = maybe_str(request.data())
-    if data:
+    data = request.data()
+    if data is not None:
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
-        parts.append("--data-raw '{}'".format(data))
+        if data:
+            parts.append("--data-raw '{}'".format(data))
 
     # Authorization
     if method == "Basic":
@@ -109,14 +108,15 @@ def build_wget_command(request):
         parts.append("--header={}".format(header_line))
 
     # JSON or raw data
-    data = maybe_str(request.data())
-    if data:
+    data = request.data()
+    if data is not None:
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
-        if request.command == "POST":
-            parts.append("--post-data='{}'".format(data))
-        elif request.command != "POST":
-            parts.append("--body-data='{}'".format(data))
+        if data:
+            if request.command == "POST":
+                parts.append("--post-data='{}'".format(data))
+            else:
+                parts.append("--body-data='{}'".format(data))
 
     # Authorization
     if method == "Basic":
@@ -163,8 +163,8 @@ def build_httpie_command(request):
         )
 
     # JSON or raw data
-    data = maybe_str(request.data())
-    if data:
+    data = request.data()
+    if data is not None:
 
         if is_json(request.headers.get("Content-Type", "")):
             # We need to explicitly set the separators to get consistent
@@ -173,7 +173,7 @@ def build_httpie_command(request):
             redir_input = shlex_quote(
                 json.dumps(data, indent=2, sort_keys=True, separators=(",", ": "))
             )
-        else:
+        elif data:
             redir_input = shlex_quote(data)
 
     # Authorization
@@ -226,7 +226,7 @@ def build_requests_command(request):
         )
 
     # JSON or raw data
-    data = maybe_str(request.data())
+    data = request.data()
 
     # Form data
     content_type = request.headers.get("Content-Type")
@@ -235,15 +235,10 @@ def build_requests_command(request):
             data = flatten_parsed_qs(parse_qs(data))
 
     def astify_json_obj(obj):
-        obj = maybe_str(obj)
-        if isinstance(obj, str):
+        if obj is None:
+            return ast.Constant(None)
+        elif isinstance(obj, (str, bool, int, float)):
             return ast.Constant(obj)
-        elif isinstance(obj, bool):
-            return ast.Name(str(obj), ast.Load())
-        elif isinstance(obj, int):
-            return ast.Name(str(obj), ast.Load())
-        elif isinstance(obj, float):
-            return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, list):
             json_values = []
             for v in obj:
@@ -253,21 +248,20 @@ def build_requests_command(request):
             json_values = []
             json_keys = []
             for k, v in obj.items():
-                json_keys.append(ast.Constant(maybe_str(k)))
+                json_keys.append(ast.Constant(k))
                 json_values.append(astify_json_obj(v))
             return ast.Dict(json_keys, json_values)
         else:
             raise Exception("Cannot astify {0:s}".format(str(obj)))
 
-    if data:
+    if data is not None:
         if is_json(request.headers.get("Content-Type", "")):
             call.keywords.append(ast.keyword("json", astify_json_obj(data)))
-        else:
+        elif data:
             call.keywords.append(ast.keyword("data", ast.Constant(data)))
 
     # Authorization
     if method == "Basic":
-        token = maybe_str(token)
         call.keywords.append(
             ast.keyword(
                 "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":"))), None)

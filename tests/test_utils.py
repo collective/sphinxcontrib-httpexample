@@ -16,13 +16,11 @@ def test_resolve_path():
     assert utils.resolve_path(base, cwd) == __file__
     assert utils.resolve_path("sphinxcontrib.httpexample:utils.py") == utils.__file__
     assert utils.resolve_path("bar", "non-existing") == "bar"
-
-
-def test_maybe_str():
-    assert isinstance(utils.maybe_str(b""), str)
-    assert isinstance(utils.maybe_str(b"".decode("utf-8")), str)
-    assert isinstance(utils.maybe_str(""), str)
-    assert not isinstance(utils.maybe_str(1), str)
+    assert utils.resolve_path("nonexistent.pkg:file.txt") == "nonexistent.pkg:file.txt"
+    assert (
+        utils.resolve_path("sphinxcontrib.httpexample:nonexistent_file.txt")
+        == "sphinxcontrib.httpexample:nonexistent_file.txt"
+    )
 
 
 def test_capitalize():

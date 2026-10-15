@@ -1,14 +1,16 @@
 # sphinxcontrib-httpexample documentation build configuration file, created by
 # sphinx-quickstart on Fri Mar  3 12:29:43 2017.
-import datetime
 from importlib import metadata
 from packaging.version import Version
-
+import datetime
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-# sys.path.insert(0, os.path.abspath("."))
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 # -- General configuration ------------------------------------------------
 
@@ -100,7 +102,6 @@ smartquotes_action = "De"
 
 from plone_client import build_plone_client_command
 from sphinxcontrib.httpexample import register_builder
-
 
 register_builder(
     "plone-client", build_plone_client_command, "javascript", "@plone/client"

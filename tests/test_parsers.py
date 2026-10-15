@@ -43,6 +43,25 @@ def test_parse_request_auth():
     assert request.auth() == ("Basic", "admin:admin")
 
 
+def test_parse_request_auth_bearer():
+    request = parsers.parse_request(
+        b"GET / HTTP/1.1\r\nHost: example.com\r\nAuthorization: Bearer mytoken\r\n\r\n"
+    )
+    assert request.auth() == ("Bearer", "mytoken")
+
+
+def test_parse_request_auth_none():
+    request = parsers.parse_request(b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
+    assert request.auth() == (None, None)
+
+
+def test_parse_request_auth_invalid_basic():
+    request = parsers.parse_request(
+        b"GET / HTTP/1.1\r\nHost: example.com\r\nAuthorization: Basic not_base64!\r\n\r\n"
+    )
+    assert request.auth() == (None, None)
+
+
 def test_parse_request_raw():
     request = parsers.parse_request(FIXTURE_002_REQUEST)
 
@@ -60,14 +79,25 @@ def test_parse_request_data():
     assert data == {"@type": "Document", "title": "My Document"}
 
 
+def test_parse_request_data_text_plain():
+    request = parsers.parse_request(
+        b"POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Type: text/plain\r\n\r\nHello World"
+    )
+    assert request.data() == "Hello World"
+    assert isinstance(request.data(), str)
+
+
+def test_parse_request_data_empty():
+    request = parsers.parse_request(b"GET /path HTTP/1.1\r\nHost: example.com\r\n\r\n")
+    assert request.data() is None
+
+
 def test_parse_bad_request():
     with pytest.raises(Exception):
-        parsers.parse_request(
-            b"""\
+        parsers.parse_request(b"""\
 POST /Plone/folder
 Host: localhost:8080
-"""
-        )
+""")
 
 
 def test_parse_json_list():
