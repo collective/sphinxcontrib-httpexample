@@ -2,8 +2,12 @@
 
 ## 2.1 (unreleased)
 
-
-- Nothing changed yet.
+- Added support for Python 3.15.
+  [datakurre]
+- Dropped support for Python 3.10.
+  [datakurre]
+- Removed unused `importlib-metadata` and `importlib-resources` dependencies.
+  [datakurre]
 
 
 ## 2.0 (2026-02-23)

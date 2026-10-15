@@ -22,7 +22,7 @@ SPHINXAUTOBUILD = "$(realpath $(BIN_FOLDER)/sphinx-autobuild)"
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
-PYTHONVERSION   = >=3.11,<3.15
+PYTHONVERSION   = >=3.11,<3.16
 
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
@@ -111,6 +111,10 @@ coverage: coverage.xml
 
 .PHONY: test\ all
 test\ all:  ## Test all supported versions
+	make PYTHON=python315 SPHINX=8.2.3 clean devenv-show devenv-test
+	make PYTHON=python315 SPHINX=8.1.3 clean devenv-show devenv-test
+	make PYTHON=python315 SPHINX=8.0.2 clean devenv-show devenv-test
+	make PYTHON=python315 SPHINX=7.4.7 clean devenv-show devenv-test
 	make PYTHON=python314 SPHINX=8.2.3 clean devenv-show devenv-test
 	make PYTHON=python314 SPHINX=8.1.3 clean devenv-show devenv-test
 	make PYTHON=python314 SPHINX=8.0.2 clean devenv-show devenv-test
@@ -127,9 +131,6 @@ test\ all:  ## Test all supported versions
 	make PYTHON=python311 SPHINX=8.1.3 clean devenv-show devenv-test
 	make PYTHON=python311 SPHINX=8.0.2 clean devenv-show devenv-test
 	make PYTHON=python311 SPHINX=7.4.7 clean devenv-show devenv-test
-	make PYTHON=python310 SPHINX=8.1.3 clean devenv-show devenv-test
-	make PYTHON=python310 SPHINX=8.0.2 clean devenv-show devenv-test
-	make PYTHON=python310 SPHINX=7.4.7 clean devenv-show devenv-test
 
 devenv.local.nix:
 	@echo '{ pkgs, ...}: { languages.python = { interpreter = pkgs.$(PYTHON); dependencies = [ "sphinx$(subst .,,$(SPHINX))" "dev" ]; }; }' > devenv.local.nix

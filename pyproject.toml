@@ -21,11 +21,9 @@ classifiers = [
     "Topic :: Utilities"
 ]
 urls = { "Repository" = "https://github.com/collective/sphinxcontrib-httpexample"}
-requires-python = ">= 3.10"
+requires-python = ">= 3.11"
 dependencies = [
     "docutils",
-    "importlib-metadata",
-    "importlib-resources",
     "sphinx",
     "sphinxcontrib-httpdomain",
 ]
@@ -55,24 +53,24 @@ dev = [
     "sphinx-testing",
     "zest-releaser>=9.4.0",
     "watchfiles<1.1; python_version < '3.14'",
-    "watchfiles>=1.1; python_version >= '3.14'",
+    "watchfiles>=1.2; python_version >= '3.14'",
 ]
 
 [project.optional-dependencies]
 test = []
 
 sphinx823 = [
-    "sphinx==8.2.3; python_version >= '3.11'"
+    "sphinx==8.2.3"
 ]
 sphinx813 = [
     "babel",
-    "sphinx==8.1.3; python_version >= '3.10'"
+    "sphinx==8.1.3"
 ]
 sphinx802 = [
-    "sphinx==8.0.2; python_version >= '3.10'"
+    "sphinx==8.0.2"
 ]
 sphinx747 = [
-    "sphinx==7.4.7; python_version >= '3.10'"
+    "sphinx==7.4.7"
 ]
 
 [tool.uv]
