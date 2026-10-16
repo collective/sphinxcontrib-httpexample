@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from http.server import BaseHTTPRequestHandler
 from io import BytesIO
 from sphinxcontrib.httpexample.utils import add_url_params
 from sphinxcontrib.httpexample.utils import capitalize_keys
@@ -7,12 +8,6 @@ from sphinxcontrib.httpexample.utils import ordered
 import base64
 import json
 import re
-
-
-try:
-    from http.server import BaseHTTPRequestHandler
-except ImportError:
-    from BaseHTTPServer import BaseHTTPRequestHandler
 
 
 AVAILABLE_FIELDS = ["query"]
@@ -68,9 +63,7 @@ class HTTPRequest(BaseHTTPRequestHandler):
                 continue
             fields.append((field.strip(), key.strip(), val.strip()))
 
-        remaining_request = BytesIO(
-            "\n".join(remaining_request).encode("utf-8").strip()
-        )
+        remaining_request = BytesIO("".join(remaining_request).encode("utf-8").strip())
         remaining_request.seek(0)
         self.rfile.seek(cursor)
 
@@ -78,15 +71,13 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
     def auth(self):
         try:
-            method, token = self.headers.get("Authorization").split()
-        except (AttributeError, KeyError, ValueError):
-            return None, None
-        if not isinstance(token, bytes):
-            token = token.encode("utf-8")
-        if method == "Basic":
-            return method, base64.b64decode(token).decode("utf-8")
-        else:
+            method, token = self.headers.get("Authorization").split(None, 1)
+            if method == "Basic":
+                token = base64.b64decode(token.encode("utf-8")).decode("utf-8")
             return method, token
+        except (AttributeError, ValueError):
+            # missing header, malformed header or invalid Basic token
+            return None, None
 
     def url(self):
         base_url = "{}://{}{}".format(
@@ -103,16 +94,19 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
         return new_url
 
+    def has_data(self):
+        _, payload_bytes = self.extract_fields(None)
+        return bool(payload_bytes.read())
+
     def data(self):
         _, payload_bytes = self.extract_fields(None)
         payload_bytes = payload_bytes.read()
         if payload_bytes:
+            payload_str = payload_bytes.decode("utf-8")
             if is_json(self.headers.get("Content-Type", "")):
-                assert isinstance(payload_bytes, bytes)
-                payload_str = payload_bytes.decode("utf-8")
                 return ordered(json.loads(payload_str))
             else:
-                return payload_bytes
+                return payload_str
 
 
 def parse_request(request_bytes, scheme="http"):

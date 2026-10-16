@@ -18,27 +18,15 @@ def merge_dicts(a, b):
 def resolve_path(spec, cwd=""):
     if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
         return os.path.normpath(os.path.join(cwd, spec))
-    elif spec.count(":"):
+    elif ":" in spec:
         package, resource = spec.split(":", 1)
-        resource_path = resources.files(package) / resource
-        if resource_path.exists():
-            return str(resource_path)
-    else:
-        return spec
-
-
-def maybe_str(v):
-    """Convert any strings to local 'str' instances"""
-    if isinstance(v, str) and isinstance(v, bytes):
-        return v  # Python 2 encoded
-    elif str(type(v)) == "<type 'unicode'>":
-        return v.encode("utf-8")  # Python 2 unicode
-    elif isinstance(v, bytes):
-        return v.decode("utf-8")  # Python 3 encoded
-    elif isinstance(v, str):
-        return v  # Python 3 unicode
-    else:
-        return v  # not a string
+        try:
+            resource_path = resources.files(package) / resource
+            if resource_path.exists():
+                return str(resource_path)
+        except (ImportError, ModuleNotFoundError, TypeError, ValueError):
+            pass
+    return spec
 
 
 def ordered(dict_):

@@ -3,7 +3,6 @@ from ast import unparse
 from io import StringIO
 from shlex import quote as shlex_quote
 from sphinxcontrib.httpexample.utils import is_json
-from sphinxcontrib.httpexample.utils import maybe_str
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 import ast
@@ -27,6 +26,11 @@ def shlex_double_quote(s):
     # use double quotes, and put double quotes into single quotes
     # the string $"b is then quoted as "$"'"'"b"
     return re.sub(r'^""|""$', "", ('"' + s.replace('"', '"\'"\'"') + '"'))
+
+
+def shlex_single_quote(s):
+    """Return *s* always wrapped in single quotes, escaping single quotes."""
+    return "'" + s.replace("'", "'\"'\"'") + "'"
 
 
 EXCLUDE_HEADERS = [
@@ -66,11 +70,11 @@ def build_curl_command(request):
         parts.append("-H {}".format(header_line))
 
     # JSON
-    data = maybe_str(request.data())
-    if data:
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
-        parts.append("--data-raw '{}'".format(data))
+        parts.append("--data-raw {}".format(shlex_single_quote(data)))
 
     # Authorization
     if method == "Basic":
@@ -109,18 +113,18 @@ def build_wget_command(request):
         parts.append("--header={}".format(header_line))
 
     # JSON or raw data
-    data = maybe_str(request.data())
-    if data:
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             data = json.dumps(data)
         if request.command == "POST":
-            parts.append("--post-data='{}'".format(data))
-        elif request.command != "POST":
-            parts.append("--body-data='{}'".format(data))
+            parts.append("--post-data={}".format(shlex_single_quote(data)))
+        else:
+            parts.append("--body-data={}".format(shlex_single_quote(data)))
 
     # Authorization
     if method == "Basic":
-        user, password = token.split(":")
+        user, password = token.split(":", 1)
         parts.append("--auth-no-challenge")
         parts.append("--user={}".format(user))
         parts.append("--password={}".format(password))
@@ -163,9 +167,8 @@ def build_httpie_command(request):
         )
 
     # JSON or raw data
-    data = maybe_str(request.data())
-    if data:
-
+    if request.has_data():
+        data = request.data()
         if is_json(request.headers.get("Content-Type", "")):
             # We need to explicitly set the separators to get consistent
             # whitespace handling across Python 2 and 3. See
@@ -226,24 +229,20 @@ def build_requests_command(request):
         )
 
     # JSON or raw data
-    data = maybe_str(request.data())
+    data = request.data()
 
     # Form data
-    content_type = request.headers.get("Content-Type")
-    if content_type == "application/x-www-form-urlencoded":
-        if not isinstance(data, dict):
-            data = flatten_parsed_qs(parse_qs(data))
+    content_type = request.headers.get("Content-Type", "")
+    if content_type.split(";")[0].strip() == "application/x-www-form-urlencoded":
+        if isinstance(data, str) and "=" in data:
+            # keep the raw body when it has no key=value pairs to parse
+            data = flatten_parsed_qs(parse_qs(data, keep_blank_values=True)) or data
 
     def astify_json_obj(obj):
-        obj = maybe_str(obj)
-        if isinstance(obj, str):
+        if obj is None:
+            return ast.Constant(None)
+        elif isinstance(obj, (str, bool, int, float)):
             return ast.Constant(obj)
-        elif isinstance(obj, bool):
-            return ast.Name(str(obj), ast.Load())
-        elif isinstance(obj, int):
-            return ast.Name(str(obj), ast.Load())
-        elif isinstance(obj, float):
-            return ast.Name(str(obj), ast.Load())
         elif isinstance(obj, list):
             json_values = []
             for v in obj:
@@ -253,24 +252,27 @@ def build_requests_command(request):
             json_values = []
             json_keys = []
             for k, v in obj.items():
-                json_keys.append(ast.Constant(maybe_str(k)))
+                json_keys.append(ast.Constant(k))
                 json_values.append(astify_json_obj(v))
             return ast.Dict(json_keys, json_values)
         else:
             raise Exception("Cannot astify {0:s}".format(str(obj)))
 
-    if data:
-        if is_json(request.headers.get("Content-Type", "")):
-            call.keywords.append(ast.keyword("json", astify_json_obj(data)))
+    if request.has_data():
+        if is_json(content_type):
+            if data is None:
+                # json=None would send no body at all
+                call.keywords.append(ast.keyword("data", ast.Constant("null")))
+            else:
+                call.keywords.append(ast.keyword("json", astify_json_obj(data)))
         else:
-            call.keywords.append(ast.keyword("data", ast.Constant(data)))
+            call.keywords.append(ast.keyword("data", astify_json_obj(data)))
 
     # Authorization
     if method == "Basic":
-        token = maybe_str(token)
         call.keywords.append(
             ast.keyword(
-                "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":"))), None)
+                "auth", ast.Tuple(tuple(map(ast.Constant, token.split(":", 1))), None)
             )
         )
 
