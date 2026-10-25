@@ -12,6 +12,7 @@
         "docopt"
         "markupsafe"
         "pycrypto"
+        "pyyaml"
         "secretstorage"
       ];
     in
