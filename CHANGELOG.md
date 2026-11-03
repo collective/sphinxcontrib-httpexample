@@ -8,6 +8,11 @@
   [datakurre]
 - Removed unused `importlib-metadata` and `importlib-resources` dependencies.
   [datakurre]
+- Added `:builder-args:` option to pass YAML-formatted keyword arguments to custom builders.
+  Added `pyyaml` as a dependency.
+  [datakurre]
+- Reported invalid HTTP request content as a directive error instead of crashing the build.
+  [datakurre]
 
 
 ## 2.0 (2026-02-23)

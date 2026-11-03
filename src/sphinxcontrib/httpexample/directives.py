@@ -6,8 +6,10 @@ from sphinx.directives.code import CodeBlock
 from sphinxcontrib.httpexample import builders
 from sphinxcontrib.httpexample import parsers
 from sphinxcontrib.httpexample import utils
+import inspect
 import os
 import re
+import yaml
 
 
 AVAILABLE_BUILDERS = {
@@ -23,13 +25,97 @@ AVAILABLE_FIELDS = ["query"]
 
 def choose_builders(arguments):
     return [
-        directives.choice(argument, AVAILABLE_BUILDERS)
+        directives.choice(argument, tuple(AVAILABLE_BUILDERS))
         for argument in (arguments or [])
     ]
 
 
+def builder_id(name):
+    """Normalize a builder ID like directives.choice does for arguments."""
+    return name.lower().strip() if isinstance(name, str) else name
+
+
+class UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader that rejects duplicate mapping keys instead of keeping the last."""
+
+    def construct_mapping(self, node, deep=False):
+        keys = []
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            if key in keys:
+                raise yaml.constructor.ConstructorError(
+                    None,
+                    None,
+                    "found duplicate key '{}'".format(key),
+                    key_node.start_mark,
+                )
+            keys.append(key)
+        return super().construct_mapping(node, deep=deep)
+
+
+def builder_args(argument):
+    """Parse the :builder-args: option as a YAML mapping of builder IDs."""
+    if not argument or not argument.strip():
+        raise ValueError("builder arguments required")
+    try:
+        value = yaml.load(argument, Loader=UniqueKeyLoader)
+    except yaml.YAMLError as e:
+        raise ValueError("invalid YAML: {}".format(e))
+    if not isinstance(value, dict):
+        raise ValueError("expected a mapping of builder IDs to arguments")
+    result = {}
+    for name, kwargs in value.items():
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError("expected builder ID to be a string")
+        bid = builder_id(name)
+        if bid in result:
+            raise ValueError("duplicate builder ID '{}'".format(name))
+        if kwargs is None:
+            kwargs = {}
+        elif not isinstance(kwargs, dict):
+            raise ValueError(
+                "expected a mapping of argument names to values "
+                "for builder '{}'".format(name)
+            )
+        result[bid] = kwargs
+    return result
+
+
+def check_builder_args(directive, names):
+    unknown = set(directive.options.get("builder-args", {})) - set(names)
+    if unknown:
+        raise directive.error(
+            ":builder-args: has arguments for builders not used in "
+            "this example: {}".format(", ".join(sorted(map(str, unknown))))
+        )
+
+
+def process_content_or_error(directive, content):
+    try:
+        return HTTPExample.process_content(content)
+    except Exception as e:
+        raise directive.error("Invalid HTTP request: {}".format(e))
+
+
+def call_builder(directive, name, builder, request, kwargs):
+    """Call the builder, reporting invalid :builder-args: as an error."""
+    if kwargs:
+        error = "Invalid :builder-args: for builder '{}': {}"
+        try:
+            inspect.signature(builder).bind(request, **kwargs)
+        except (TypeError, ValueError) as e:
+            raise directive.error(error.format(name, e))
+    try:
+        return builder(request, **kwargs)
+    except Exception as e:
+        # e.g. an argument value of an unexpected type
+        raise directive.error(
+            "Builder '{}' failed: {}: {}".format(name, type(e).__name__, e)
+        )
+
+
 def register_builder(name, builder, language, label):
-    AVAILABLE_BUILDERS[name] = (builder, language, label)
+    AVAILABLE_BUILDERS[builder_id(name)] = (builder, language, label)
 
 
 class HTTPExample(CodeBlock):
@@ -42,6 +128,7 @@ class HTTPExample(CodeBlock):
         {
             "request": directives.unchanged,
             "response": directives.unchanged,
+            "builder-args": builder_args,
         },
     )
 
@@ -92,8 +179,14 @@ class HTTPExample(CodeBlock):
         return (request_content, request_content_no_fields, response_content)
 
     def run(self):
+        try:
+            choose_builders(self.arguments)
+        except ValueError as e:
+            raise self.error(str(e))
+        check_builder_args(self, [builder_id(arg) for arg in self.arguments])
+
         if self.content:
-            processed = self.process_content(StringList(self.content))
+            processed = process_content_or_error(self, StringList(self.content))
             have_request = bool(processed[1])
             have_response = bool(processed[2])
         else:
@@ -104,10 +197,12 @@ class HTTPExample(CodeBlock):
         klass = "http-example-http"
         container = nodes.container("", classes=[klass])
         container.append(nodes.caption("", "http"))
+        options = self.options.copy()
+        options.pop("builder-args", None)
         block = HTTPExampleBlock(
             "http:example-block",
             ["http"],
-            self.options,
+            options,
             self.content,
             self.lineno,
             self.content_offset,
@@ -123,7 +218,8 @@ class HTTPExample(CodeBlock):
         # Append builder responses
         if have_request:
             for argument in self.arguments:
-                builder_entry = AVAILABLE_BUILDERS.get(argument)
+                name = builder_id(argument)
+                builder_entry = AVAILABLE_BUILDERS.get(name)
                 if builder_entry is not None and len(builder_entry) == 3:
                     label = builder_entry[2]
                 else:
@@ -131,6 +227,10 @@ class HTTPExample(CodeBlock):
                 options = self.options.copy()
                 options.pop("name", None)
                 options.pop("caption", None)
+                if name in options.get("builder-args", {}):
+                    options["builder-args"] = {name: options["builder-args"][name]}
+                else:
+                    options.pop("builder-args", None)
 
                 block = HTTPExampleBlock(
                     "http:example-block",
@@ -158,6 +258,7 @@ class HTTPExample(CodeBlock):
             options = self.options.copy()
             options.pop("name", None)
             options.pop("caption", None)
+            options.pop("builder-args", None)
 
             block = HTTPExampleBlock(
                 "http:example-block",
@@ -195,6 +296,7 @@ class HTTPExampleBlock(CodeBlock):
         {
             "request": directives.unchanged,
             "response": directives.unchanged,
+            "builder-args": builder_args,
         },
     )
 
@@ -205,35 +307,53 @@ class HTTPExampleBlock(CodeBlock):
             return StringList(list(map(str.rstrip, fp.readlines())), request)
 
     def run(self):
-        if self.arguments == ["http"]:
+        arg = builder_id(self.arguments[0]) if self.arguments else ""
+        if arg in ("http", "response"):
+            check_builder_args(self, [])
+
+        if arg == "http":
             if "request" in self.options:
                 self.content = self.read_http_file(self.options["request"])
             else:
-                self.content = HTTPExample.process_content(self.content)[1]
-        elif self.arguments == ["response"]:
+                self.content = process_content_or_error(self, self.content)[1]
+            self.arguments = ["http"]
+        elif arg == "response":
             if "response" in self.options:
                 self.content = self.read_http_file(self.options["response"])
             else:
-                self.content = HTTPExample.process_content(self.content)[2]
+                self.content = process_content_or_error(self, self.content)[2]
             self.arguments = ["http-response"]
         else:
-            if "request" in self.options:
-                request_content_no_fields = self.read_http_file(self.options["request"])
-            else:
-                request_content_no_fields = HTTPExample.process_content(self.content)[1]
-
-            raw = ("\r\n".join(request_content_no_fields)).encode("utf-8")
-
-            config = self.env.config
-            request = parsers.parse_request(raw, config.httpexample_scheme)
-            name = choose_builders(self.arguments)[0]
+            try:
+                name = choose_builders(self.arguments)[0]
+            except ValueError as e:
+                raise self.error(str(e))
+            check_builder_args(self, [name])
             try:
                 builder_, language, _ = AVAILABLE_BUILDERS[name]
             except ValueError:
                 builder_, language = AVAILABLE_BUILDERS[name]
+
+            if "request" in self.options:
+                request_content_no_fields = self.read_http_file(self.options["request"])
+            else:
+                request_content_no_fields = process_content_or_error(
+                    self, self.content
+                )[1]
+
+            raw = ("\r\n".join(request_content_no_fields)).encode("utf-8")
+
+            config = self.env.config
+            try:
+                request = parsers.parse_request(raw, config.httpexample_scheme)
+                # builders parse the body lazily, so validate it here
+                request.data()
+            except Exception as e:
+                raise self.error("Invalid HTTP request: {}".format(e))
             self.arguments = [language]
 
-            command = builder_(request)
+            kwargs = self.options.get("builder-args", {}).get(name, {})
+            command = call_builder(self, name, builder_, request, kwargs)
             self.content = StringList([command], request_content_no_fields.source(0))
 
         return super(HTTPExampleBlock, self).run()
