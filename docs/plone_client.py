@@ -44,7 +44,7 @@ def python_to_js_literal(value, indent=0):
         return str(value)
 
 
-def get_content(request: HTTPRequest):
+def get_content(request: HTTPRequest, client="cli"):
     url = urlparse(request.url())
     path = f'/{url.path.split("/", 2)[-1]}'
     qs = parse_qs(url.query)
@@ -54,11 +54,11 @@ def get_content(request: HTTPRequest):
     if qs.get("expand"):
         payload["expanders"] = qs.get("expand", [])[0].split(",")
     return f"""\
-const {{ data, status }} = cli.getContent({python_to_js_literal(payload)});
+const {{ data, status }} = {client}.getContent({python_to_js_literal(payload)});
 """
 
 
-def patch_content(request: HTTPRequest):
+def patch_content(request: HTTPRequest, client="cli"):
     url = urlparse(request.url())
     path = f'/{url.path.split("/", 2)[-1]}'
     payload = {
@@ -66,11 +66,11 @@ def patch_content(request: HTTPRequest):
         "data": request.data(),
     }
     return f"""\
-cli.updateContent({python_to_js_literal(payload)});
+{client}.updateContent({python_to_js_literal(payload)});
 """
 
 
-def post_content(request: HTTPRequest):
+def post_content(request: HTTPRequest, client="cli"):
     url = urlparse(request.url())
     path = f'/{url.path.split("/", 2)[-1]}'
     payload = {
@@ -78,30 +78,32 @@ def post_content(request: HTTPRequest):
         "data": request.data(),
     }
     return f"""\
-cli.createContent({python_to_js_literal(payload)});
+{client}.createContent({python_to_js_literal(payload)});
 """
 
 
-def build_plone_client_command(request: HTTPRequest) -> str:
+def build_plone_client_command(
+    request: HTTPRequest, client_name: str = "cli"
+) -> str:
     url = urlparse(request.url())
     portal_path = url.path.split("/")[1]
     output = f"""\
 import PloneClient from '@plone/client';
 
-const cli = PloneClient.initialize({{apiPath: '{url.scheme}://{url.netloc}/{portal_path}'}});
+const {client_name} = PloneClient.initialize({{apiPath: '{url.scheme}://{url.netloc}/{portal_path}'}});
 
 """
     auth = request.auth()
     if auth[-1]:
         username, password = auth[-1].split(":")
         output += f"""\
-cli.login({{username: '{username}', password: '{password}'}});
+{client_name}.login({{username: '{username}', password: '{password}'}});
 
 """
     if request.command == "GET":
-        return output + get_content(request)
+        return output + get_content(request, client_name)
     elif request.command == "PATCH":
-        return output + patch_content(request)
+        return output + patch_content(request, client_name)
     elif request.command == "POST":
-        return output + post_content(request)
+        return output + post_content(request, client_name)
     return output

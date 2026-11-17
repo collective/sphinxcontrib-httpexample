@@ -68,16 +68,55 @@ Each value is a mapping of argument names to values, which are passed to that bu
 An empty value for a builder (such as ``null`` or ``{}``) passes no arguments.
 In reStructuredText, the YAML must not contain blank lines, because a blank line ends the directive options.
 
+The example ``plone-client`` builder declares a ``client_name`` keyword parameter, and uses it as the name of the client variable.
+The following examples send the same request with ``client_name`` set to ``ploneClient`` and to ``api``.
+
+..  http:example:: curl plone-client
+    :builder-args:
+      plone-client:
+        client_name: ploneClient
+
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "@type": "Document",
+        "title": "My New Document"
+    }
+
+..  http:example:: curl plone-client
+    :builder-args:
+      plone-client:
+        client_name: api
+
+    POST /Plone/folder HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Basic YWRtaW46YWRtaW4=
+
+    {
+        "@type": "Document",
+        "title": "My New Document"
+    }
+
+The reStructuredText source of the first example is as follows.
+
 ..  code-block:: rst
 
-    ..  http:example:: curl my-client
+    ..  http:example:: curl plone-client
         :builder-args:
-          my-client:
-            client_method: createContent
+          plone-client:
+            client_name: ploneClient
 
         POST /Plone/folder HTTP/1.1
         Host: localhost:8080
         Content-Type: application/json
+        Accept: application/json
+        Authorization: Basic YWRtaW46YWRtaW4=
 
         {
             "@type": "Document",
