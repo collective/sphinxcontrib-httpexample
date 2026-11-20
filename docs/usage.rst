@@ -27,7 +27,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -79,7 +79,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -138,7 +138,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -191,7 +191,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -253,7 +253,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         GET /Plone/front-page HTTP/1.1
         Host: localhost:8080
@@ -307,7 +307,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     GET /Plone/front-page HTTP/1.1
     Host: localhost:8080
@@ -369,7 +369,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         POST /Plone/folder HTTP/1.1
         Host: localhost:8080
@@ -389,7 +389,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     POST /Plone/folder HTTP/1.1
     Host: localhost:8080
@@ -418,7 +418,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         PATCH /Plone/folder/my-document HTTP/1.1
         Host: localhost:8080
@@ -437,7 +437,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
 
     PATCH /Plone/folder/my-document HTTP/1.1
     Host: localhost:8080
@@ -465,7 +465,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         GET /items?user_id=12&user_id=13 HTTP/1.1
         Host: localhost
@@ -482,7 +482,7 @@ Markup
 Result
 ``````
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
 
         GET /items?user_id=12&user_id=13 HTTP/1.1
         Host: localhost
@@ -510,14 +510,14 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
         :request: ../tests/fixtures/001.request.txt
         :response: ../tests/fixtures/001.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
     :request: ../tests/fixtures/001.request.txt
     :response: ../tests/fixtures/001.response.txt
 
@@ -534,7 +534,7 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
         :request: ../tests/fixtures/001.request.txt
 
     ..  literalinclude:: ../tests/fixtures/001.response.txt
@@ -543,7 +543,7 @@ Markup
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
     :request: ../tests/fixtures/001.request.txt
 
 ..  literalinclude:: ../tests/fixtures/001.response.txt
@@ -558,14 +558,14 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
         :request: ../tests/fixtures/002.request.txt
         :response: ../tests/fixtures/002.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
     :request: ../tests/fixtures/002.request.txt
     :response: ../tests/fixtures/002.response.txt
 
@@ -579,14 +579,14 @@ Markup
 
 ..  code-block:: rst
 
-    ..  http:example:: curl wget httpie requests plone-client
+    ..  http:example:: curl wget httpie requests urllib3 plone-client
         :request: ../tests/fixtures/003.request.txt
         :response: ../tests/fixtures/003.response.txt
 
 Result
 ``````
 
-..  http:example:: curl wget httpie requests plone-client
+..  http:example:: curl wget httpie requests urllib3 plone-client
     :request: ../tests/fixtures/003.request.txt
     :response: ../tests/fixtures/003.response.txt
 
